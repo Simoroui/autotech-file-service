@@ -1,0 +1,34 @@
+# Dépendances
+/node_modules
+/client/node_modules
+/server/node_modules
+
+# Fichiers d'environnement
+.env
+/server/.env
+/client/.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Répertoire de build
+/client/build
+/client/dist
+
+# Fichiers uploadés
+/server/uploads/*
+!/server/uploads/.gitkeep
+
+# Système d'exploitation
+.DS_Store
+Thumbs.db
+
+# IDE et éditeurs
+/.idea
+/.vscode
+*.swp
+*.swo 

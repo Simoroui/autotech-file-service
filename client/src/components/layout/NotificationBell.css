@@ -1,0 +1,120 @@
+.notification-dropdown {
+  position: relative;
+}
+
+.notification-bell-toggle {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0.5rem !important;
+  position: relative;
+}
+
+.notification-bell-toggle::after {
+  display: none !important;
+}
+
+.notification-bell {
+  font-size: 1.25rem;
+  color: #ffffff !important;
+}
+
+.notification-bell-active {
+  color: #ffc107 !important;
+}
+
+.notification-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.6rem;
+  transform: translate(25%, -25%);
+}
+
+.notification-menu {
+  width: 320px;
+  max-height: 400px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.notification-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background-color 0.2s ease;
+}
+
+.notification-item:hover {
+  background-color: rgba(0, 123, 255, 0.05);
+}
+
+.notification-item.unread {
+  border-left-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.notification-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-message {
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  color: #212529;
+  word-break: break-word;
+}
+
+.notification-time {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.notification-delete {
+  color: #6c757d;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0 0.25rem !important;
+  margin-left: 0.5rem;
+  align-self: flex-start;
+  opacity: 0.5;
+}
+
+.notification-delete:hover {
+  opacity: 1;
+  color: #dc3545;
+}
+
+.notification-link {
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.notification-link:hover {
+  color: #0056b3;
+} 

@@ -1,0 +1,28 @@
+{
+  "name": "autotech-file-service",
+  "version": "1.0.0",
+  "description": "Plateforme de gestion de fichiers ECU avec système de facturation",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "cd server && npm start",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "cd client && npm install && npm run build && cd ../server && npm install"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "ecu",
+    "automotive",
+    "file",
+    "service",
+    "invoice"
+  ],
+  "author": "Rovissi",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
