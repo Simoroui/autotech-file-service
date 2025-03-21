@@ -196,7 +196,7 @@ const AdminInvoices = () => {
           <Row>
             <Col lg={selectedInvoice ? 7 : 12}>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <div className="d-flex justify-content-between align-items-center">
                     <h3 className="mb-0">Liste des factures</h3>
                     <div>
@@ -315,7 +315,7 @@ const AdminInvoices = () => {
             {selectedInvoice && (
               <Col lg={5}>
                 <Card className="shadow-sm">
-                  <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+                  <Card.Header className="bg-light text-dark d-flex justify-content-between align-items-center">
                     <h3 className="mb-0">Détail de la facture</h3>
                     <Button variant="light" size="sm" onClick={closeInvoiceDetail}>
                       <i className="fas fa-times"></i>
@@ -398,13 +398,13 @@ const AdminInvoices = () => {
         
         <Tab eventKey="stats" title="Statistiques">
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h3 className="mb-0">Statistiques de facturation</h3>
             </Card.Header>
             <Card.Body>
               <Row>
                 <Col md={3} className="mb-4">
-                  <Card className="bg-primary text-white">
+                  <Card className="bg-primary text-dark">
                     <Card.Body className="text-center py-4">
                       <h1>{statistics.invoiceCount}</h1>
                       <h5>Factures totales</h5>
@@ -413,7 +413,7 @@ const AdminInvoices = () => {
                 </Col>
                 
                 <Col md={3} className="mb-4">
-                  <Card className="bg-success text-white">
+                  <Card className="bg-success text-dark">
                     <Card.Body className="text-center py-4">
                       <h1>{statistics.paidCount}</h1>
                       <h5>Factures payées</h5>
@@ -431,7 +431,7 @@ const AdminInvoices = () => {
                 </Col>
                 
                 <Col md={3} className="mb-4">
-                  <Card className="bg-danger text-white">
+                  <Card className="bg-danger text-dark">
                     <Card.Body className="text-center py-4">
                       <h1>{statistics.totalRevenue.toLocaleString('fr-FR')} DT</h1>
                       <h5>Revenus totaux</h5>

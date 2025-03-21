@@ -929,7 +929,7 @@ const FileDetails = () => {
                       }
                     >
                       <Card className="shadow-sm mb-4">
-                        <Card.Header className="bg-dark text-white">
+                        <Card.Header className="bg-light text-dark">
                           <h5 className="mb-0">Informations sur le véhicule</h5>
                         </Card.Header>
                         <Card.Body>
@@ -990,7 +990,7 @@ const FileDetails = () => {
                       }
                     >
                       <Card className="shadow-sm mb-4">
-                        <Card.Header className="bg-dark text-white">
+                        <Card.Header className="bg-light text-dark">
                           <h5 className="mb-0">Informations sur le fichier</h5>
                         </Card.Header>
                         <Card.Body>
@@ -1132,7 +1132,7 @@ const FileDetails = () => {
                       }
                     >
                       <Card className="shadow-sm mb-4">
-                        <Card.Header className="bg-dark text-white">
+                        <Card.Header className="bg-light text-dark">
                           <h5 className="mb-0">Options de personnalisation</h5>
                         </Card.Header>
                         <Card.Body>
@@ -1308,7 +1308,7 @@ const FileDetails = () => {
                 
                 <Col lg={4}>
                   <Card className="shadow-sm mb-4">
-                    <Card.Header className="bg-dark text-white">
+                    <Card.Header className="bg-light text-dark">
                       <h5 className="mb-0">Historique et commentaires</h5>
                     </Card.Header>
                     <Card.Body>
@@ -1419,7 +1419,7 @@ const FileDetails = () => {
                   </Card>
                   
                   <Card className="shadow-sm">
-                    <Card.Header className="bg-dark text-white">
+                    <Card.Header className="bg-light text-dark">
                       <h5 className="mb-0">Actions</h5>
                     </Card.Header>
                     <Card.Body>
@@ -1454,7 +1454,7 @@ const FileDetails = () => {
         }>
           <Card className="shadow-sm mb-4">
             <Card.Header className="bg-light">
-              <h5 className="mb-0">Discussion avec le support technique</h5>
+              <h5 className="mb-0 text-dark">Discussion avec le support technique</h5>
             </Card.Header>
             <Card.Body>
               <div className="comments-section mb-4" style={{ maxHeight: '400px', overflowY: 'auto' }}>

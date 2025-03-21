@@ -400,7 +400,7 @@ const Dashboard = () => {
       <Row className="mb-4">
         <Col md={4} className="mb-4 mb-md-0">
           <Card className="shadow-sm h-100">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h5 className="mb-0">Informations du compte</h5>
             </Card.Header>
             <Card.Body>
@@ -428,7 +428,7 @@ const Dashboard = () => {
         </Col>
         <Col md={8}>
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h5 className="mb-0">Statistiques</h5>
             </Card.Header>
             <Card.Body>
@@ -460,9 +460,9 @@ const Dashboard = () => {
           </Card>
           
           <Card className="shadow-sm mt-4">
-            <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+            <Card.Header className="bg-light text-dark d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Dernier fichier envoyé</h5>
-              <Link to="/history" className="btn btn-sm btn-outline-light">
+              <Link to="/history" className="btn btn-sm btn-outline-dark">
                 Voir tous
               </Link>
             </Card.Header>
@@ -554,9 +554,9 @@ const Dashboard = () => {
       <Row>
         <Col>
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+            <Card.Header className="bg-light text-dark d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Activité hebdomadaire</h5>
-              <Link to="/history" className="btn btn-sm btn-outline-light">
+              <Link to="/history" className="btn btn-sm btn-outline-dark">
                 Historique complet
               </Link>
             </Card.Header>
@@ -718,7 +718,7 @@ const Dashboard = () => {
 
       {/* Modal pour ajouter des crédits */}
       <Modal show={showCreditsModal} onHide={() => setShowCreditsModal(false)}>
-        <Modal.Header closeButton className="bg-dark text-white">
+        <Modal.Header closeButton className="bg-light text-dark">
           <Modal.Title>Ajouter des crédits</Modal.Title>
         </Modal.Header>
         <Modal.Body>

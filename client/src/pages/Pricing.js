@@ -26,7 +26,7 @@ const Pricing = () => {
       <Row className="mb-4">
         <Col lg={12}>
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h3 className="mb-0">Services individuels</h3>
             </Card.Header>
             <Card.Body>

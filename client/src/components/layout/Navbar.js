@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Navbar as BootstrapNavbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 import AuthContext from '../../context/auth/authContext';
 import NotificationBell from './NotificationBell';
-import ThemeToggler from './ThemeToggler';
 import { FaUserCog, FaCog } from 'react-icons/fa';
 
 const Navbar = () => {
@@ -61,9 +60,6 @@ const Navbar = () => {
           </Link>
         </Nav.Item>
       )}
-      <Nav.Item className="d-flex align-items-center mx-2">
-        <ThemeToggler />
-      </Nav.Item>
       <Nav.Item>
         <Button variant="outline-light" onClick={onLogout}>
           Déconnexion
@@ -83,9 +79,6 @@ const Navbar = () => {
         <Link to="/login" className="nav-link">
           Se connecter
         </Link>
-      </Nav.Item>
-      <Nav.Item className="d-flex align-items-center ms-2">
-        <ThemeToggler />
       </Nav.Item>
     </Nav>
   );

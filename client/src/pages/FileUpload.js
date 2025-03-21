@@ -19,8 +19,31 @@ const FileUpload = () => {
   const [transmissions, setTransmissions] = useState([]);
   
   // États pour les outils et méthodes de reprogrammation
-  const [reprogrammingTools, setReprogrammingTools] = useState(['Autotuner', 'KESS', 'CMD Flash', 'Alientech', 'Magic Motorsport']);
-  const [readMethods, setReadMethods] = useState(['OBD', 'Boot Mode', 'BDM', 'Bench', 'Tricore']);
+  const [reprogrammingTools, setReprogrammingTools] = useState([
+    'Autotuner Master',
+    'Autotuner Slave',
+    'CMD Master',
+    'CMD Slave',
+    'DimSport Master',
+    'DimSport Slave',
+    'KESS Master',
+    'KESS Slave',
+    'KTAG Master',
+    'KTAG Slave',
+    'MagPro Master',
+    'MagPro Slave',
+    'Magic Motorsport Master',
+    'Magic Motorsport Slave',
+    'PCMFlash Master',
+    'PCMFlash Slave'
+  ]);
+  const [readMethods, setReadMethods] = useState([
+    'OBD',
+    'OBD VR',
+    'Bench',
+    'Bench VR',
+    'Boot Mode'
+  ]);
 
   const [formData, setFormData] = useState({
     vehicleType: '',
@@ -349,6 +372,40 @@ const FileUpload = () => {
     }
   };
 
+  /* Ajout d'un style personnalisé pour les cartes sélectionnées */
+  const cardStyle = {
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    height: '100%'
+  };
+
+  const selectedCardStyle = {
+    ...cardStyle,
+    boxShadow: '0 0 0 3px #dc3545',
+    transform: 'translateY(-3px)',
+    backgroundColor: '#f8f9fa'
+  };
+
+  // Après les constantes et fonctions existantes, ajoutons une fonction pour déterminer l'étape active
+  const determineActiveStep = (vehicle) => {
+    const steps = [
+      { field: 'vehicleType', step: 1 },
+      { field: 'manufacturer', step: 2 },
+      { field: 'model', step: 3 },
+      { field: 'year', step: 4 },
+      { field: 'engine', step: 5 },
+      { field: 'transmission', step: 6 },
+    ];
+    
+    let activeStep = 0;
+    for (const {field, step} of steps) {
+      if (vehicle[field]) activeStep = step;
+      else break;
+    }
+    
+    return activeStep;
+  };
+
   return (
     <>
       <h1 className="mb-4">Envoyer un fichier ECU</h1>
@@ -367,22 +424,34 @@ const FileUpload = () => {
         <Row>
           <Col lg={8}>
             <Card className="shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white">
-                <h5 className="mb-0">Informations sur le véhicule</h5>
+              <Card.Header className="bg-dark text-white py-3">
+                <h5 className="mb-0"><i className="fas fa-car me-2"></i>Informations sur le véhicule</h5>
               </Card.Header>
-              <Card.Body>
-                <Row>
+              <Card.Body className="p-4">
+                <div className="mb-4">
+                  <div className="progress-steps mb-4">
+                    {['Type', 'Marque', 'Modèle', 'Année', 'Moteur', 'Transmission'].map((step, index) => {
+                      const isActive = determineActiveStep(formData) >= index + 1;
+                      return (
+                        <div key={index} className={`progress-step ${isActive ? 'active' : ''}`}>
+                          <div className="step-circle">{index + 1}</div>
+                          <div className="step-text">{step}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <Row className="g-3">
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Type de véhicule
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="vehicleType"
                         name="vehicleType"
                         value={formData.vehicleType}
                         onChange={onChange}
                         required
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {vehicleTypes.map((type, index) => (
@@ -391,20 +460,21 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="vehicleType">
+                        Type de véhicule<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Constructeur
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="manufacturer"
                         name="manufacturer"
                         value={formData.manufacturer}
                         onChange={onChange}
                         required
                         disabled={!formData.vehicleType}
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {manufacturers.map((manufacturer, index) => (
@@ -413,23 +483,24 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="manufacturer">
+                        Constructeur<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                 </Row>
 
-                <Row>
+                <Row className="g-3">
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Modèle
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="model"
                         name="model"
                         value={formData.model}
                         onChange={onChange}
                         required
                         disabled={!formData.manufacturer}
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {models.map((model, index) => (
@@ -438,20 +509,21 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="model">
+                        Modèle<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Année
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="year"
                         name="year"
                         value={formData.year}
                         onChange={onChange}
                         required
                         disabled={!formData.model}
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {years.map((year, index) => (
@@ -460,23 +532,24 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="year">
+                        Année<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                 </Row>
 
-                <Row>
+                <Row className="g-3">
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Moteur
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="engine"
                         name="engine"
                         value={formData.engine}
                         onChange={onChange}
                         required
                         disabled={!formData.year}
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {engines.map((engine, index) => (
@@ -485,20 +558,21 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="engine">
+                        Moteur<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                   <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Boîte de vitesse
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
+                    <div className="form-floating mb-3">
                       <Form.Select
+                        id="transmission"
                         name="transmission"
                         value={formData.transmission}
                         onChange={onChange}
                         required
                         disabled={!formData.engine}
+                        className="form-select"
                       >
                         <option value="">Sélectionner...</option>
                         {transmissions.map((transmission, index) => (
@@ -507,352 +581,609 @@ const FileUpload = () => {
                           </option>
                         ))}
                       </Form.Select>
-                    </Form.Group>
+                      <label htmlFor="transmission">
+                        Boîte de vitesse<span style={requiredFieldLabel}>*</span>
+                      </label>
+                    </div>
                   </Col>
                 </Row>
 
-                <Row>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Kilométrage</Form.Label>
-                      <Form.Control
-                        type="number"
-                        name="mileage"
-                        value={formData.mileage}
-                        onChange={onChange}
-                        placeholder="Ex: 50000"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Plaque d'immatriculation</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="licensePlate"
-                        value={formData.licensePlate}
-                        onChange={onChange}
-                        placeholder="Ex: AB-123-CD"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>VIN</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="vin"
-                        value={formData.vin}
-                        onChange={onChange}
-                        placeholder="Ex: WVWZZZ1KZAW123456"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-
-            <Card className="shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white">
-                <h5 className="mb-0">Informations sur le fichier</h5>
-              </Card.Header>
-              <Card.Body>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Outil de reprogrammation
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="reprogrammingTool"
-                        value={formData.reprogrammingTool}
-                        onChange={onChange}
-                        required
-                      >
-                        <option value="">Sélectionner...</option>
-                        {reprogrammingTools.map((tool, index) => (
-                          <option key={index} value={tool}>
-                            {tool}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Méthode de lecture
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Select
-                        name="readMethod"
-                        value={formData.readMethod}
-                        onChange={onChange}
-                        required
-                      >
-                        <option value="">Sélectionner...</option>
-                        {readMethods.map((method, index) => (
-                          <option key={index} value={method}>
-                            {method}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Marque ECU
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="ecuBrand"
-                        value={formData.ecuBrand}
-                        onChange={onChange}
-                        required
-                        placeholder="Ex: Bosch, Continental, Delphi..."
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        Type de ECU
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="ecuType"
-                        value={formData.ecuType}
-                        onChange={onChange}
-                        required
-                        placeholder="Ex: EDC17C46, MED17.5..."
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        N°HW
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="hwNumber"
-                        value={formData.hwNumber}
-                        onChange={onChange}
-                        required
-                        placeholder="Ex: 0281020088"
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>
-                        N°SW
-                        <span style={requiredFieldLabel}>*</span>
-                      </Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="swNumber"
-                        value={formData.swNumber}
-                        onChange={onChange}
-                        required
-                        placeholder="Ex: 1037535248"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    Fichier original
-                    <span style={requiredFieldLabel}>*</span>
-                  </Form.Label>
-                  <div
-                    {...getRootProps()}
-                    className={`dropzone p-4 text-center border rounded ${
-                      isDragActive ? 'border-primary bg-light' : ''
-                    }`}
-                  >
-                    <input {...getInputProps()} />
-                    {file ? (
-                      <div>
-                        <p className="mb-0">
-                          <i className="fas fa-file-code text-success me-2"></i>
-                          {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                        </p>
+                <div className="card bg-light p-3 mb-4 mt-2">
+                  <h6 className="mb-3">Informations supplémentaires (facultatives)</h6>
+                  <Row className="g-3">
+                    <Col md={4}>
+                      <div className="form-floating">
+                        <Form.Control
+                          id="mileage"
+                          type="number"
+                          name="mileage"
+                          value={formData.mileage}
+                          onChange={onChange}
+                          placeholder="Ex: 50000"
+                        />
+                        <label htmlFor="mileage">Kilométrage</label>
                       </div>
-                    ) : isDragActive ? (
-                      <p className="mb-0">Déposez le fichier ici...</p>
-                    ) : (
-                      <div>
-                        <i className="fas fa-upload fa-2x mb-2 text-muted"></i>
-                        <p className="mb-0">
-                          Glissez-déposez votre fichier ici, ou cliquez pour sélectionner
-                        </p>
-                        <p className="text-muted small">
-                          Formats acceptés: .bin, .hex (max 100 MB)
-                        </p>
+                    </Col>
+                    <Col md={4}>
+                      <div className="form-floating">
+                        <Form.Control
+                          id="licensePlate"
+                          type="text"
+                          name="licensePlate"
+                          value={formData.licensePlate}
+                          onChange={onChange}
+                          placeholder="Ex: AB-123-CD"
+                        />
+                        <label htmlFor="licensePlate">Plaque d'immatriculation</label>
                       </div>
-                    )}
+                    </Col>
+                    <Col md={4}>
+                      <div className="form-floating">
+                        <Form.Control
+                          id="vin"
+                          type="text"
+                          name="vin"
+                          value={formData.vin}
+                          onChange={onChange}
+                          placeholder="Ex: WVWZZZ1KZAW123456"
+                        />
+                        <label htmlFor="vin">VIN</label>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+
+                {formData.manufacturer && formData.model && formData.year && formData.engine && (
+                  <div className="vehicle-preview p-3 border rounded bg-light">
+                    <h6 className="mb-3"><i className="fas fa-check-circle text-success me-2"></i>Véhicule sélectionné</h6>
+                    <div className="d-flex align-items-center">
+                      <div className="me-3">
+                        <i className="fas fa-car fa-3x text-secondary"></i>
+                      </div>
+                      <div>
+                        <h5 className="mb-1">{formData.manufacturer} {formData.model} ({formData.year})</h5>
+                        <p className="mb-0 text-muted">{formData.engine} | {formData.transmission}</p>
+                      </div>
+                    </div>
                   </div>
-                </Form.Group>
+                )}
               </Card.Body>
             </Card>
 
             <Card className="shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white">
-                <h5 className="mb-0">Options de personnalisation</h5>
+              <Card.Header className="bg-dark text-white py-3">
+                <h5 className="mb-0"><i className="fas fa-microchip me-2"></i>Informations sur le fichier</h5>
+              </Card.Header>
+              <Card.Body className="p-4">
+                <Row className="g-4 mb-4">
+                  <Col md={6}>
+                    <Card className="h-100 border-0 shadow-sm">
+                      <Card.Body>
+                        <h6 className="fw-bold mb-3">
+                          <i className="fas fa-tools me-2 text-primary"></i>
+                          Outil de reprogrammation
+                          <span style={requiredFieldLabel}>*</span>
+                        </h6>
+                        <div className="form-floating mb-3">
+                          <select 
+                            className={`form-select ${formData.reprogrammingTool ? 'is-valid' : ''}`}
+                            name="reprogrammingTool"
+                            id="reprogrammingTool"
+                            value={formData.reprogrammingTool}
+                            onChange={onChange}
+                            required
+                          >
+                            <option value="">Sélectionner...</option>
+                            {reprogrammingTools.map((tool, index) => (
+                              <option key={index} value={tool}>
+                                {tool}
+                              </option>
+                            ))}
+                          </select>
+                          <label htmlFor="reprogrammingTool">Outil de reprogrammation</label>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6}>
+                    <Card className="h-100 border-0 shadow-sm">
+                      <Card.Body>
+                        <h6 className="fw-bold mb-3">
+                          <i className="fas fa-download me-2 text-success"></i>
+                          Méthode de lecture
+                          <span style={requiredFieldLabel}>*</span>
+                        </h6>
+                        <div className="form-floating mb-3">
+                          <select 
+                            className={`form-select ${formData.readMethod ? 'is-valid' : ''}`}
+                            name="readMethod"
+                            id="readMethod"
+                            value={formData.readMethod}
+                            onChange={onChange}
+                            required
+                          >
+                            <option value="">Sélectionner...</option>
+                            {readMethods.map((method, index) => (
+                              <option key={index} value={method}>
+                                {method}
+                              </option>
+                            ))}
+                          </select>
+                          <label htmlFor="readMethod">Méthode de lecture</label>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+
+                <Row className="g-4 mb-4">
+                  <Col md={6}>
+                    <Card className="h-100 border-0 shadow-sm">
+                      <Card.Body>
+                        <h6 className="fw-bold mb-3">
+                          <i className="fas fa-microchip me-2 text-info"></i>
+                          Informations ECU
+                          <span style={requiredFieldLabel}>*</span>
+                        </h6>
+                        <div className="mb-3">
+                          <div className="form-floating mb-3">
+                            <Form.Control
+                              id="ecuBrand"
+                              type="text"
+                              name="ecuBrand"
+                              value={formData.ecuBrand}
+                              onChange={onChange}
+                              required
+                              placeholder="Ex: Bosch, Continental, Delphi..."
+                              className={formData.ecuBrand ? 'is-valid' : ''}
+                            />
+                            <label htmlFor="ecuBrand">Marque ECU</label>
+                          </div>
+
+                          <div className="form-floating">
+                            <Form.Control
+                              id="ecuType"
+                              type="text"
+                              name="ecuType"
+                              value={formData.ecuType}
+                              onChange={onChange}
+                              required
+                              placeholder="Ex: EDC17C46, MED17.5..."
+                              className={formData.ecuType ? 'is-valid' : ''}
+                            />
+                            <label htmlFor="ecuType">Type de ECU</label>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6}>
+                    <Card className="h-100 border-0 shadow-sm">
+                      <Card.Body>
+                        <h6 className="fw-bold mb-3">
+                          <i className="fas fa-code me-2 text-warning"></i>
+                          Numéros de référence
+                          <span style={requiredFieldLabel}>*</span>
+                        </h6>
+                        <div className="mb-3">
+                          <div className="form-floating mb-3">
+                            <Form.Control
+                              id="hwNumber"
+                              type="text"
+                              name="hwNumber"
+                              value={formData.hwNumber}
+                              onChange={onChange}
+                              required
+                              placeholder="Ex: 0281020088"
+                              className={formData.hwNumber ? 'is-valid' : ''}
+                            />
+                            <label htmlFor="hwNumber">N°HW</label>
+                          </div>
+
+                          <div className="form-floating">
+                            <Form.Control
+                              id="swNumber"
+                              type="text"
+                              name="swNumber"
+                              value={formData.swNumber}
+                              onChange={onChange}
+                              required
+                              placeholder="Ex: 1037535248"
+                              className={formData.swNumber ? 'is-valid' : ''}
+                            />
+                            <label htmlFor="swNumber">N°SW</label>
+                          </div>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+
+                <Card className="border-0 shadow-sm">
+                  <Card.Body>
+                    <h6 className="fw-bold mb-3">
+                      <i className="fas fa-file-upload me-2 text-danger"></i>
+                      Fichier original
+                      <span style={requiredFieldLabel}>*</span>
+                    </h6>
+                    <div
+                      {...getRootProps()}
+                      className={`dropzone p-5 text-center border rounded ${
+                        isDragActive ? 'border-primary bg-light' : file ? 'border-success bg-light' : 'border-dashed'
+                      }`}
+                      style={{ borderStyle: file ? 'solid' : 'dashed', transition: 'all 0.3s ease' }}
+                    >
+                      <input {...getInputProps()} />
+                      {file ? (
+                        <div className="p-3">
+                          <div className="mb-3">
+                            <i className="fas fa-file-code text-success fa-3x"></i>
+                          </div>
+                          <h5 className="mb-2">{file.name}</h5>
+                          <p className="mb-0 text-muted">
+                            {(file.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                          <div className="mt-3">
+                            <span className="badge bg-success py-2 px-3">
+                              <i className="fas fa-check me-1"></i> Fichier prêt
+                            </span>
+                          </div>
+                        </div>
+                      ) : isDragActive ? (
+                        <div className="p-4">
+                          <div className="mb-3">
+                            <i className="fas fa-cloud-download-alt text-primary fa-3x"></i>
+                          </div>
+                          <h5>Déposez le fichier ici...</h5>
+                        </div>
+                      ) : (
+                        <div className="p-4">
+                          <div className="mb-3">
+                            <i className="fas fa-upload fa-3x text-muted"></i>
+                          </div>
+                          <h5 className="mb-2">Glissez-déposez votre fichier ici</h5>
+                          <p className="mb-3 text-muted">ou cliquez pour sélectionner</p>
+                          <Button variant="outline-primary" className="px-4">
+                            <i className="fas fa-folder-open me-2"></i>
+                            Parcourir les fichiers
+                          </Button>
+                          <p className="mt-3 text-muted small">
+                            Formats acceptés: .bin, .hex (max 100 MB)
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </Card.Body>
+                </Card>
+              </Card.Body>
+            </Card>
+
+            <Card className="shadow-sm mb-4">
+              <Card.Header className="bg-dark text-white py-3">
+                <h5 className="mb-0"><i className="fas fa-sliders-h me-2"></i>Options de personnalisation</h5>
               </Card.Header>
               <Card.Body>
                 <Form.Group className="mb-4">
-                  <Form.Label>
+                  <Form.Label className="fw-bold fs-5 mb-3">
                     Augmentation de la puissance
                   </Form.Label>
-                  <div>
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Aucune (0 crédit)"
-                      name="powerIncrease"
-                      value=""
-                      checked={formData.powerIncrease === ''}
-                      onChange={onChange}
-                      id="none"
-                    />
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Stage 1 (50 crédits)"
-                      name="powerIncrease"
-                      value="Stage 1"
-                      checked={formData.powerIncrease === 'Stage 1'}
-                      onChange={onChange}
-                      id="stage1"
-                    />
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Stage 2 (75 crédits)"
-                      name="powerIncrease"
-                      value="Stage 2"
-                      checked={formData.powerIncrease === 'Stage 2'}
-                      onChange={onChange}
-                      id="stage2"
-                    />
-                    <Form.Check
-                      inline
-                      type="radio"
-                      label="Sur mesure (100 crédits)"
-                      name="powerIncrease"
-                      value="Custom"
-                      checked={formData.powerIncrease === 'Custom'}
-                      onChange={onChange}
-                      id="custom"
-                    />
-                  </div>
+                  <Row className="g-3">
+                    <Col sm={6} md={3}>
+                      <Card 
+                        style={formData.powerIncrease === '' ? selectedCardStyle : cardStyle}
+                        role="button"
+                        onClick={() => setFormData({...formData, powerIncrease: ''})}
+                      >
+                        <Card.Body className="d-flex flex-column align-items-center justify-content-center text-center p-3">
+                          <div className="mb-2">
+                            <i className="fas fa-ban fa-2x text-muted"></i>
+                          </div>
+                          <h6 className="mb-2">Aucune</h6>
+                          <div className="badge bg-secondary mt-auto">0 crédit</div>
+                          <Form.Check
+                            className="visually-hidden"
+                            type="radio"
+                            name="powerIncrease"
+                            value=""
+                            checked={formData.powerIncrease === ''}
+                            onChange={onChange}
+                            id="none"
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col sm={6} md={3}>
+                      <Card 
+                        style={formData.powerIncrease === 'Stage 1' ? selectedCardStyle : cardStyle}
+                        role="button"
+                        onClick={() => setFormData({...formData, powerIncrease: 'Stage 1'})}
+                      >
+                        <Card.Body className="d-flex flex-column align-items-center justify-content-center text-center p-3">
+                          <div className="mb-2">
+                            <i className="fas fa-tachometer-alt fa-2x text-warning"></i>
+                          </div>
+                          <h6 className="mb-2">Stage 1</h6>
+                          <div className="badge bg-danger mt-auto">50 crédits</div>
+                          <Form.Check
+                            className="visually-hidden"
+                            type="radio"
+                            name="powerIncrease"
+                            value="Stage 1"
+                            checked={formData.powerIncrease === 'Stage 1'}
+                            onChange={onChange}
+                            id="stage1"
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col sm={6} md={3}>
+                      <Card 
+                        style={formData.powerIncrease === 'Stage 2' ? selectedCardStyle : cardStyle}
+                        role="button"
+                        onClick={() => setFormData({...formData, powerIncrease: 'Stage 2'})}
+                      >
+                        <Card.Body className="d-flex flex-column align-items-center justify-content-center text-center p-3">
+                          <div className="mb-2">
+                            <i className="fas fa-tachometer-alt fa-2x text-orange"></i>
+                          </div>
+                          <h6 className="mb-2">Stage 2</h6>
+                          <div className="badge bg-danger mt-auto">75 crédits</div>
+                          <Form.Check
+                            className="visually-hidden"
+                            type="radio"
+                            name="powerIncrease"
+                            value="Stage 2"
+                            checked={formData.powerIncrease === 'Stage 2'}
+                            onChange={onChange}
+                            id="stage2"
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col sm={6} md={3}>
+                      <Card 
+                        style={formData.powerIncrease === 'Custom' ? selectedCardStyle : cardStyle}
+                        role="button"
+                        onClick={() => setFormData({...formData, powerIncrease: 'Custom'})}
+                      >
+                        <Card.Body className="d-flex flex-column align-items-center justify-content-center text-center p-3">
+                          <div className="mb-2">
+                            <i className="fas fa-cogs fa-2x text-danger"></i>
+                          </div>
+                          <h6 className="mb-2">Sur mesure</h6>
+                          <div className="badge bg-danger mt-auto">100 crédits</div>
+                          <Form.Check
+                            className="visually-hidden"
+                            type="radio"
+                            name="powerIncrease"
+                            value="Custom"
+                            checked={formData.powerIncrease === 'Custom'}
+                            onChange={onChange}
+                            id="custom"
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  </Row>
                 </Form.Group>
 
-                <Form.Label>Options supplémentaires</Form.Label>
-                <Row>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Arrêt DPF/FAP (+25 crédits)"
-                        name="dpfOff"
-                        checked={formData.dpfOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Arrêt OPF/GPF (+25 crédits)"
-                        name="opfOff"
-                        checked={formData.opfOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Arrêt catalyseur (lambda off) (+25 crédits)"
-                        name="catalystOff"
-                        checked={formData.catalystOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Activation Pop&Bang (+25 crédits)"
-                        name="popAndBang"
-                        checked={formData.popAndBang}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Arrêt AdBlue (+25 crédits)"
-                        name="adBlueOff"
-                        checked={formData.adBlueOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
+                <hr className="my-4" />
+                
+                <Form.Label className="fw-bold fs-5 mb-3">Options supplémentaires</Form.Label>
+                <Row className="g-3">
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.dpfOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, dpfOff: !formData.dpfOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-filter fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Arrêt DPF/FAP</h6>
+                        <p className="small text-muted mb-3">Désactive le filtre à particules diesel</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="dpfOff"
+                          checked={formData.dpfOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
                   </Col>
-                  <Col md={6}>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Blocage/retrait EGR (+25 crédits)"
-                        name="egrOff"
-                        checked={formData.egrOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Retrait code DTC / P (+15 crédits)"
-                        name="dtcRemoval"
-                        checked={formData.dtcRemoval}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Vmax (suppression du limiteur de vitesse) (+25 crédits)"
-                        name="vmaxOff"
-                        checked={formData.vmaxOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Check
-                        type="checkbox"
-                        label="Start/Stop system off (+15 crédits)"
-                        name="startStopOff"
-                        checked={formData.startStopOff}
-                        onChange={onChange}
-                      />
-                    </Form.Group>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.opfOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, opfOff: !formData.opfOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-smog fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Arrêt OPF/GPF</h6>
+                        <p className="small text-muted mb-3">Désactive le filtre à particules essence</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="opfOff"
+                          checked={formData.opfOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.catalystOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, catalystOff: !formData.catalystOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-wind fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Arrêt catalyseur</h6>
+                        <p className="small text-muted mb-3">Désactive les sondes lambda</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="catalystOff"
+                          checked={formData.catalystOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.popAndBang ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, popAndBang: !formData.popAndBang})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-fire fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Activation Pop&Bang</h6>
+                        <p className="small text-muted mb-3">Crépitements à la décélération</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="popAndBang"
+                          checked={formData.popAndBang}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.adBlueOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, adBlueOff: !formData.adBlueOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-tint fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Arrêt AdBlue</h6>
+                        <p className="small text-muted mb-3">Supprime le système AdBlue</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="adBlueOff"
+                          checked={formData.adBlueOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.egrOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, egrOff: !formData.egrOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-recycle fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Blocage/retrait EGR</h6>
+                        <p className="small text-muted mb-3">Désactive la vanne EGR</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="egrOff"
+                          checked={formData.egrOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.dtcRemoval ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, dtcRemoval: !formData.dtcRemoval})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-times-circle fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Retrait code DTC</h6>
+                        <p className="small text-muted mb-3">Supprime les codes défaut</p>
+                        <div className="badge bg-danger mt-auto">+15 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="dtcRemoval"
+                          checked={formData.dtcRemoval}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.vmaxOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, vmaxOff: !formData.vmaxOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-tachometer-alt fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Vmax Off</h6>
+                        <p className="small text-muted mb-3">Supprime le limiteur de vitesse</p>
+                        <div className="badge bg-danger mt-auto">+25 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="vmaxOff"
+                          checked={formData.vmaxOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col md={6} xl={3}>
+                    <Card 
+                      style={formData.startStopOff ? selectedCardStyle : cardStyle}
+                      role="button"
+                      onClick={() => setFormData({...formData, startStopOff: !formData.startStopOff})}
+                    >
+                      <Card.Body className="d-flex flex-column text-center p-3">
+                        <div className="mb-2">
+                          <i className="fas fa-power-off fa-2x mb-3 text-muted"></i>
+                        </div>
+                        <h6 className="mb-2">Start/Stop Off</h6>
+                        <p className="small text-muted mb-3">Désactive le système Start/Stop</p>
+                        <div className="badge bg-danger mt-auto">+15 crédits</div>
+                        <Form.Check
+                          className="visually-hidden"
+                          type="checkbox"
+                          name="startStopOff"
+                          checked={formData.startStopOff}
+                          onChange={onChange}
+                        />
+                      </Card.Body>
+                    </Card>
                   </Col>
                 </Row>
 
+                <hr className="my-4" />
+
                 <Form.Group className="mb-3">
-                  <Form.Label>Commentaires</Form.Label>
+                  <Form.Label className="fw-bold">Commentaires</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={3}
@@ -869,7 +1200,7 @@ const FileUpload = () => {
           <Col lg={4}>
             <div className="sticky-top" style={{ top: '20px' }}>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Résumé</h5>
                 </Card.Header>
                 <Card.Body>
@@ -916,7 +1247,7 @@ const FileUpload = () => {
               </Card>
 
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Besoin d'aide ?</h5>
                 </Card.Header>
                 <Card.Body>

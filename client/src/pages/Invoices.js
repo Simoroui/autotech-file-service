@@ -126,7 +126,7 @@ const Invoices = () => {
         <Row>
           <Col lg={selectedInvoice ? 7 : 12}>
             <Card className="shadow-sm mb-4">
-              <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+              <Card.Header className="bg-light text-dark d-flex justify-content-between align-items-center">
                 <h3 className="mb-0">Historique de facturation</h3>
               </Card.Header>
               <Card.Body>
@@ -211,7 +211,7 @@ const Invoices = () => {
           {selectedInvoice && (
             <Col lg={5}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white d-flex justify-content-between align-items-center">
+                <Card.Header className="bg-light text-dark d-flex justify-content-between align-items-center">
                   <h3 className="mb-0">Détail de la facture</h3>
                   <Button variant="light" size="sm" onClick={closeInvoiceDetail}>
                     <i className="fas fa-times"></i>

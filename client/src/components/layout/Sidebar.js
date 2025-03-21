@@ -35,7 +35,7 @@ const Sidebar = () => {
                 />
               ) : (
                 <div 
-                  className="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-2" 
+                  className="bg-danger text-dark rounded-circle d-flex align-items-center justify-content-center me-2" 
                   style={{ width: '40px', height: '40px', fontSize: '1.2rem' }}
                 >
                   {user.name?.charAt(0).toUpperCase() || 'U'}
@@ -45,7 +45,7 @@ const Sidebar = () => {
                 <h5 className="mb-0">
                   {user.name}
                 </h5>
-                <p className="text-white small mb-0">
+                <p className="text-light small mb-0">
                   <i className="fas fa-coins me-1 text-warning"></i>
                   {user.credits} crédits
                 </p>
@@ -133,7 +133,7 @@ const Sidebar = () => {
         </p>
         <p className="small mb-0 text-center">
           <i className="fas fa-phone me-1"></i>
-          +216 50720660
+          11111
         </p>
       </div>
     </div>

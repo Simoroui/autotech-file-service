@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Card, Table, Form, Spinner, Badge, Alert, Dropdown, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Card, Table, Form, Spinner, Badge, Alert, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../../context/auth/authContext';
-import { FaSortAmountDown, FaSortAmountUp, FaEye, FaClock, FaCar, FaMicrochip, FaTag, FaCoins, FaUser, FaEllipsisV, FaPencilAlt } from 'react-icons/fa';
+import { FaSortAmountDown, FaSortAmountUp, FaEye, FaClock, FaCar, FaMicrochip, FaTag, FaCoins, FaUser } from 'react-icons/fa';
 
 const AdminFileHistory = () => {
   const [files, setFiles] = useState([]);
@@ -315,19 +315,12 @@ const AdminFileHistory = () => {
                               </div>
                             </td>
                             <td className="text-center py-3">
-                              <Dropdown>
-                                <Dropdown.Toggle variant="light" size="sm" className="border-0 rounded-circle" style={{ width: '35px', height: '35px' }}>
-                                  <FaEllipsisV />
-                                </Dropdown.Toggle>
-                                <Dropdown.Menu className="shadow border-0">
-                                  <Dropdown.Item as={Link} to={`/admin/files/${file._id}`} className="d-flex align-items-center">
-                                    <FaEye className="me-2 text-primary" /> Voir les détails
-                                  </Dropdown.Item>
-                                  <Dropdown.Item as={Link} to={`/admin/files/${file._id}/edit`} className="d-flex align-items-center">
-                                    <FaPencilAlt className="me-2 text-success" /> Modifier
-                                  </Dropdown.Item>
-                                </Dropdown.Menu>
-                              </Dropdown>
+                              <Link 
+                                to={`/admin/files/${file._id}`} 
+                                className="btn btn-primary btn-sm rounded-pill px-3"
+                              >
+                                <FaEye className="me-2" /> Voir les détails
+                              </Link>
                             </td>
                           </tr>
                         ))}

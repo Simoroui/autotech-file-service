@@ -72,6 +72,24 @@ app.use('/uploads/profile-photos', express.static(path.join(__dirname, 'uploads/
 // Servir les fichiers statiques du répertoire public
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
+// En production, servir les fichiers statiques du build React
+if (process.env.NODE_ENV === 'production') {
+  // Servir les fichiers statiques du dossier build
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  // Pour toutes les routes non-API, renvoyer index.html
+  app.get('*', (req, res, next) => {
+    // Ne pas intercepter les routes API
+    if (!req.path.startsWith('/api/') && !req.path.startsWith('/uploads/')) {
+      res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+    } else {
+      next();
+    }
+  });
+  
+  console.log('Configuration pour la production activée');
+}
+
 // Connexion à MongoDB
 console.log('Tentative de connexion à MongoDB avec URI:', process.env.MONGO_URI || 'non définie');
 try {
@@ -327,15 +345,6 @@ const scheduleEmailSummaries = async () => {
 // Démarrer la planification des emails si l'environnement n'est pas en test
 if (process.env.NODE_ENV !== 'test') {
   scheduleEmailSummaries();
-}
-
-// Servir les fichiers statiques en production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/build')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'build', 'index.html'));
-  });
 }
 
 // Définir le port

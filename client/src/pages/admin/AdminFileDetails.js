@@ -1078,7 +1078,7 @@ const AdminFileDetails = () => {
               </span>
             }>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Informations générales</h5>
                 </Card.Header>
                 <Card.Body>
@@ -1375,7 +1375,7 @@ const AdminFileDetails = () => {
               </span>
             }>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Gestion des fichiers</h5>
                 </Card.Header>
                 <Card.Body>
@@ -1538,7 +1538,7 @@ const AdminFileDetails = () => {
               </span>
             }>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Gestion du statut</h5>
                 </Card.Header>
                 <Card.Body>
@@ -1593,7 +1593,7 @@ const AdminFileDetails = () => {
               </span>
             }>
               <Card className="shadow-sm mb-4">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Options de traitement</h5>
                 </Card.Header>
                 <Card.Body>
@@ -1653,7 +1653,7 @@ const AdminFileDetails = () => {
               </span>
             }>
               <Card className="shadow-sm sticky-top" style={{top: "1rem", maxHeight: "calc(100vh - 2rem)", overflowY: "auto"}}>
-                <Card.Header className={`d-flex justify-content-between align-items-center ${hasNewMessages ? 'bg-primary text-white' : 'bg-dark text-white'}`}>
+                <Card.Header className={`d-flex justify-content-between align-items-center ${hasNewMessages ? 'bg-primary text-dark' : 'bg-light text-dark'}`}>
                   <h5 className="mb-0">
                     {hasNewMessages && <i className="fas fa-circle text-warning me-2 fa-xs" style={{animation: "pulse 1s infinite"}}></i>}
                     Discussion avec le client
@@ -1806,7 +1806,7 @@ const AdminFileDetails = () => {
         
         <Col lg={4}>
           <Card className="shadow-sm sticky-top" style={{top: "1rem", maxHeight: "calc(100vh - 2rem)", overflowY: "auto"}}>
-            <Card.Header className={`d-flex justify-content-between align-items-center ${hasNewMessages ? 'bg-primary text-white' : 'bg-dark text-white'}`}>
+            <Card.Header className={`d-flex justify-content-between align-items-center ${hasNewMessages ? 'bg-primary text-dark' : 'bg-light text-dark'}`}>
               <h5 className="mb-0">
                 {hasNewMessages && <i className="fas fa-circle text-warning me-2 fa-xs" style={{animation: "pulse 1s infinite"}}></i>}
                 Discussion avec le client

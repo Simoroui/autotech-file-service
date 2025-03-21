@@ -282,4 +282,105 @@ router.get('/transmissions/:manufacturer/:model/:year/:engine', async (req, res)
   }
 });
 
+// @route   GET /api/vehicle-data/performance-gains
+// @desc    Get performance gains for a specific vehicle
+// @access  Public
+router.get('/performance-gains', async (req, res) => {
+  try {
+    const { brand, model, year, engine } = req.query;
+    
+    console.log('Requête performance-gains reçue avec params:', { brand, model, year, engine });
+
+    // Vérifier que tous les paramètres requis sont présents
+    if (!brand || !model || !year || !engine) {
+      console.log('Paramètres manquants:', { brand, model, year, engine });
+      return res.status(400).json({
+        success: false,
+        error: 'Tous les paramètres sont requis (brand, model, year, engine)'
+      });
+    }
+
+    // Récupérer les données depuis le fichier CSV
+    const csvFilePath = path.join(__dirname, '../data/vehicules.csv');
+    
+    console.log('Chemin du fichier CSV:', csvFilePath);
+
+    // Vérifier si le fichier existe
+    if (!fs.existsSync(csvFilePath)) {
+      console.log('Fichier CSV non trouvé:', csvFilePath);
+      return res.status(404).json({
+        success: false,
+        error: 'Fichier de données non trouvé'
+      });
+    }
+
+    try {
+      // Lire le fichier avec csv-parser
+      const results = [];
+      fs.createReadStream(csvFilePath)
+        .pipe(csv())
+        .on('data', (data) => {
+          // Nous avons une correspondance si:
+          // 1. Le constructeur correspond (case-insensitive)
+          // 2. Le modèle contient le modèle recherché
+          // 3. L'année contient l'année recherchée
+          // 4. La motorisation contient le moteur recherché
+          if (
+            data.Constructeur && data.Constructeur.toLowerCase() === brand.toLowerCase() &&
+            data.Modèle && data.Modèle.toLowerCase().includes(model.toLowerCase()) &&
+            data.Année && data.Année.toLowerCase().includes(year.toLowerCase()) &&
+            data.Moteur && data.Moteur.toLowerCase().includes(engine.toLowerCase())
+          ) {
+            results.push(data);
+          }
+        })
+        .on('end', () => {
+          if (results.length > 0) {
+            console.log('Correspondance trouvée:', results[0]);
+            
+            // Afficher les clés disponibles dans le premier résultat pour le débogage
+            console.log('Clés disponibles dans le CSV:', Object.keys(results[0]));
+            
+            // Retourner les données de performance du premier résultat trouvé
+            const vehicleData = {
+              power: parseInt(results[0]["Puissance d'origine"]) || 0,
+              torque: parseInt(results[0]["Couple d'origine"]) || 0,
+              tuned_power: parseInt(results[0]["Puissance optimisée"]) || 0,
+              // Essayer différentes variantes du nom de colonne pour le couple optimisé
+              tuned_torque: parseInt(results[0]["Couple optimisé"]) || 
+                         parseInt(results[0]["Couple Optimisé"]) || 
+                         parseInt(results[0]["Couple optimisée"]) || 
+                         // Si aucune des variantes n'est trouvée, calculer une valeur approximative basée sur le couple d'origine et le gain
+                         (parseInt(results[0]["Couple d'origine"]) + parseInt(results[0]["Gains en Nm"]) || 0),
+              power_gain: parseInt(results[0]["Gains en HP"]) || 0,
+              torque_gain: parseInt(results[0]["Gains en Nm"]) || 0
+            };
+            
+            console.log('Données renvoyées:', vehicleData);
+            
+            return res.json(vehicleData);
+          } else {
+            console.log('Aucune correspondance trouvée pour:', { brand, model, year, engine });
+            return res.status(404).json({
+              success: false,
+              error: 'Aucune donnée trouvée pour ce véhicule'
+            });
+          }
+        });
+    } catch (error) {
+      console.error('Erreur lors de la lecture du CSV:', error);
+      return res.status(500).json({
+        success: false,
+        error: 'Erreur lors de la lecture des données de performance'
+      });
+    }
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données de performance:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Erreur lors de la récupération des données de performance'
+    });
+  }
+});
+
 module.exports = router; 

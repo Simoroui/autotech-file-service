@@ -189,7 +189,7 @@ const NotificationsPage = () => {
                   >
                     <Row>
                       <Col xs="auto" className="pe-0">
-                        <div className={`d-flex align-items-center justify-content-center bg-${bg} text-white rounded-circle`} style={{ width: '40px', height: '40px' }}>
+                        <div className={`d-flex align-items-center justify-content-center bg-${bg} text-dark rounded-circle`} style={{ width: '40px', height: '40px' }}>
                           {icon}
                         </div>
                       </Col>

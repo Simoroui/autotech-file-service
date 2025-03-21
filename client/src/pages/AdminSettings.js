@@ -156,7 +156,7 @@ const AdminSettings = () => {
       <Row>
         <Col md={3} lg={2} className="mb-4">
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h5 className="mb-0 d-flex align-items-center">
                 <FaCog className="me-2" /> Configuration
               </h5>
@@ -208,7 +208,7 @@ const AdminSettings = () => {
           <Tab.Content>
             <Tab.Pane eventKey="system" active={activeKey === 'system'}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Paramètres système</h5>
                 </Card.Header>
                 <Card.Body>
@@ -293,7 +293,7 @@ const AdminSettings = () => {
             
             <Tab.Pane eventKey="notifications" active={activeKey === 'notifications'}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Paramètres de notification</h5>
                 </Card.Header>
                 <Card.Body>
@@ -381,7 +381,7 @@ const AdminSettings = () => {
             
             <Tab.Pane eventKey="pricing" active={activeKey === 'pricing'}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Paramètres de tarification</h5>
                 </Card.Header>
                 <Card.Body>
@@ -516,7 +516,7 @@ const AdminSettings = () => {
             
             <Tab.Pane eventKey="integrations" active={activeKey === 'integrations'}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Intégrations</h5>
                 </Card.Header>
                 <Card.Body>

@@ -1,11 +1,12 @@
 :root {
-  --primary-color: #ff0000; /* Rouge */
+  --primary-color: #e60000; /* Rouge plus vif */
   --secondary-color: #000000; /* Noir */
   --light-color: #ffffff; /* Blanc */
-  --danger-color: #dc3545;
+  --danger-color: #ff3333; /* Rouge plus clair pour les alertes */
   --success-color: #28a745;
-  --dark-color: #343a40;
+  --dark-color: #1a1a1a; /* Noir légèrement plus clair pour le texte */
   --light-gray: #f4f4f4;
+  --accent-color: #990000; /* Rouge foncé pour les accents */
 }
 
 * {
@@ -35,28 +36,50 @@ a:hover {
 .btn-primary {
   background-color: var(--primary-color);
   border-color: var(--primary-color);
+  box-shadow: 0 2px 4px rgba(230, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: #cc0000;
-  border-color: #cc0000;
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(230, 0, 0, 0.3);
 }
 
 .navbar {
-  background-color: var(--secondary-color);
+  background-color: #000000; /* Noir pour la barre de navigation */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-brand {
   color: var(--light-color) !important;
   font-weight: bold;
+  letter-spacing: 1px;
 }
 
 .nav-link {
   color: var(--light-color) !important;
+  font-weight: 500;
+  position: relative;
 }
 
 .nav-link:hover {
   color: var(--primary-color) !important;
+}
+
+.nav-link:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover:after {
+  width: 100%;
 }
 
 .footer {
@@ -67,20 +90,27 @@ a:hover {
 }
 
 .card {
+  border-radius: 8px;
   border: none;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
-  background-color: var(--secondary-color);
+  background-color: #000000;
   color: var(--light-color);
-  font-weight: bold;
+  border-top-left-radius: 8px !important;
+  border-top-right-radius: 8px !important;
+  border-bottom: 3px solid var(--primary-color);
 }
 
 .form-control:focus {
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.25);
+  box-shadow: 0 0 0 0.2rem rgba(230, 0, 0, 0.25);
 }
 
 .alert-danger {
@@ -100,7 +130,7 @@ a:hover {
   position: relative;
   overflow: hidden;
   padding: 80px 0;
-  background: linear-gradient(135deg, #000000 0%, #212529 100%);
+  background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
   width: 100%;
 }
 
@@ -195,6 +225,9 @@ a:hover {
   transition: all 0.3s ease;
   z-index: 100;
   flex-shrink: 0;
+  background-color: #000000;
+  color: var(--light-color);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-header {
@@ -215,26 +248,28 @@ a:hover {
   color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   transition: all 0.2s ease;
+  border-left: 4px solid transparent;
 }
 
 .sidebar-link:hover {
   color: var(--light-color);
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(230, 0, 0, 0.1);
+  border-left: 4px solid var(--primary-color);
 }
 
 .sidebar-item.active .sidebar-link {
   color: var(--light-color);
-  background-color: var(--primary-color);
-  border-left: 4px solid var(--light-color);
+  background-color: rgba(230, 0, 0, 0.2);
+  border-left: 4px solid var(--primary-color);
 }
 
 .main-content {
   flex: 1;
   padding: 1.5rem;
-  background-color: #f0f2f5;
+  background-color: #f5f5f5;
   background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.8) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.8) 1px, transparent 1px);
+    linear-gradient(rgba(230, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(230, 0, 0, 0.03) 1px, transparent 1px);
   background-size: 20px 20px;
   background-position: center;
   transition: all 0.3s ease;
@@ -304,9 +339,9 @@ a:hover {
 
 .custom-table thead th {
   font-weight: 600;
-  color: #495057;
-  border-top: none;
-  border-bottom: 2px solid #f0f0f0;
+  color: #000000;
+  border-bottom: 2px solid var(--primary-color);
+  background-color: rgba(0, 0, 0, 0.02);
 }
 
 .custom-table tbody tr {
@@ -314,9 +349,9 @@ a:hover {
 }
 
 .custom-table tbody tr:hover {
-  background-color: rgba(0, 123, 255, 0.04);
+  background-color: rgba(230, 0, 0, 0.04);
   transform: translateY(-1px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .custom-table .clickable {
@@ -325,7 +360,7 @@ a:hover {
 }
 
 .custom-table .clickable:hover {
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 .custom-table .badge {
@@ -376,23 +411,23 @@ a:hover {
 
 /* Style pour les badges de statut */
 .badge.bg-warning {
-  background-color: #ffb703 !important;
-  color: #7a4f01;
+  background-color: #ffcc00 !important;
+  color: #000000;
 }
 
 .badge.bg-info {
-  background-color: #4cc9f0 !important;
-  color: #0a516b;
+  background-color: #cccccc !important;
+  color: #000000;
 }
 
 .badge.bg-success {
-  background-color: #06d6a0 !important;
-  color: #053f30;
+  background-color: #28a745 !important;
+  color: #ffffff;
 }
 
 .badge.bg-danger {
-  background-color: #ef476f !important;
-  color: #fff;
+  background-color: var(--primary-color) !important;
+  color: #ffffff;
 }
 
 /* Dropdown menu styling */
@@ -408,4 +443,232 @@ a:hover {
 
 .dropdown-item:hover {
   background-color: rgba(67, 97, 238, 0.1);
+}
+
+/* Étapes de progression */
+.progress-steps::before {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.progress-step.active .step-circle {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.2);
+}
+
+.progress-step.active .step-text {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Zone de dépôt de fichiers */
+.dropzone:hover {
+  border-color: var(--primary-color) !important;
+  background-color: rgba(230, 0, 0, 0.03);
+}
+
+/* Héro section */
+.hero-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+}
+
+/* Formulaires */
+.form-floating input:focus,
+.form-floating select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(230, 0, 0, 0.25);
+}
+
+/* Styles pour les étapes de progression (progress steps) */
+.progress-steps {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.progress-steps::before {
+  content: '';
+  position: absolute;
+  top: 15px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.progress-step {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 5px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active .step-circle {
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.2);
+}
+
+.step-text {
+  font-size: 0.8rem;
+  color: #333333;
+  font-weight: 500;
+}
+
+.progress-step.active .step-text {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+/* Styles pour la zone de dépôt de fichiers */
+.border-dashed {
+  border-style: dashed !important;
+  border-width: 2px !important;
+  border-color: #dee2e6 !important;
+}
+
+.dropzone {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dropzone:hover {
+  border-color: var(--primary-color) !important;
+  background-color: rgba(230, 0, 0, 0.03);
+}
+
+/* Styles spécifiques pour le formulaire flottant */
+.form-floating label {
+  color: #333333;
+}
+
+.form-floating input:focus,
+.form-floating select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(230, 0, 0, 0.25);
+}
+
+.form-floating input.is-valid,
+.form-floating select.is-valid {
+  border-color: #28a745;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right calc(0.375em + 0.1875rem) center;
+  background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+/* Styles pour les cartes des informations */
+.card.border-0.shadow-sm {
+  transition: all 0.3s ease;
+}
+
+.card.border-0.shadow-sm:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Styles pour le résumé du véhicule */
+.vehicle-preview {
+  transition: all 0.3s ease;
+  border-left: 3px solid var(--primary-color);
+}
+
+.vehicle-preview:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+}
+
+/* Amélioration des onglets */
+.nav-tabs .nav-link {
+  color: #333333;
+  font-weight: 500;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.nav-tabs .nav-link:hover {
+  border-color: transparent;
+  background-color: rgba(230, 0, 0, 0.05);
+}
+
+.nav-tabs .nav-link.active {
+  color: var(--primary-color);
+  background-color: transparent;
+  border-bottom: 3px solid var(--primary-color);
+}
+
+/* Amélioration des boutons d'action */
+.btn-action {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  color: var(--primary-color);
+}
+
+/* Amélioration des alertes */
+.alert {
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+}
+
+.alert-danger {
+  background-color: rgba(255, 0, 0, 0.05);
+  border-color: var(--primary-color);
+  color: #721c24;
+}
+
+.alert-success {
+  background-color: rgba(40, 167, 69, 0.05);
+  border-color: #28a745;
+  color: #155724;
+}
+
+/* Effet de focus pour les éléments interactifs */
+:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(230, 0, 0, 0.2) !important;
+}
+
+/* Animation pour les transitions de page */
+.fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 } 

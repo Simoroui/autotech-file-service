@@ -9,7 +9,7 @@ const statusStyles = {
   processing: 'bg-info',
   completed: 'bg-success',
   rejected: 'bg-danger',
-  approved: 'bg-teal text-white'
+  approved: 'bg-teal text-dark'
 };
 
 const statusLabels = {

@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: autotech-file-service
+    env: node
+    buildCommand: npm run render-postbuild
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: MONGO_URI
+        sync: false
+      - key: EMAIL_USER
+        sync: false
+      - key: EMAIL_PASSWORD
+        sync: false 

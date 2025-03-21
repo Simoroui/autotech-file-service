@@ -9,10 +9,6 @@ export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 export const UPDATE_CREDITS = 'UPDATE_CREDITS';
 
-// Theme Types
-export const TOGGLE_THEME = 'TOGGLE_THEME';
-export const SET_THEME = 'SET_THEME';
-
 // ECU File Types
 export const GET_FILES = 'GET_FILES';
 export const GET_FILE = 'GET_FILE';

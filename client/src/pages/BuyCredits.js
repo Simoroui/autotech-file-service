@@ -136,7 +136,7 @@ const BuyCredits = () => {
       <Row className="mb-4">
         <Col lg={8}>
           <Card className="shadow-sm mb-4">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h3 className="mb-0">Choisissez votre pack</h3>
             </Card.Header>
             <Card.Body>
@@ -148,7 +148,7 @@ const BuyCredits = () => {
                       onClick={() => handlePackSelect(pack.id)}
                       style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
                     >
-                      <Card.Header className={`text-center py-3 ${pack.popular ? 'bg-warning' : (selectedPack === pack.id ? 'bg-danger text-white' : '')}`}>
+                      <Card.Header className={`text-center py-3 ${pack.popular ? 'bg-warning' : (selectedPack === pack.id ? 'bg-danger text-dark' : '')}`}>
                         {pack.popular && <div className="ribbon">Populaire</div>}
                         <h4 className="mb-0">{pack.credits} crédit{pack.credits > 1 ? 's' : ''}</h4>
                       </Card.Header>
@@ -206,7 +206,7 @@ const BuyCredits = () => {
         
         <Col lg={4}>
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h3 className="mb-0">Paiement</h3>
             </Card.Header>
             <Card.Body>

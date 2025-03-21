@@ -180,7 +180,7 @@ const Profile = () => {
       <Row>
         <Col lg={4} className="mb-4">
           <Card className="shadow-sm mb-4">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h5 className="mb-0">Informations utilisateur</h5>
             </Card.Header>
             <Card.Body className="text-center">
@@ -194,7 +194,7 @@ const Profile = () => {
                   />
                 ) : (
                   <div 
-                    className="avatar-placeholder bg-danger text-white rounded-circle d-flex align-items-center justify-content-center mx-auto" 
+                    className="avatar-placeholder bg-danger text-dark rounded-circle d-flex align-items-center justify-content-center mx-auto" 
                     style={{ width: '100px', height: '100px', fontSize: '2rem' }}
                   >
                     {user?.name?.charAt(0).toUpperCase() || 'U'}
@@ -206,7 +206,7 @@ const Profile = () => {
                   overlay={<Tooltip>Changer la photo de profil</Tooltip>}
                 >
                   <Button 
-                    variant="dark" 
+                    variant="light" 
                     size="sm" 
                     className="position-absolute bottom-0 end-0 translate-middle-x rounded-circle" 
                     style={{ width: '32px', height: '32px', padding: '0' }}
@@ -246,7 +246,7 @@ const Profile = () => {
           </Card>
           
           <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white">
+            <Card.Header className="bg-light text-dark">
               <h5 className="mb-0">Actions</h5>
             </Card.Header>
             <Card.Body>
@@ -266,7 +266,7 @@ const Profile = () => {
           <Tabs defaultActiveKey="account" className="mb-4">
             <Tab eventKey="account" title={<span style={tabStyle}>Compte</span>}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Modifier mon profil</h5>
                 </Card.Header>
                 <Card.Body>
@@ -364,7 +364,7 @@ const Profile = () => {
             
             <Tab eventKey="billing" title={<span style={tabStyle}>Détails de facturation</span>}>
               <Card className="shadow-sm">
-                <Card.Header className="bg-dark text-white">
+                <Card.Header className="bg-light text-dark">
                   <h5 className="mb-0">Informations de facturation</h5>
                 </Card.Header>
                 <Card.Body>

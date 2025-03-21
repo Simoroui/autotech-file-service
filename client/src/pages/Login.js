@@ -47,9 +47,9 @@ const Login = () => {
     <Container>
       <Row className="justify-content-center">
         <Col md={6}>
-          <Card className="shadow-sm">
-            <Card.Header className="bg-dark text-white text-center py-3">
-              <h2>Connexion</h2>
+          <Card className="shadow-lg mb-5">
+            <Card.Header className="bg-light text-dark text-center py-3">
+              <h3 className="mb-0">Connexion</h3>
             </Card.Header>
             <Card.Body className="p-4">
               {alert && <Alert variant="danger">{alert}</Alert>}

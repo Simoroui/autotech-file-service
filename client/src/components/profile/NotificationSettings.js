@@ -71,7 +71,7 @@ const NotificationSettings = () => {
 
   return (
     <Card className="shadow-sm">
-      <Card.Header className="bg-dark text-white">
+      <Card.Header className="bg-light text-dark">
         <h5 className="mb-0">Préférences de notification</h5>
       </Card.Header>
       <Card.Body>
