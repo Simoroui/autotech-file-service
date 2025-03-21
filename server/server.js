@@ -8,18 +8,23 @@ const { sendSummaryEmail } = require('./utils/emailService');
 const fs = require('fs');
 
 // Charger les variables d'environnement
-const dotenvResult = dotenv.config();
-console.log('Chargement de .env:', dotenvResult.error ? 'Erreur' : 'Succès');
-if (dotenvResult.error) {
-  console.log('Erreur lors du chargement de .env:', dotenvResult.error.message);
+try {
+  const dotenvResult = dotenv.config();
+  if (dotenvResult.error) {
+    console.log('Erreur lors du chargement de .env, utilisation des variables d\'environnement système');
+  } else {
+    console.log('Chargement de .env: Succès');
+  }
+} catch (error) {
+  console.log('Exception lors du chargement de .env, utilisation des variables d\'environnement système');
 }
 
 // Vérifier et définir les variables d'environnement critiques
 if (!process.env.JWT_SECRET) {
-  console.log('JWT_SECRET non défini ou vide dans .env, utilisation de la valeur par défaut');
+  console.log('JWT_SECRET non défini ou vide, utilisation de la valeur par défaut');
   process.env.JWT_SECRET = 'autotech_secret_key_2024';
 } else {
-  console.log('JWT_SECRET est défini dans .env');
+  console.log('JWT_SECRET est défini');
 }
 
 // Initialiser l'application Express
@@ -74,24 +79,46 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // En production, servir les fichiers statiques du build React
 if (process.env.NODE_ENV === 'production') {
-  // Servir les fichiers statiques du dossier build
-  app.use(express.static(path.join(__dirname, '../client/build')));
-
-  // Pour toutes les routes non-API, renvoyer index.html
-  app.get('*', (req, res, next) => {
-    // Ne pas intercepter les routes API
-    if (!req.path.startsWith('/api/') && !req.path.startsWith('/uploads/')) {
-      res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
-    } else {
-      next();
-    }
-  });
+  const clientBuildPath = path.join(__dirname, '../client/build');
   
-  console.log('Configuration pour la production activée');
+  // Vérifier si le répertoire client/build existe
+  try {
+    if (fs.existsSync(clientBuildPath)) {
+      console.log(`Répertoire client/build trouvé: ${clientBuildPath}`);
+      
+      // Servir les fichiers statiques du dossier build
+      app.use(express.static(clientBuildPath));
+      
+      // Pour toutes les routes non-API, renvoyer index.html
+      app.get('*', (req, res, next) => {
+        // Ne pas intercepter les routes API
+        if (!req.path.startsWith('/api/') && !req.path.startsWith('/uploads/')) {
+          const indexHtmlPath = path.resolve(clientBuildPath, 'index.html');
+          
+          if (fs.existsSync(indexHtmlPath)) {
+            res.sendFile(indexHtmlPath);
+          } else {
+            console.error(`Fichier index.html non trouvé: ${indexHtmlPath}`);
+            res.status(404).send('Fichier index.html non trouvé');
+          }
+        } else {
+          next();
+        }
+      });
+      
+      console.log('Configuration pour la production activée');
+    } else {
+      console.error(`Répertoire client/build non trouvé: ${clientBuildPath}`);
+      console.log('Fonctionnement en mode API uniquement (sans interface utilisateur)');
+    }
+  } catch (err) {
+    console.error(`Erreur lors de la vérification du répertoire client/build: ${err.message}`);
+    console.log('Fonctionnement en mode API uniquement (sans interface utilisateur)');
+  }
 }
 
 // Connexion à MongoDB
-console.log('Tentative de connexion à MongoDB avec URI:', process.env.MONGO_URI || 'non définie');
+console.log('Tentative de connexion à MongoDB avec URI:', process.env.MONGO_URI ? `${process.env.MONGO_URI.substring(0, 25)}...` : 'non définie');
 try {
   if (!process.env.MONGO_URI) {
     console.error('MONGO_URI non définie dans les variables d\'environnement');
@@ -99,14 +126,32 @@ try {
     process.env.MONGO_URI = 'mongodb://localhost:27017/autotech-file-service';
   }
   
-  mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('MongoDB connecté'))
+  const mongoOptions = {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000
+  };
+  
+  mongoose.connect(process.env.MONGO_URI, mongoOptions)
+    .then(() => {
+      console.log('MongoDB connecté avec succès');
+      
+      // Initialiser les services qui dépendent de la base de données
+      if (process.env.NODE_ENV === 'production') {
+        // Planification des emails récapitulatifs
+        console.log('Planification des emails récapitulatifs configurée');
+        scheduleEmailSummaries();
+      }
+    })
     .catch(err => {
-      console.error('Erreur de connexion à MongoDB', err.message);
+      console.error('Erreur de connexion à MongoDB:', err.message);
+      if (err.message.includes('bad auth') || err.message.includes('authentication failed')) {
+        console.error('Problème d\'authentification MongoDB. Vérifiez vos identifiants.');
+      }
       console.log('Le serveur continue à fonctionner pour les tests.');
     });
 } catch (err) {
-  console.error('Exception lors de la connexion à MongoDB:', err);
+  console.error('Exception lors de la connexion à MongoDB:', err.message);
   console.log('Le serveur continue à fonctionner pour les tests.');
 }
 
@@ -341,11 +386,6 @@ const scheduleEmailSummaries = async () => {
     console.error('Erreur lors de la planification des emails récapitulatifs:', error);
   }
 };
-
-// Démarrer la planification des emails si l'environnement n'est pas en test
-if (process.env.NODE_ENV !== 'test') {
-  scheduleEmailSummaries();
-}
 
 // Définir le port
 const PORT = process.env.PORT || 5000;
