@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install && npm run build && cd ../server && npm install",
     "build": "cd client && npm install && npm run build && cd ../server && npm install",
-    "render-postbuild": "npm install && cd client && npm install && npm run build && cd ../server && npm install"
+    "render-postbuild": "npm install && cd client && npm install --legacy-peer-deps && CI=false npm run build && cd ../server && npm install"
   },
   "engines": {
     "node": ">=14.0.0"
