@@ -1,0 +1,246 @@
+/* CSS Critique pour le rendu initial */
+:root {
+    --primary-color: #E30613;
+    --primary-color-rgb: 227, 6, 19;
+    --secondary-color: #1D1D1B;
+    --text-color: #333333;
+    --background-color: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+.page-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.hero {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    height: 300px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    z-index: -1;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    border: 2px solid transparent;
+    animation: laser-border 3s infinite;
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.hero-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.hero h1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.text-red {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    font-weight: 300;
+    margin-top: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.boost-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Animation du cadre laser */
+@keyframes laser-border {
+    0% {
+        border-color: rgba(227, 6, 19, 0.4);
+        box-shadow: 0 0 5px rgba(227, 6, 19, 0.4), inset 0 0 5px rgba(227, 6, 19, 0.4);
+    }
+    50% {
+        border-color: rgba(227, 6, 19, 0.8);
+        box-shadow: 0 0 15px rgba(227, 6, 19, 0.8), inset 0 0 10px rgba(227, 6, 19, 0.8);
+    }
+    100% {
+        border-color: rgba(227, 6, 19, 0.4);
+        box-shadow: 0 0 5px rgba(227, 6, 19, 0.4), inset 0 0 5px rgba(227, 6, 19, 0.4);
+    }
+}
+
+/* Styles pour le header */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: background-color 0.3s ease;
+}
+
+.header.scrolled {
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    height: 80px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin: 0 1rem;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 400;
+    transition: color 0.3s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+/* Styles responsifs de base */
+@media screen and (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .boost-button {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+    
+    .hero-content {
+        padding-top: 80px;
+    }
+    
+    .hero-content::before {
+        width: 95%;
+        height: 280px;
+        animation: laser-border 2.5s infinite;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content::before {
+        width: 95%;
+        height: 250px;
+        border-width: 1px;
+    }
+    
+    .hero-content {
+        padding-top: 60px;
+    }
+} 

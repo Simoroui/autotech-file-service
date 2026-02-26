@@ -1,0 +1,1135 @@
+/* Variables avec des couleurs plus vives */
+:root {
+    --primary-color: #E30613;
+    --primary-gradient: linear-gradient(135deg, rgba(227, 6, 19, 0.4), rgba(255, 50, 50, 0.9), rgba(227, 6, 19, 0.4));
+    --laser-gradient: linear-gradient(
+        60deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.9),
+        rgba(255, 255, 255, 0.1),
+        transparent
+    );
+    --bg-dark: rgba(0, 0, 0, 0.85);
+    --text-light: #ffffff;
+    --card-shadow: 0 10px 40px rgba(227, 6, 19, 0.2);
+    --neon-glow: 0 0 20px rgba(227, 6, 19, 0.4);
+    --hover-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container avec effet de verre */
+.results-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Titres avec animation */
+.vehicle-title {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    animation: fadeIn 0.8s ease-out 0.2s both;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.engine-type {
+    font-size: 1.5rem;
+    text-align: center;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+/* Sélecteur de stage amélioré */
+.stage-selector {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.8s ease-out 0.6s both;
+}
+
+.stage-btn {
+    padding: 0.8rem 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: var(--bg-dark);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--hover-transition);
+    backdrop-filter: blur(8px);
+}
+
+.stage-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}
+
+.stage-btn.active {
+    background: var(--primary-gradient);
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3);
+}
+
+/* Tableau avec effet néon */
+.results-table {
+    width: 100%;
+    margin: 2rem 0;
+    background: var(--bg-dark);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow), var(--neon-glow);
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.results-table:hover {
+    transform: translateZ(0) scale(1.01);
+}
+
+/* Ajustement du logo en filigrane pour le tableau */
+.results-table::before {
+    content: '' !important;
+    position: absolute !important;
+    top: auto !important;
+    bottom: 25% !important; /* Ajusté pour être au centre des deux dernières lignes */
+    left: 50% !important;
+    width: 80% !important;
+    height: 100px !important; /* Hauteur réduite pour mieux correspondre aux deux lignes */
+    background-image: url('../images/Logo-H.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transform: translateX(-50%) !important;
+    opacity: 0.05 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* En-tête du tableau avec effet laser amélioré */
+.results-table .table-header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9));
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(227, 6, 19, 0.2);
+}
+
+.results-table .table-header::before {
+    content: '';
+    position: absolute;
+    top: -180%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.05),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: laser 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    filter: blur(5px);
+    z-index: 2;
+}
+
+/* Second effet laser plus subtil */
+.results-table .table-header::after {
+    content: '';
+    position: absolute;
+    top: -180%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        60deg,
+        transparent,
+        rgba(227, 6, 19, 0.05),
+        rgba(227, 6, 19, 0.15),
+        rgba(227, 6, 19, 0.05),
+        transparent
+    );
+    transform: rotate(45deg);
+    animation: laser 3s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.5s;
+    filter: blur(3px);
+    z-index: 1;
+}
+
+.results-table .table-content {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.results-table .table-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.results-table .table-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateX(10px);
+    box-shadow: inset 0 0 30px rgba(227, 6, 19, 0.1);
+}
+
+.results-table .label {
+    text-align: left;
+    color: white;
+    font-weight: 500;
+}
+
+.results-table .value {
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+.results-table .diff {
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--text-light);
+    background: var(--primary-gradient);
+    border-radius: 8px;
+    padding: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(227, 6, 19, 0.4);
+}
+
+/* Animation laser pour les différences */
+.results-table .diff::before {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: var(--laser-gradient);
+    transform: rotate(45deg);
+    animation: laser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    filter: blur(2px);
+    z-index: 1;
+}
+
+/* Animation pour le pulse des différences */
+@keyframes diffPulse {
+    0% {
+        box-shadow: 
+            0 0 15px rgba(227, 6, 19, 0.4),
+            inset 0 0 10px rgba(227, 6, 19, 0.4);
+    }
+    50% {
+        box-shadow: 
+            0 0 25px rgba(227, 6, 19, 0.6),
+            inset 0 0 15px rgba(227, 6, 19, 0.6);
+    }
+    100% {
+        box-shadow: 
+            0 0 15px rgba(227, 6, 19, 0.4),
+            inset 0 0 10px rgba(227, 6, 19, 0.4);
+    }
+}
+
+/* Animation pour l'effet laser des différences */
+@keyframes diffLaser {
+    0% {
+        top: -100%;
+        left: -100%;
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        top: 100%;
+        left: 100%;
+        opacity: 0;
+    }
+}
+
+/* Assurer que le texte reste visible */
+.results-table .diff span {
+    position: relative;
+    z-index: 2;
+}
+
+/* Graphique avec effet 3D */
+.performance-graph {
+    width: 100%;
+    height: 350px;
+    margin: 2rem 0;
+    padding: 20px;
+    background: var(--bg-dark);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.performance-graph::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 70% !important;
+    height: 70% !important;
+    background-image: url('../images/Logo-H.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    transform: translate(-50%, -50%) !important;
+    opacity: 0.04 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* Supprimer l'ancien effet de brillance globale */
+.performance-graph::after {
+    display: none;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes laser {
+    0% {
+        transform: rotate(45deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%);
+    }
+}
+
+/* Améliorer l'effet avec un glow */
+.results-table .table-header {
+    background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9));
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(227, 6, 19, 0.2);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+    from {
+        box-shadow: 
+            0 0 25px rgba(227, 6, 19, 0.4),
+            inset 0 0 20px rgba(227, 6, 19, 0.3);
+    }
+    to {
+        box-shadow: 
+            0 0 40px rgba(227, 6, 19, 0.6),
+            inset 0 0 30px rgba(227, 6, 19, 0.5);
+    }
+}
+
+/* Style des barres avec effet laser */
+.chart-bar {
+    position: relative;
+    background: linear-gradient(
+        90deg,
+        rgba(227, 6, 19, 0.8) 0%,
+        rgba(227, 6, 19, 1) 40%,
+        rgba(255, 255, 255, 0.7) 50%,
+        rgba(227, 6, 19, 1) 60%,
+        rgba(227, 6, 19, 0.8) 100%
+    );
+    background-size: 150% 100%;
+    animation: barLaser 1.5s linear infinite;
+    border-radius: 4px;
+    height: 30px;
+    overflow: hidden;
+}
+
+/* Animation du laser */
+@keyframes barLaser {
+    from {
+        background-position: 150% 0;
+    }
+    to {
+        background-position: -50% 0;
+    }
+}
+
+/* Effet de brillance supplémentaire */
+.chart-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+}
+
+/* Responsive Design amélioré */
+@media screen and (max-width: 768px) {
+    /* Style flottant pour le tableau de résultats */
+    .results-table {
+        width: calc(100% - 20px) !important;
+        margin: 10px auto !important;
+        border-radius: 15px !important;
+        background: rgba(0, 0, 0, 0.85) !important;
+        backdrop-filter: blur(10px) !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Ajuster l'en-tête du tableau */
+    .results-table .table-header {
+        border-radius: 15px 15px 0 0 !important;
+        background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
+    }
+
+    /* Ajuster les lignes du tableau */
+    .results-table .table-row {
+        background: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    .results-table .table-row:last-child {
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    /* Style du breadcrumb */
+    .selection-breadcrumb {
+        margin: 0 !important;
+        padding: 2px 15px !important;
+    }
+
+    /* Style amélioré du bouton retour */
+    .back-button {
+        position: absolute !important;
+        top: 0 !important;
+        right: 10px !important;
+        z-index: 10 !important;
+        padding: 4px 12px 4px 8px !important;
+        background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
+        border: none !important;
+        border-radius: 5px !important;
+    }
+
+    .back-button::before {
+        content: '←';
+        margin-right: 6px;
+        font-size: 1.1em;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .back-button:active {
+        transform: scale(0.95) !important;
+    }
+
+    /* Réduire la flèche du bouton */
+    .back-button::before {
+        content: '←';
+        margin-right: 5px;
+        font-size: 1.1em;
+    }
+
+    /* Réduire spécifiquement l'espace entre le breadcrumb et le bouton */
+    .vehicle-details {
+        margin-top: -5px !important; /* Réduire l'espace vertical */
+    }
+
+    /* Garder l'espacement d'origine pour le titre */
+    .vehicle-title {
+        padding-top: 35px !important; /* Espace pour le bouton */
+        text-align: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .engine-type {
+        text-align: center !important;
+        width: 100% !important;
+        margin: 10px 0 !important;
+    }
+
+    /* Supprimer les espaces inutiles */
+    .results-container {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* Suppression complète des marges du conteneur */
+    .results-container {
+        width: 100vw;
+        margin: 0;
+        padding: 0;
+        background: none;
+        border: none;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* Optimisation de la grille de résultats */
+    .results-table {
+        width: 100vw;
+        margin: 0;
+        border-radius: 0;
+        padding: 0;
+        background: var(--bg-dark);
+    }
+
+    /* En-tête du tableau optimisé */
+    .results-table .table-header {
+        display: grid;
+        grid-template-columns: 1.5fr 1.2fr 1.2fr 1.5fr; /* Plus d'espace pour les colonnes */
+        padding: 20px 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    /* Lignes du tableau optimisées */
+    .results-table .table-row {
+        display: grid;
+        grid-template-columns: 1.5fr 1.2fr 1.2fr 1.5fr;
+        padding: 20px 10px;
+        font-size: 1rem;
+        text-align: center;
+    }
+
+    /* Optimisation du graphique */
+    .performance-graph {
+        width: 100vw;
+        margin: 0;
+        padding: 20px 10px;
+        height: 400px; /* Plus grand pour meilleure visibilité */
+    }
+
+    /* Optimisation des titres et contenus */
+    .vehicle-title {
+        font-size: 1.8rem;
+        padding: 20px 10px;
+        margin: 0;
+    }
+
+    .engine-type {
+        font-size: 1.3rem;
+        padding: 10px;
+        margin: 0;
+    }
+
+    .stage-selector {
+        padding: 20px 10px;
+        margin: 0;
+        gap: 20px;
+    }
+
+    /* Optimisation des boutons */
+    .stage-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    /* Optimisation de la liste des avantages */
+    .advantages-list {
+        width: 100vw;
+        padding: 20px;
+        margin: 0;
+        background: var(--bg-dark);
+    }
+
+    .advantage-item {
+        display: flex;
+        align-items: flex-start;
+        padding: 15px 10px;
+        margin: 10px 0;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        border-left: 3px solid var(--primary-color);
+        opacity: 1;
+        transform: none;
+        animation: none;
+    }
+
+    .advantage-item::before {
+        content: '✔️';
+        display: inline-block;
+        margin-right: 10px;
+        color: var(--primary-color);
+        font-size: 1.1rem;
+        transform: scale(1.2);
+    }
+
+    /* Ajustement des onglets */
+    .vehicle-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .tab-button {
+        width: 100%;
+        min-height: 44px; /* Hauteur minimale pour une meilleure accessibilité */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    /* Ajustement spécifique pour les longs textes */
+    .tab-button[data-type="agricultural"] {
+        font-size: 0.85rem;
+        line-height: 1.2;
+        white-space: normal;
+    }
+
+    /* Ciblage plus spécifique du breadcrumb dans la page résultats */
+    .vehicle-details .selection-breadcrumb,
+    .results-container .selection-breadcrumb,
+    .selection-breadcrumb {
+        background-color: transparent !important;
+        backdrop-filter: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        margin: 0 !important;
+        padding: 10px !important;
+    }
+
+    /* S'assurer que le texte reste visible */
+    .selection-breadcrumb .breadcrumb-item {
+        color: var(--text-light);
+        font-size: 0.85rem;
+        line-height: 1.4;
+        z-index: 1;
+        position: relative;
+    }
+
+    .selection-breadcrumb .breadcrumb-separator {
+        color: var(--primary-color);
+        z-index: 1;
+        position: relative;
+    }
+
+    /* Rendre invisible uniquement le cadre de la section détails */
+    .vehicle-details {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Style du breadcrumb restauré */
+    .selection-breadcrumb {
+        background: var(--bg-dark) !important;
+        border-radius: 8px !important;
+        padding: 5px 15px !important;
+        margin-bottom: 1px !important;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .breadcrumb-item {
+        font-size: 0.85rem;
+        line-height: 1.4;
+        color: var(--text-light);
+    }
+
+    .breadcrumb-separator {
+        color: var(--primary-color);
+        margin: 0 5px;
+    }
+
+    /* Ajuster la position du bouton retour */
+    .back-button {
+        margin-bottom: 1px;
+        margin-top: 0;
+        padding: 5px 15px;
+    }
+
+    /* Réduire l'espace entre les éléments */
+    .vehicle-title {
+        margin-top: 2px;
+    }
+
+    /* Centrer le texte de la sélection */
+    .selection-breadcrumb {
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    .breadcrumb-item {
+        text-align: center !important;
+    }
+
+    /* Centrer le titre et le type de moteur */
+    .vehicle-title,
+    .engine-type {
+        text-align: center !important;
+        width: 100% !important;
+        display: block !important;
+    }
+
+    /* Ajuster le bouton retour sans affecter le centrage */
+    .back-button {
+        float: right !important;
+        position: relative !important;
+        z-index: 2 !important;
+    }
+
+    /* Assurer que le conteneur ne perturbe pas le centrage */
+    .results-container {
+        text-align: center !important;
+    }
+
+    /* Ajuster la position du bouton retour dans la page de sélection */
+    .vehicle-details .back-button {
+        position: absolute !important;
+        top: 0 !important;
+        right: 10px !important;
+        z-index: 10 !important;
+        padding: 4px 12px 4px 8px !important;
+        background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
+        border: none !important;
+        border-radius: 5px !important;
+        margin: 10px !important; /* Ajouter une marge */
+    }
+
+    /* Ajuster l'espacement de la grille de marque sélectionnée */
+    .vehicle-details .selection-steps {
+        padding-top: 50px !important; /* Espace pour le bouton retour */
+    }
+
+    /* Assurer que le contenu ne chevauche pas le bouton */
+    .vehicle-details .step-content {
+        position: relative !important;
+        z-index: 1 !important;
+    }
+
+    /* Maintenir le style du bouton */
+    .vehicle-details .back-button::before {
+        content: '←';
+        margin-right: 6px;
+        font-size: 1.1em;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    /* Grille des marques en 3 colonnes */
+    .brands-grid.active {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 15px !important;
+        padding: 15px !important;
+    }
+
+    /* Ajustement des items de marque */
+    .brands-grid.active .brand-item {
+        width: 100% !important;
+        aspect-ratio: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 10px !important;
+    }
+
+    /* Ajustement des logos */
+    .brands-grid.active .brand-logo {
+        width: auto !important;
+        height: auto !important;
+        max-width: 80% !important;
+        max-height: 60px !important;
+        object-fit: contain !important;
+    }
+
+    /* Ajustement du nom de la marque */
+    .brands-grid.active .brand-name {
+        font-size: 0.8rem !important;
+        margin-top: 8px !important;
+        text-align: center !important;
+    }
+
+    /* S'assurer que la page de sélection s'affiche correctement */
+    .vehicle-details {
+        display: block !important;
+        width: 100% !important;
+    }
+
+    /* Réinitialiser les styles de grille pour la page de sélection */
+    .vehicle-details .selection-steps {
+        display: block !important;
+        padding-top: 50px !important;
+    }
+
+    /* Ajustement des colonnes pour mobile */
+    .selection-steps {
+        width: 100%;
+        padding: 10px;
+    }
+
+    /* Ajustement des colonnes */
+    .step-content {
+        display: grid;
+        grid-template-columns: 1fr; /* Une seule colonne en mobile */
+        gap: 10px;
+        width: 100%;
+    }
+
+    /* Style des items de sélection */
+    .selection-item {
+        width: 100%;
+        padding: 15px;
+        margin: 5px 0;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        min-height: 60px;
+    }
+
+    /* Ajustement du texte */
+    .selection-item span {
+        width: 100%;
+        text-align: left;
+        padding: 0 10px;
+        word-break: break-word; /* Pour éviter le débordement du texte */
+    }
+
+    /* Style pour les informations de motorisation */
+    .motorisation-info {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .motorisation-info span {
+        width: 100%;
+        padding: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 4px;
+    }
+}
+
+/* Pour les très petits écrans */
+@media screen and (max-width: 375px) {
+    .results-table .table-header,
+    .results-table .table-row {
+        font-size: 0.8rem;
+        padding: 10px 3px;
+    }
+
+    .results-table .diff {
+        font-size: 0.8rem;
+        padding: 6px 2px;
+    }
+}
+
+/* Optimisation des animations */
+@media (prefers-reduced-motion: reduce) {
+    .results-table .table-header::before,
+    .results-table .table-header::after,
+    .results-table .diff::before {
+        animation: none;
+    }
+}
+
+/* Utilisation de will-change pour les animations importantes */
+.results-table .table-header {
+    will-change: transform;
+}
+
+/* Style du breadcrumb */
+.selection-breadcrumb {
+    display: flex;
+    flex-wrap: wrap; /* Permet le retour à la ligne */
+    gap: 10px;
+    align-items: center;
+    padding: 10px 15px;
+    background: var(--bg-dark);
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.breadcrumb-item {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    word-break: break-word; /* Permet la césure des mots */
+    max-width: 100%; /* Assure que l'item ne dépasse pas son conteneur */
+    overflow-wrap: break-word; /* Gère les longs mots */
+    hyphens: auto; /* Ajoute des tirets si nécessaire */
+}
+
+.breadcrumb-separator {
+    color: var(--primary-color);
+    margin: 0 5px;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .selection-breadcrumb {
+        padding: 5px 15px;
+        font-size: 0.85rem;
+    }
+
+    .breadcrumb-item {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+}
+
+/* Style flottant pour la liste des avantages (PC et Mobile) */
+.advantages-list {
+    width: calc(100% - 40px) !important;
+    margin: 20px auto !important;
+    padding: 20px !important;
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.advantage-item {
+    margin: 10px 0 !important;
+    padding: 15px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 10px !important;
+    border-left: 3px solid var(--primary-color) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.advantage-item:hover {
+    transform: translateX(5px) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Ajustements spécifiques pour mobile */
+@media screen and (max-width: 768px) {
+    .advantages-list {
+        width: calc(100% - 20px) !important;
+        margin: 10px auto !important;
+        padding: 15px !important;
+    }
+
+    .advantage-item {
+        padding: 12px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Style du bouton retour */
+.back-button {
+    position: relative !important;
+    padding: 4px 12px 4px 8px !important;
+    background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
+    border: none !important;
+    border-radius: 5px !important;
+}
+
+.back-button::before {
+    content: '←';
+    margin-right: 6px;
+    font-size: 1.1em;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.reserve-btn {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+    padding: 12px 30px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 1.1rem !important;
+    cursor: pointer !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+    box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3) !important;
+}
+
+.reserve-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(227, 6, 19, 0.4) !important;
+}
+
+.reserve-btn:active {
+    transform: translateY(0) !important;
+}
+
+.pricing-grid {
+    background: rgba(0, 0, 0, 0.85) !important;
+    backdrop-filter: blur(10px) !important;
+    border-radius: 15px !important;
+    padding: 20px !important;
+    margin: 30px auto !important;
+    text-align: center !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+    max-width: 600px !important;
+}
+
+.price-tag {
+    color: #E30613 !important;
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    margin-bottom: 15px !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.price-info {
+    color: white !important;
+    margin-bottom: 20px !important;
+    font-size: 2rem !important;
+    font-weight: bold !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+}
+
+.stage-label {
+    margin-right: 5px !important;
+}
+
+.price-amount {
+    color: white !important;
+    margin-right: 5px !important;
+}
+
+.price-tax {
+    font-size: 1.5rem !important;
+    color: white !important;
+}
+
+.vehicle-slideshow {
+    width: 100% !important;
+    margin: 0 auto !important;
+}
+
+.slideshow-container {
+    position: relative !important;
+    aspect-ratio: 16/9 !important;
+    overflow: hidden !important;
+    border-radius: 8px !important;
+    margin: 20px 0 !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+}
+
+.slide img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Amélioration des boutons de navigation */
+.slide-nav {
+    background: rgba(227, 6, 19, 0.8) !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.5rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.slide-nav:hover {
+    background: rgba(227, 6, 19, 1) !important;
+    transform: scale(1.1) !important;
+}
+
+.prev { left: 10px !important; }
+.next { right: 10px !important; }
+
+.slide-dots {
+    position: absolute !important;
+    bottom: 10px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.dot {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.5) !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.dot.active {
+    background: white !important;
+} 

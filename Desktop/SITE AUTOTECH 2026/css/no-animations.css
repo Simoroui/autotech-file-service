@@ -1,0 +1,192 @@
+/* 
+ * Fichier CSS pour désactiver les animations de la page résultats
+ * tout en préservant l'affichage et les fonctionnalités
+ */
+
+/* Désactiver les animations spécifiques du tableau de résultats */
+.results-table .table-header::before,
+.results-table .table-header::after {
+    animation: none !important;
+}
+
+/* Désactiver l'animation laser pour les différences tout en préservant l'apparence */
+.results-table .diff::before {
+    animation: none !important;
+}
+
+/* Désactiver les animations de fade-in */
+.vehicle-title,
+.engine-type,
+.stage-selector {
+    animation: none !important;
+}
+
+/* Désactiver les animations au survol sans affecter l'apparence */
+.results-table .table-row:hover {
+    transform: none !important;
+}
+
+.results-table:hover {
+    transform: none !important;
+}
+
+/* Désactiver les animations des barres du graphique */
+.chart-bar::after {
+    animation: none !important;
+}
+
+.chart-bar {
+    animation: none !important;
+}
+
+/* Préserver l'apparence des cases de différence */
+.results-table .diff {
+    background: #C00 !important; /* Rouge uni */
+    box-shadow: 0 0 15px rgba(227, 6, 19, 0.4) !important;
+}
+
+/* Préserver l'affichage des logos et du diaporama */
+.brand-logo,
+.brand-item,
+.vehicle-slideshow,
+.slideshow-container,
+.slide,
+.slide img,
+.slide-nav,
+.slide-dots,
+.dot {
+    /* Ne pas désactiver les transitions pour ces éléments */
+    animation: initial !important;
+    transform: initial !important;
+}
+
+/* Désactiver les animations @keyframes sans les supprimer */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001s !important;
+        transition-duration: 0.001s !important;
+    }
+}
+
+/* Supprimer complètement l'effet laser diagonal sur le tableau */
+.results-table .table-header::before,
+.results-table .table-header::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    animation: none !important;
+}
+
+/* Supprimer complètement l'effet laser pour les différences */
+.results-table .diff::before {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    animation: none !important;
+}
+
+/* Désactiver les animations de fade-in */
+.vehicle-title,
+.engine-type,
+.stage-selector {
+    animation: none !important;
+    opacity: 1 !important;
+}
+
+/* Désactiver les animations au survol sans affecter l'apparence */
+.results-table .table-row:hover {
+    transform: none !important;
+}
+
+.results-table:hover {
+    transform: none !important;
+}
+
+/* Désactiver les animations des barres du graphique */
+.chart-bar::after {
+    display: none !important;
+    content: none !important;
+    background: none !important;
+    animation: none !important;
+}
+
+.chart-bar {
+    animation: none !important;
+    background: linear-gradient(90deg, rgba(227, 6, 19, 0.7), rgba(227, 6, 19, 0.9)) !important;
+}
+
+/* Rendre les cases de différence rouges sans effet */
+.results-table .diff {
+    background: #C00 !important; /* Rouge uni */
+    background-image: none !important;
+    background-color: #C00 !important;
+    box-shadow: 0 0 15px rgba(227, 6, 19, 0.4) !important;
+    border: none !important;
+    color: white !important;
+    text-shadow: none !important;
+    filter: none !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* S'assurer que les logos sont visibles */
+.brand-logo {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 64px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    z-index: 2 !important;
+    position: relative !important;
+}
+
+.brand-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    overflow: hidden !important;
+}
+
+/* Préserver l'affichage du diaporama */
+.vehicle-slideshow,
+.slideshow-container,
+.slide,
+.slide img,
+.slide-nav,
+.slide-dots,
+.dot {
+    animation: initial !important;
+    transform: initial !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Désactiver toutes les animations @keyframes */
+@keyframes none {
+    from { opacity: 1; }
+    to { opacity: 1; }
+}
+
+* {
+    animation-name: none !important;
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+}
+
+/* Exception : conserver le clignotement des titres de sélection (Sélectionnez un modèle / une version / une motorisation) */
+@keyframes selection-title-blink {
+    0%, 100% { color: white; }
+    50% { color: var(--primary-color); }
+}
+.selection-title {
+    animation: selection-title-blink 2s ease-in-out infinite !important;
+}

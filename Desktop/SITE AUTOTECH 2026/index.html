@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance</title>
+    <meta name="description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation pour voitures, motos, camions et véhicules agricoles.">
+    
+    <!-- Balises Open Graph pour Facebook, LinkedIn, etc. -->
+    <meta property="og:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta property="og:description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation.">
+    <meta property="og:image" content="https://autotech-tunisia.com/images/logo-min.png">
+    <meta property="og:url" content="https://autotech-tunisia.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AUTOTECH">
+    <meta property="og:locale" content="fr_FR">
+    
+    <!-- Balises Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta name="twitter:description" content="AUTOTECH - Reprogrammation moteur sur banc de puissance en Tunisie pour optimiser les performances de votre véhicule.">
+    <meta name="twitter:image" content="https://autotech-tunisia.com/images/logo-min.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://autotech-tunisia.com/">
+
+    <!-- Données structurées LocalBusiness (SEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AutoRepair",
+      "name": "AUTOTECH Reprogrammation Moteur",
+      "url": "https://autotech-tunisia.com/",
+      "image": "https://autotech-tunisia.com/images/logo-min.png",
+      "telephone": "+21650720660",
+      "email": "autotechtunis@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Rue Jaber Ben Hayane",
+        "addressLocality": "Tunis",
+        "postalCode": "2046",
+        "addressCountry": "TN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 36.8799982,
+        "longitude": 10.2991194
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "16:30"
+        },
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": "Saturday",
+          "opens": "09:00",
+          "closes": "12:30"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/autotechreprogrammation",
+        "https://www.instagram.com/autotech_reprog/",
+        "https://www.youtube.com/@autotechtunis2888"
+      ]
+    }
+    </script>
+    
+    <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="images/logo-min.png" as="image">
+    <link rel="preload" href="images/Logo-H.png" as="image">
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/header.css" as="style">
+    <link rel="preload" href="css/footer.css" as="style">
+    <link rel="preload" href="js/script.js" as="script">
+    <link rel="preload" href="js/header.js" as="script">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="images/logoicon.png" type="image/png">
+    
+    <!-- Icônes tactiles pour appareils mobiles -->
+    <link rel="apple-touch-icon" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="images/logoicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/logoicon.png">
+    <link rel="manifest" href="manifest.json">
+    <!-- Fin des icônes tactiles -->
+    
+    <!-- CSS Critique en ligne pour un chargement rapide -->
+    <style>
+        /* CSS Critique pour le rendu initial */
+        :root {
+            --primary-color: #E30613;
+            --primary-color-rgb: 227, 6, 19;
+            --secondary-color: #1D1D1B;
+            --text-color: #333333;
+            --background-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Styles pour le splash screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+            overflow: hidden;
+        }
+
+        #splash-screen:before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 0%, 
+                rgba(227, 6, 19, 0.1) 30%, 
+                rgba(227, 6, 19, 0.2) 40%, 
+                transparent 50%);
+            transform-origin: center;
+            animation: rotateGradient 15s linear infinite;
+            z-index: -2;
+        }
+
+        #splash-screen:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 15% 15%, rgba(227, 6, 19, 0.3) 0%, transparent 25%),
+                radial-gradient(circle at 85% 85%, rgba(227, 6, 19, 0.3) 0%, transparent 25%);
+            background-size: 100% 100%;
+            z-index: -1;
+        }
+
+        .tech-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.5;
+            perspective: 1000px;
+            animation: gridPulse 8s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        .tech-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .tech-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: rgba(227, 6, 19, 0.7);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(227, 6, 19, 0.9);
+            animation: floatParticle var(--duration) linear infinite;
+            opacity: var(--opacity);
+        }
+
+        /* Circuits électroniques animés */
+        .tech-circuit {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            opacity: 0.2;
+            overflow: hidden;
+        }
+
+        .circuit-line {
+            position: absolute;
+            background-color: rgba(227, 6, 19, 0.8);
+            transform-origin: left center;
+        }
+
+        .circuit-line.horizontal {
+            height: 1px;
+            animation: circuitGlow 4s ease-in-out infinite;
+        }
+
+        .circuit-line.vertical {
+            width: 1px;
+            animation: circuitGlow 4s ease-in-out infinite;
+        }
+
+        .circuit-node {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: rgba(227, 6, 19, 0.8);
+            border-radius: 50%;
+            animation: nodeGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes rotateGradient {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes gridPulse {
+            0%, 100% {
+                transform: perspective(1000px) rotateX(10deg) scale(1);
+                opacity: 0.5;
+            }
+            50% {
+                transform: perspective(1000px) rotateX(20deg) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(var(--startX), var(--startY));
+                opacity: 0;
+            }
+            25% {
+                opacity: var(--opacity);
+            }
+            75% {
+                opacity: var(--opacity);
+            }
+            100% {
+                transform: translate(var(--endX), var(--endY));
+                opacity: 0;
+            }
+        }
+
+        @keyframes circuitGlow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
+            }
+            50% {
+                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
+            }
+        }
+
+        @keyframes nodeGlow {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
+            }
+            50% {
+                transform: scale(1.5);
+                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
+            }
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .splash-content {
+            text-align: center;
+        }
+
+        .splash-logo {
+            width: 280px;
+            height: auto;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+
+        .loading-bar-container {
+            width: 280px;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .loading-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 10px;
+            transition: width 0.3s ease-out;
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .loading-text {
+            color: white;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .page-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Styles critiques pour l'en-tête et le titre principal */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.8);
+            transition: background-color 0.3s ease;
+        }
+
+        .logo-img {
+            height: auto;
+            max-width: 150px;
+        }
+
+        .hero-text h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .text-red {
+            color: var(--primary-color);
+        }
+
+        /* Style pour le bouton retour */
+        .retour-btn {
+            position: fixed !important;
+            top: 15px !important;
+            left: 15px !important;
+            background-color: #E30613 !important;
+            color: white !important;
+            padding: 8px 15px !important;
+            border-radius: 5px !important;
+            text-decoration: none !important;
+            font-size: 14px !important;
+            z-index: 9999 !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .retour-btn::before {
+            content: '←';
+        }
+
+        .vehicle-details {
+            padding-top: 60px !important;
+        }
+
+        .marque-selectionnee {
+            padding-top: 20px !important;
+        }
+
+        @media screen and (max-width: 768px) {
+            .retour-btn {
+                font-size: 13px !important;
+                padding: 6px 12px !important;
+            }
+        }
+
+        /* Ajustements pour le bouton dans la section hero */
+        @media screen and (max-width: 768px) {
+            .hero-content {
+                position: relative !important;
+            }
+            
+            .hero-content::before {
+                position: absolute !important;
+                width: 90% !important;
+                max-width: 320px !important;
+                height: 170px !important;
+            }
+            
+            .hero-content h1 {
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: 85% !important;
+                z-index: 2 !important;
+            }
+            
+            .hero-logo {
+                max-width: 172px !important;
+                margin-bottom: 10px !important;
+            }
+            
+            .text-red {
+                font-size: 0.85rem !important;
+                text-align: center !important;
+                margin-bottom: 10px !important;
+                line-height: 1.3 !important;
+            }
+            
+            /* Repositionner le bouton en dehors du cadre mais plus haut */
+            .boost-button {
+                position: fixed !important;
+                bottom: 80px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                z-index: 3 !important;
+                padding: 0.4rem 1.5rem !important;
+                font-size: 0.9rem !important;
+                border-radius: 30px !important;
+                box-shadow: 0 4px 12px rgba(227, 6, 19, 0.5) !important;
+            }
+        }
+
+        /* Style pour réduire l'espace entre les deux lignes de texte */
+        .hero-content h1 .text-red:first-of-type {
+            margin-bottom: 2px !important;
+        }
+        
+        .hero-content h1 .text-red:last-of-type {
+            margin-top: 0 !important;
+        }
+        
+        @media screen and (max-width: 768px) {
+            .hero-content h1 .text-red:first-of-type {
+                margin-bottom: 0 !important;
+            }
+        }
+    </style>
+
+    <!-- Chargement différé des CSS non critiques -->
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/header.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/footer.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    
+    <!-- Fallback pour les navigateurs qui ne supportent pas le onload -->
+    <noscript>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </noscript>
+    
+    <!-- Facebook SDK chargé de façon asynchrone -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" 
+            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0" 
+            nonce="your-nonce">
+    </script>
+    
+    <!-- Cache Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+
+    <script async src="//www.instagram.com/embed.js"></script>
+    <link rel="stylesheet" href="css/results.css">
+    <link rel="stylesheet" href="css/no-animations.css">
+    <!-- Précharger les ressources critiques -->
+    <link rel="preload" href="data/marques.csv" as="fetch" crossorigin>
+    <link rel="preload" href="js/vehicle-selector.js" as="script">
+    <style>
+        .boost-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boost-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, #000000, #1a1a1a, #333333);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            z-index: -1;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .vehicle-selector {
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            background: #000000;
+            padding: 10px;
+        }
+
+        .vehicle-selector::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            box-shadow: 
+                0 0 5px rgba(255, 0, 0, 0.1),
+                inset 0 0 10px rgba(255, 0, 0, 0.1);
+            z-index: -1;
+        }
+
+        /* Ajout de la grille laser */
+        .vehicle-selector::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, rgba(255, 0, 0, 0.3) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.3) 2px, transparent 2px);
+            background-size: 60px 60px;
+            opacity: 0.6;
+            pointer-events: none;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% {
+                transform: perspective(1000px) rotateX(5deg) translateZ(0) scale(1);
+            }
+            50% {
+                transform: perspective(1000px) rotateX(10deg) translateZ(50px) scale(1.1);
+            }
+            100% {
+                transform: perspective(1000px) rotateX(5deg) translateZ(0) scale(1);
+            }
+        }
+
+        .vehicle-selector .section-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .vehicle-selector .section-container::before {
+            display: none;
+        }
+
+        /* Effet de brillance sur les éléments */
+        .section-title, .intro-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent,
+                rgba(255, 0, 0, 0.5),
+                transparent
+            );
+        }
+
+        @keyframes subtlePulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .vehicle-tabs button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vehicle-tabs button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.5), transparent);
+            animation: buttonGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes buttonGlow {
+            0% {
+                left: -100%;
+            }
+            50% {
+                left: 100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        .nav-links > li > a {
+            min-height: 44px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Style pour les icônes sociales */
+        .header-social {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="tech-grid"></div>
+        <div class="tech-particles" id="techParticles"></div>
+        <div class="tech-circuit" id="techCircuit"></div>
+        <div class="splash-content">
+            <img src="images/Logo-H.png" alt="AUTOTECH" class="splash-logo">
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p class="loading-text">Chargement en cours...</p>
+        </div>
+    </div>
+    
+    <div class="page-wrapper">
+    <header class="header">
+        <button class="hamburger-menu" aria-label="Menu">
+            <i class="fas fa-bars hamburger-icon" aria-hidden="true"></i>
+            <i class="fas fa-times close-icon" aria-hidden="true"></i>
+                </button>
+        <div class="header-container">
+                <nav class="nav-main">
+            <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo-min.png" alt="AUTOTECH reprogrammation moteur Tunisie" class="logo-img" loading="eager" width="150" height="50">
+                </a>
+            </div>
+            <div class="nav-container">
+                <ul class="nav-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="index.html#about">À propos</a></li>
+                        <li><a href="index.html#boost">Reprogrammation</a></li>
+                        <li><a href="dyno.html">Dyno</a></li>
+                        <li><a href="options-reprog.html">Options de reprog.</a></li>
+                        <li><a href="echapp.html">Échappement & Downpipe</a></li>
+                        <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
+                        <li><a href="index.html#news">News</a></li>
+                        <li><a href="ensavoirplus.html">En savoir +</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+                    <div class="header-social">
+                        <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+            </div>
+        </nav>
+            </div>
+    </header>
+
+    <main class="main-content">
+            <div class="hero-wrapper">
+        <section class="hero">
+            <div class="hero-background">
+                <img src="images-optimized/hero-bg.jpg" alt="Background" loading="eager">
+            </div>
+            <div class="hero-content">
+                <h1>
+                            <img src="images/Logo-H.png" alt="AUTOTECH" class="hero-logo">
+                            <span class="text-red">Reprogrammation & Optimisation Moteur</span>
+                            <span class="text-red">sur Banc de puissance</span>
+                </h1>
+                <a href="#boost" class="boost-button">Boostez votre véhicule</a>
+            </div>
+        </section>
+            </div>
+
+            <!-- Section À propos -->
+            <div class="about-wrapper" id="about">
+                <section class="about-section">
+                    <div class="about-container">
+                        <div class="about-image-container">
+                            <div class="slideshow-container">
+                                <div class="slideshow-slide">
+                                    <img src="images/apropos.jpg" alt="AUTOTECH Reprogrammation" class="about-image active" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos1.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos2.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos3.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos4.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos5.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos6.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos7.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos8.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos9.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos10.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos11.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                    <img src="images/apropos12.jpg" alt="AUTOTECH Reprogrammation" class="about-image" loading="lazy" width="540" height="360" fetchpriority="low">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="about-text-container">
+                            <h2 class="about-title">À propos</h2>
+                            <p class="about-description">AutoTech libère le potentiel de votre moteur grâce à son expertise et son savoir-faire en reprogrammation moteur. Présent depuis 2015, nous sommes le premier atelier de reprogrammation sur banc de puissance en Tunisie, offrant des services de qualité supérieure pour optimiser les performances de votre véhicule.</p>
+                            <p class="about-description">Notre équipe de techniciens qualifiés utilise des technologies de pointe pour garantir des résultats précis et fiables, adaptés spécifiquement à chaque type de véhicule. Nous pouvons réaliser les projets les plus poussés en préparation automobile, du simple stage 1 aux préparations complètes pour la compétition.</p>
+                            <p class="about-description">Fiers d'être le préparateur officiel de l'équipe de drift Outlaws Racing Team, notre expertise a contribué à de nombreux succès en compétition : une trentaine de victoires et podiums, 3 titres du championnat national de drift, et des participations à l'échelle mondiale. Notre préparation a notamment permis d'atteindre une belle 4ème place lors de la finale mondiale du Red Bull Car Drift en 2018.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Séparateur laser -->
+            <div class="laser-separator"></div>
+
+            <section class="vehicle-selector" id="boost">
+            <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title">La reprogrammation moteur AUTOTECH</h2>
+                        <p class="intro-text">
+                            La reprogrammation moteur (aussi appelée "reprog moteur", "cartographie moteur" ou encore "gestion moteur") est une technique qui permet d'améliorer les performances, diminuer la consommation en carburant, augmenter l'agrément de conduite de différents types de véhicules.
+                        </p>
+                        <p class="intro-text">
+                            Que ce soit pour une voiture, une moto, un poids lourd, un tracteur, un bateau, un quad ou encore un Jet-ski, cette méthode offre des avantages non négligeables. Nous vous présentons les principes de la reprogrammation, les bénéfices, et ses applications.
+                        </p>
+                        <h2 class="section-title">CHOISISSEZ VOTRE VÉHICULE</h2>
+                    </div>
+                <div class="vehicle-tabs">
+                        <button class="tab-button active" data-type="cars" aria-label="Sélectionner catégorie voitures">
+                        <span class="tab-icon cars-icon"></span>
+                        Voitures
+                    </button>
+                    <button class="tab-button" data-type="motorcycles">
+                        <span class="tab-icon moto-icon"></span>
+                        Motos
+                    </button>
+                    <button class="tab-button" data-type="jetski">
+                        <span class="tab-icon jetski-icon"></span>
+                        Jetski
+                    </button>
+                    <button class="tab-button" data-type="quad">
+                        <span class="tab-icon quad-icon"></span>
+                        Quad & Buggy
+                    </button>
+                    <button class="tab-button" data-type="trucks">
+                        <span class="tab-icon truck-icon"></span>
+                        Camions
+                    </button>
+                    <button class="tab-button" data-type="agricultural">
+                        <span class="tab-icon agri-icon"></span>
+                            Agricole&Engin
+                    </button>
+                </div>
+
+                <div class="brands-grid active" id="cars-grid"></div>
+                <div class="brands-grid" id="motorcycles-grid"></div>
+                <div class="brands-grid" id="jetski-grid"></div>
+                <div class="brands-grid" id="quad-grid"></div>
+                <div class="brands-grid" id="trucks-grid"></div>
+                <div class="brands-grid" id="agricultural-grid"></div>
+            </div>
+        </section>
+        
+            <!-- Séparateur -->
+            <div class="section-separator"></div>
+            
+            <!-- Section Options de Reprogrammation -->
+            <section class="tuning-options" id="options">
+                <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title">Nos Options de Reprogrammation</h2>
+                        <p class="section-subtitle">Des solutions avancées pour optimiser votre véhicule</p>
+                    </div>
+                    
+                    <div class="options-container">
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="fap-icon">
+                                        <div class="honeycomb-grid">
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                            <div class="honeycomb"></div>
+                                        </div>
+                                    </div>
+                                    <h3>FAP OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Suppression du filtre à particules pour une meilleure performance moteur</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="egr-icon">
+                                        <div class="egr-shape">
+                                            <div class="bolt-hole left"></div>
+                                            <div class="center-hole"></div>
+                                            <div class="bolt-hole right"></div>
+                                        </div>
+                                    </div>
+                                    <h3>EGR OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Désactivation de la vanne EGR pour une combustion optimale</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <i class="fas fa-tint-slash"></i>
+                                    <h3>Adblue OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Suppression du système Adblue</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="decata-icon">
+                                        <div class="exhaust-line">
+                                            <div class="pipe-front"></div>
+                                            <div class="catalyst"></div>
+                                            <div class="pipe-middle"></div>
+                                            <div class="muffler"></div>
+                                            <div class="pipe-tip"></div>
+                                        </div>
+                                    </div>
+                                    <h3>Decata</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Optimisation ligne d'échappement</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="gpf-icon">
+                                        <div class="gpf-shape">
+                                            <div class="dots-grid"></div>
+                                            <div class="arrow-left"></div>
+                                            <div class="arrow-right"></div>
+                                        </div>
+                                    </div>
+                                    <h3>OPF/GPF OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Désactivation filtre à particules essence</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="popbang-icon">
+                                        <div class="exhaust">
+                                            <div class="exhaust-pipe"></div>
+                                            <div class="exhaust-tip"></div>
+                                        </div>
+                                        <div class="explosion">
+                                            <div class="explosion-center"></div>
+                                            <div class="explosion-rays">
+                                                <div class="ray ray1"></div>
+                                                <div class="ray ray2"></div>
+                                                <div class="ray ray3"></div>
+                                                <div class="ray ray4"></div>
+                                                <div class="ray ray5"></div>
+                                                <div class="ray ray6"></div>
+                                                <div class="ray ray7"></div>
+                                                <div class="ray ray8"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3>Pop & Bang</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Crépitements à l'échappement</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="hardcut-icon">
+                                        <div class="tachometer">
+                                            <div class="dial">
+                                                <div class="redline"></div>
+                                            </div>
+                                            <div class="needle"></div>
+                                            <div class="center-point"></div>
+                                        </div>
+                                    </div>
+                                    <h3>Hard Cut</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Coupure d'injection agressive</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <i class="fas fa-flag-checkered"></i>
+                                    <h3>Launch Control</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Système de départ arrêté</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <h3>Vmax OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Suppression limiteur de vitesse</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <i class="fas fa-cogs"></i>
+                                    <h3>Reprog BVA/DSG</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Optimisation boîte automatique</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="startstop-icon">
+                                        <div class="key-symbol"></div>
+                                        <div class="slash"></div>
+                                    </div>
+                                    <h3>Start&Stop OFF</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Désactivation du système Start&Stop</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="option-box">
+                            <div class="option-content">
+                                <div class="option-front">
+                                    <div class="clone-icon">
+                                        <div class="ecu-original">
+                                            <div class="ecu-pins-left"></div>
+                                            <div class="ecu-pins-right"></div>
+                                        </div>
+                                    </div>
+                                    <h3>Clonage ECU</h3>
+                                </div>
+                                <div class="option-back">
+                                    <p>Copie et sauvegarde du calculateur moteur</p>
+                                    <a href="options-reprog.html" class="learn-more-btn">
+                                        <span>En savoir plus</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Nouvelle section News -->
+            <section class="news-section" id="news">
+                <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title">Dernières Actualités</h2>
+                    </div>
+                    
+                    <div class="social-feed-container">
+                        <!-- Facebook Feed -->
+                        <div class="social-card facebook">
+                            <div class="social-header">
+                                <i class="fab fa-facebook social-icon"></i>
+                                <h3>Notre dernière publication Facebook</h3>
+                            </div>
+                            <div class="social-content">
+                                <iframe 
+                                    src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fautotechreprogrammation&tabs=timeline&width=500&height=600&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=false&appId=&dark_mode=true"
+                                    width="500" 
+                                    height="600" 
+                                    style="border:none;overflow:hidden" 
+                                    scrolling="no" 
+                                    frameborder="0" 
+                                    allowfullscreen="true" 
+                                    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
+                                </iframe>
+                            </div>
+                        </div>
+
+                        <!-- Instagram Feed -->
+                        <div class="social-card instagram">
+                            <div class="social-header">
+                                <i class="fab fa-instagram social-icon"></i>
+                                <h3>Notre dernière publication Instagram</h3>
+                            </div>
+                            <div class="social-content">
+                                <iframe 
+                                    src="https://www.instagram.com/autotech_reprog/embed?theme=dark"
+                                    width="500" 
+                                    height="600" 
+                                    frameborder="0" 
+                                    scrolling="no" 
+                                    allowtransparency="true">
+                                </iframe>
+                            </div>
+                        </div>
+                        
+                        <!-- YouTube Feed -->
+                        <div class="social-card youtube">
+                            <div class="social-header">
+                                <i class="fab fa-youtube social-icon"></i>
+                                <h3>Notre chaîne YouTube</h3>
+                            </div>
+                            <div class="social-content youtube-content">
+                                <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="youtube-channel-link">
+                                    <div class="youtube-thumbnail">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                    <div class="youtube-info">
+                                        <h4>AUTOTECH Tunis</h4>
+                                        <p>Abonnez-vous à notre chaîne pour découvrir nos dernières réalisations</p>
+                                        <div class="youtube-button">
+                                            <i class="fab fa-youtube"></i> Voir la chaîne
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Séparateur -->
+            <div class="section-separator"></div>
+
+            <!-- Section Contact -->
+            <section class="contact-section" id="contact">
+                <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title">Contactez-nous</h2>
+                    </div>
+
+                    <div class="contact-container">
+                        <!-- Informations de contact -->
+                        <div class="contact-info">
+                                <div class="google-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="rating-score">4.9</span>
+                                    <span class="rating-text">Note Google</span>
+                                    <span class="rating-count">(127 avis)</span>
+                                </div>
+
+                                <div class="contact-details">
+                                    <div class="contact-item">
+                                        <i class="fas fa-phone-alt"></i>
+                                        <div>
+                                            <h4>Téléphone</h4>
+                                            <p><a href="tel:+21650720660">50 720 660</a></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="contact-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <div>
+                                            <h4>Email</h4>
+                                            <p><a href="mailto:contact@autotech.fr">autotechtunis@gmail.com</a></p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="contact-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <div>
+                                            <h4>Adresse</h4>
+                                            <p>Rue Jaber Ben Hayane,<br>2046Tunis, Tunisie</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="map-container">
+                                        <iframe 
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3193.1619661121!2d10.296930776464195!3d36.87999817992826!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd34dd56e7b8bb%3A0x8e7d0ae9fd9aad0d!2sAutoTech%20Reprogrammation%20Moteur!5e0!3m2!1sfr!2sfr!4v1716304000000!5m2!1sfr!2sfr" 
+                                            width="100%" 
+                                            height="200" 
+                                            style="border:0; border-radius:10px; margin:10px 0;" 
+                                            allowfullscreen="" 
+                                            loading="lazy" 
+                                            referrerpolicy="no-referrer-when-downgrade">
+                                        </iframe>
+                                    </div>
+                                    
+                                    <button onclick="window.open('https://www.google.com/maps/place/AutoTech+Reprogrammation+Moteur/@36.8799982,10.2991194,17z/data=!3m1!4b1!4m6!3m5!1s0x12fd34dd56e7b8bb:0x8e7d0ae9fd9aad0d!8m2!3d36.8799982!4d10.2991194!16s%2Fg%2F11cnm2y792?entry=ttu&g_ep=EgoyMDI1MDMwNC4wIKXMDSoASAFQAw%3D%3D', '_blank')" class="submit-button">
+                                        <span>Localisation</span>
+                                        <i class="fas fa-map-marked-alt"></i>
+                                    </button>
+                                </div>
+
+                                <div class="business-hours">
+                                    <h4><i class="far fa-clock"></i> Horaires d'ouverture</h4>
+                                    <ul>
+                                        <li><span>Lundi - Vendredi:</span> 9h00 - 16h30</li>
+                                        <li><span>Samedi:</span> 9h00 - 12h30</li>
+                                        <li><span>Dimanche:</span> Fermé</li>
+                                    </ul>
+                                </div>
+
+                                <div class="footer-social">
+                                    <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                    <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                                        <i class="fab fa-instagram"></i>
+                                    </a>
+                                    <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                                        <i class="fab fa-youtube"></i>
+                                    </a>
+                            </div>
+                        </div>
+
+                        <!-- Formulaire de contact -->
+                        <div class="contact-form-container">
+                            <form id="contactForm" class="contact-form" action="https://formsubmit.co/autotechtunis@gmail.com" method="POST">
+                                <input type="hidden" name="_subject" value="Nouveau message depuis le site web AUTOTECH">
+                                <input type="hidden" name="_captcha" value="false">
+                                <input type="hidden" name="_next" value="https://autotech-tunisia.com/thank-you.html">
+                                
+                                <div class="form-group">
+                                    <input type="text" id="name" name="name" required>
+                                    <label for="name">Nom complet</label>
+                                    <div class="form-border"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" id="email" name="email" required>
+                                    <label for="email">Email</label>
+                                    <div class="form-border"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="tel" id="phone" name="phone" required>
+                                    <label for="phone">Téléphone</label>
+                                    <div class="form-border"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <select id="subject" name="subject" required>
+                                        <option value="">Sélectionnez un sujet</option>
+                                        <option value="reprog">Reprogrammation</option>
+                                        <option value="dyno">Passage au banc</option>
+                                        <option value="other">Autre demande</option>
+                                    </select>
+                                    <div class="form-border"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea id="message" name="message" required></textarea>
+                                    <label for="message">Votre message</label>
+                                    <div class="form-border"></div>
+                                </div>
+
+                                <button type="submit" class="submit-button">
+                                    <span>Envoyer</span>
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+    </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="images/Logo-H.png" 
+                             alt="AutoTech Logo" 
+                             class="footer-logo"
+                             loading="lazy"
+                             width="200"
+                             height="80">
+                        <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-nav">
+                            <h3>Navigation :</h3>
+                            <a href="#boost">Reprogrammation</a>
+                            <a href="dyno.html">Dyno</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="#contact">Contact</a>
+                        </div>
+                        
+                        <div class="footer-nav">
+                            <h3>Services :</h3>
+                            <a href="#boost">Reprogrammation</a>
+                            <a href="options-reprog.html">Options de reprog</a>
+                            <a href="dyno.html">Passage au banc</a>
+                            <a href="echapp.html">Échappement</a>
+                            <a href="echapp.html">Downpipe</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-to-top">
+                    <a href="#" class="scroll-button">
+                        <i class="fas fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 AutoTech. Tous droits réservés.</p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js" defer></script>
+    <script src="js/header.js" defer></script>
+    <script src="js/vehicle-selector.js" defer></script>
+    <script src="js/slideshow.js" defer></script>
+    <script src="js/form-validation.js" defer></script>
+    <script src="js/scroll-to-top.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    
+    <!-- Service Worker pour la mise en cache et l'expérience hors ligne -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker enregistré avec succès:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('Échec de l\'enregistrement du Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez notre banc de puissance haute précision chez AUTOTECH à Tunis. Mesurez les performances réelles de votre véhicule et optimisez sa puissance, son couple et sa consommation.">
+    <title>Banc de puissance à Tunis - AUTOTECH</title>
+    
+    <!-- Balises Open Graph pour Facebook, LinkedIn, etc. -->
+    <meta property="og:title" content="Banc de puissance à Tunis - AUTOTECH">
+    <meta property="og:description" content="Banc de puissance haute précision AUTOTECH à Tunis : mesure de puissance, couple et optimisation moteur pour véhicules de route et compétition.">
+    <meta property="og:image" content="https://autotech-tunisia.com/images/dyno-main.jpg">
+    <meta property="og:url" content="https://autotech-tunisia.com/dyno.html">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AUTOTECH">
+    <meta property="og:locale" content="fr_FR">
+    
+    <!-- Balises Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Banc de puissance à Tunis - AUTOTECH">
+    <meta name="twitter:description" content="Mesurez la puissance réelle de votre véhicule sur le banc de puissance AUTOTECH à Tunis et optimisez vos performances.">
+    <meta name="twitter:image" content="https://autotech-tunisia.com/images/dyno-main.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://autotech-tunisia.com/dyno.html">
+    
+    <link rel="icon" href="images/logoicon.png" type="image/png">
+    <!-- Icônes tactiles pour appareils mobiles -->
+    <link rel="apple-touch-icon" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logoicon.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="images/logoicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="images/logoicon.png">
+    <link rel="manifest" href="manifest.json">
+    <!-- Fin des icônes tactiles -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/dyno.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" 
+            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0" 
+            nonce="your-nonce">
+    </script>
+    <style>
+        /* Styles pour le cadre laser */
+        .laser-container {
+            position: relative;
+            margin: 120px auto 20px;
+            width: fit-content;
+            padding: 20px 5px 5px;
+        }
+
+        .laser-border {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid red;
+            animation: laser 2s infinite;
+            box-shadow: 0 0 5px red, inset 0 0 5px red;
+            pointer-events: none;
+        }
+
+        @keyframes laser {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; box-shadow: 0 0 8px red, inset 0 0 8px red; }
+            100% { opacity: 0.5; }
+        }
+
+        /* Styles pour dyno-hero */
+        .dyno-hero {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .dyno-hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @media screen and (max-width: 768px) {
+            .dyno-hero {
+                height: 200px;
+                padding: 0 10px;
+            }
+        }
+
+        .text-description {
+            font-size: 0.95em;  /* Réduction légère de la taille du texte */
+        }
+
+        .description-text {
+            color: #fff;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            font-weight: 300;
+            text-align: justify;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .article-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background-color: #E30613;
+        }
+
+        .specs-section h2,
+        .programs-section h2,
+        .video-section h2,
+        .technical-reports-section h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .technical-points li {
+            color: #fff;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            font-weight: 300;
+        }
+
+        @media screen and (max-width: 768px) {
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .description-text {
+                font-size: 0.9rem;
+            }
+
+            .specs-section h2,
+            .programs-section h2,
+            .video-section h2,
+            .technical-reports-section h2 {
+                font-size: 1.3rem;
+            }
+
+            .technical-points li {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Styles pour la section Vidéo */
+        .video-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .video-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            position: relative;
+        }
+
+        .video-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: glow 1.5s infinite;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(227, 6, 19, 0.3);
+        }
+
+        .video-container iframe {
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .video-container:hover iframe {
+            transform: scale(1.01);
+        }
+
+        @media screen and (max-width: 768px) {
+            .video-section {
+                padding: 15px;
+                margin: 20px 0;
+            }
+
+            .video-section h2 {
+                font-size: 1.5em;
+            }
+
+            .video-container iframe {
+                height: 300px;
+            }
+        }
+
+        /* Styles pour la section Rapports Techniques */
+        .technical-reports-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        .technical-reports-section h2 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+            position: relative;
+        }
+
+        .technical-reports-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: glow 1.5s infinite;
+        }
+
+        /* Styles du diaporama */
+        .slideshow-container {
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(227, 6, 19, 0.3);
+            height: 600px;
+        }
+
+        /* Boutons de navigation */
+        .prev-btn, .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .prev-btn {
+            left: 20px;
+        }
+
+        .next-btn {
+            right: 20px;
+        }
+
+        .prev-btn:hover, .next-btn:hover {
+            background: var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+
+        @media screen and (max-width: 768px) {
+            .slideshow-container {
+                height: 400px;
+            }
+            
+            .prev-btn, .next-btn {
+                padding: 12px;
+                font-size: 16px;
+            }
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%; /* Prend toute la hauteur du conteneur */
+        }
+
+        .slide {
+            min-width: 100%;
+            position: relative;
+            height: 100%; /* Prend toute la hauteur */
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Assure que l'image est entièrement visible sans déformation */
+            display: block;
+        }
+
+        /* Points de navigation */
+        .dots-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            background-color: #666;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background-color: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        /* Animation de fondu */
+        .fade {
+            animation: fade 1.5s ease-in-out;
+        }
+
+        @keyframes fade {
+            from { opacity: 0.4; }
+            to { opacity: 1; }
+        }
+
+        /* Liste des points techniques */
+        .technical-points {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .technical-points li {
+            color: white;
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .technical-points li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            left: 0;
+            font-size: 1.5em;
+            line-height: 1;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            .technical-reports-section {
+                padding: 15px;
+                margin: 20px 0;
+            }
+
+            .technical-reports-section h2 {
+                font-size: 1.5em;
+            }
+
+            .technical-points li {
+                font-size: 0.9em;
+            }
+
+            .slideshow-container {
+                height: 400px; /* Hauteur réduite pour mobile */
+            }
+        }
+
+        .article-content-wrapper {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        .article-text {
+            flex: 1;
+        }
+
+        .article-image {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @media screen and (max-width: 768px) {
+            .article-content-wrapper {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            .article-image {
+                order: -1;
+                margin-bottom: 1rem;
+            }
+        }
+
+        .reports-description {
+            margin-top: 40px;
+        }
+
+        .reports-description .description-text {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <button class="hamburger-menu" aria-label="Menu">
+                <i class="fas fa-bars hamburger-icon" aria-hidden="true"></i>
+                <i class="fas fa-times close-icon" aria-hidden="true"></i>
+            </button>
+            <div class="header-container">
+                <nav class="nav-main">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo.png" alt="AUTOTECH reprogrammation moteur Tunisie" class="logo-img" loading="eager" width="150" height="50">
+                        </a>
+                    </div>
+                    <div class="nav-container">
+                        <ul class="nav-links">
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="index.html#about">À propos</a></li>
+                            <li><a href="index.html#boost">Reprogrammation</a></li>
+                            <li><a href="dyno.html">Dyno</a></li>
+                            <li><a href="options-reprog.html">Options de reprog.</a></li>
+                            <li><a href="echapp.html">Échappement & Downpipe</a></li>
+                            <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
+                            <li><a href="index.html#news">News</a></li>
+                            <li><a href="ensavoirplus.html">En savoir +</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                        <div class="header-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="laser-container">
+                <div class="laser-border"></div>
+                <div class="grid-container">
+                    <div class="grid">
+                        <!-- Article principal du Banc -->
+                        <article class="dyno-article">
+                            <div class="section-container">
+                                <div class="article-header">
+                                    <h1 class="article-title">Notre Banc de Puissance "Bapro BPA-2R HP"</h1>
+                                </div>
+
+                                <div class="article-content-wrapper">
+                                    <div class="article-text">
+                                        <div class="description-text">
+                                            Notre banc de puissance offre le meilleur service possible en termes de précision et de fiabilité. Équipé de rouleaux godronnés de 400 mm et d'un châssis robuste, il répond à tous vos besoins : Tests, Recherche et Développement, Motorsport, Tuning et Chip Tuning.
+                                        </div>
+                                        <div class="description-text">
+                                            La série HP représente l'excellence en matière de précision et de fiabilité grâce à ses rouleaux de 400 mm, accouplés et reliés par des sangles de haute densité. Son châssis, fabriqué avec un métal épais, assure la plus haute précision pour tous types de tests et de développements
+                                        </div>
+                                    </div>
+                                    <div class="article-image">
+                                        <picture>
+                                            <source srcset="images/dyno-main.webp" type="image/webp">
+                                            <img src="images/dyno-main.jpg" 
+                                                 alt="Banc de puissance" 
+                                                 loading="eager"
+                                                 width="500"
+                                                 height="300">
+                                        </picture>
+                                    </div>
+                                </div>
+
+                                <!-- Nouvelle section Vidéo -->
+                                <div class="video-section">
+                                    <h2>Vidéo exemple: Passage sur banc</h2>
+                                    <div class="video-container">
+                                        <iframe 
+                                            width="100%" 
+                                            height="500" 
+                                            src="https://www.youtube.com/embed/9kywDpUP8_g" 
+                                            title="Passage sur banc AutoTech" 
+                                            frameborder="0" 
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                </div>
+
+                                <!-- Nouvelle section Rapports Techniques -->
+                                <div class="technical-reports-section">
+                                    <h2>Nos Rapports Techniques</h2>
+                                    
+                                    <!-- Diaporama -->
+                                    <div class="slideshow-container">
+                                        <button class="prev-btn">
+                                            <i class="fas fa-chevron-left"></i>
+                                        </button>
+                                        <button class="next-btn">
+                                            <i class="fas fa-chevron-right"></i>
+                                        </button>
+                                        <div class="slides">
+                                            <div class="slide fade">
+                                                <picture>
+                                                    <source srcset="images/rapport1.webp" type="image/webp">
+                                                    <img src="images/rapport1.jpg" alt="Rapport technique 1" class="rapport-img" loading="lazy" width="800" height="600">
+                                                </picture>
+                                            </div>
+                                            <div class="slide fade">
+                                                <picture>
+                                                    <source srcset="images/rapport2.webp" type="image/webp">
+                                                    <img src="images/rapport2.jpg" alt="Rapport technique 2" class="rapport-img" loading="lazy" width="800" height="600">
+                                                </picture>
+                                            </div>
+                                            <div class="slide fade">
+                                                <picture>
+                                                    <source srcset="images/rapport3.webp" type="image/webp">
+                                                    <img src="images/rapport3.jpg" alt="Rapport technique 3" class="rapport-img" loading="lazy" width="800" height="600">
+                                                </picture>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Points de navigation -->
+                                        <div class="dots-container">
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                            <span class="dot"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Texte explicatif -->
+                                    <div class="reports-description">
+                                        <p class="description-text">
+                                            Chez AUTOTECH, nous ne nous limitons pas à une simple mesure de puissance. Notre expertise technique nous permet de réaliser une analyse complète et détaillée de votre véhicule. Grâce à notre système de datalogging avancé sur banc, nous surveillons en temps réel tous les paramètres critiques :
+                                        </p>
+                                        <ul class="technical-points">
+                                            <li>Analyse des courbes de puissance et de couple</li>
+                                            <li>Monitoring des températures (eau, huile, air admission)</li>
+                                            <li>Surveillance des pressions (turbo, huile, rail)</li>
+                                            <li>Contrôle des paramètres d'injection</li>
+                                            <li>Analyse des corrections lambda</li>
+                                            <li>Diagnostic complet avant et après tests</li>
+                                        </ul>
+                                        <p class="description-text">
+                                            Cette approche exhaustive nous permet d'optimiser votre véhicule en toute sécurité tout en garantissant des performances optimales.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="specs-section">
+                                    <h2>Caractéristiques Techniques</h2>
+                                    <div class="specs-grid">
+                                        <div class="spec-card">
+                                            <i class="fas fa-cog"></i>
+                                            <h3>Performances</h3>
+                                            <ul>
+                                                <li>Vitesse maximale : 360 km/h</li>
+                                                <li>Puissance absorbable : 650 CV</li>
+                                                <li>Puissance mesurable : 1000 CV</li>
+                                                <li>Force de traction max : 8000 N</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="spec-card">
+                                            <i class="fas fa-ruler"></i>
+                                            <h3>Caractéristiques Mécaniques</h3>
+                                            <ul>
+                                                <li>Diamètre des rouleaux : 400 mm</li>
+                                                <li>Largeur des rouleaux : 700 mm</li>
+                                                <li>Qualité d'équilibrage : G 2.5</li>
+                                                <li>Poids max supporté : 2500 kg</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="programs-section">
+                                    <h2>Nos Services de Mesure</h2>
+                                    <div class="programs-grid">
+                                        <div class="program-item">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                            <h3>Tests de Performance</h3>
+                                            <ul>
+                                                <li>Test de puissance par paliers</li>
+                                                <li>Test de puissance en continu</li>
+                                                <li>Simulation routière</li>
+                                                <li>Cartographie moteur</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="program-item">
+                                            <i class="fas fa-tools"></i>
+                                            <h3>Diagnostics</h3>
+                                            <ul>
+                                                <li>Vérification transmission</li>
+                                                <li>Contrôle système de refroidissement</li>
+                                                <li>Diagnostic avec analyseur de gaz</li>
+                                                <li>Tests de durabilité</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="contact-section">
+                                    <h2>Réservez Votre Passage au Banc</h2>
+                                    <p>Contactez-nous pour plus d'informations ou pour prendre rendez-vous</p>
+                                    <a href="index.html#contact" class="contact-button">Nous Contacter</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="images/Logo-H.png" 
+                             alt="AutoTech Logo" 
+                             class="footer-logo"
+                             loading="lazy"
+                             width="200"
+                             height="80">
+                        <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-links">
+                        <div class="footer-nav">
+                            <h3>Navigation</h3>
+                            <a href="index.html#about">À propos</a>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="dyno.html">Dyno</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="index.html#contact">Contact</a>
+                        </div>
+                        
+                        <div class="footer-nav">
+                            <h3>Services</h3>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="dyno.html">Passage au banc</a>
+                            <a href="echapp.html">Échappement</a>
+                            <a href="echapp.html">Downpipe</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scroll-to-top">
+                    <a href="#" class="scroll-button">
+                        <i class="fas fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 AutoTech. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/header.js" defer></script>
+    <script src="js/vehicle-selector.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <script>
+        // Gestion des liens avec ancres pour la version PC
+        if (window.innerWidth > 768) {
+            document.querySelectorAll('a[href*="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    // Si le lien pointe vers une autre page
+                    if (this.href.includes('index.html')) {
+                        // Ne pas empêcher la navigation
+                        localStorage.setItem('scrollTarget', this.href.split('#')[1]);
+                    }
+                });
+            });
+        }
+
+        // Script pour le diaporama automatique
+        document.addEventListener('DOMContentLoaded', function() {
+            let slideIndex = 0;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            const prevBtn = document.querySelector('.prev-btn');
+            const nextBtn = document.querySelector('.next-btn');
+            const slideInterval = 5000; // Changement toutes les 5 secondes
+            let slideTimer;
+
+            function showSlides(n) {
+                // Réinitialiser l'index si nécessaire
+                if (n >= slides.length) { slideIndex = 0; }
+                if (n < 0) { slideIndex = slides.length - 1; }
+                
+                // Cacher toutes les slides
+                slides.forEach(slide => {
+                    slide.style.display = 'none';
+                });
+
+                // Désactiver tous les points
+                dots.forEach(dot => {
+                    dot.classList.remove('active');
+                });
+
+                // Afficher la slide courante
+                slides[slideIndex].style.display = 'block';
+                dots[slideIndex].classList.add('active');
+            }
+
+            function nextSlide() {
+                slideIndex++;
+                showSlides(slideIndex);
+            }
+
+            function prevSlide() {
+                slideIndex--;
+                showSlides(slideIndex);
+            }
+
+            function resetTimer() {
+                clearInterval(slideTimer);
+                slideTimer = setInterval(nextSlide, slideInterval);
+            }
+
+            // Initialiser le diaporama
+            showSlides(slideIndex);
+            slideTimer = setInterval(nextSlide, slideInterval);
+
+            // Événements pour les boutons
+            prevBtn.addEventListener('click', () => {
+                prevSlide();
+                resetTimer();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                nextSlide();
+                resetTimer();
+            });
+
+            // Événements pour les points
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    slideIndex = index;
+                    showSlides(slideIndex);
+                    resetTimer();
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
