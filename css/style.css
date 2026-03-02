@@ -876,7 +876,7 @@ body {
 .engine-type {
     font-size: 1.2rem;
     font-weight: bold;
-    color: var(--primary-color);
+    color: #ffffff;
     margin-bottom: 1rem;
 }
 
@@ -4546,8 +4546,12 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 .engine-type {
     font-size: 16px;
     font-weight: bold;
-    margin-bottom: 5px;
-    color: var(--primary-color);
+    margin-bottom: 8px;
+    color: #ffffff;
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid #ffffff;
+    border-radius: 999px;
 }
 
 .engine-details {

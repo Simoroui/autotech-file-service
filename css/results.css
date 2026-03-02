@@ -41,11 +41,7 @@
 .engine-type {
     font-size: 1.5rem;
     text-align: center;
-    background: var(--primary-gradient);
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
+    color: #ffffff;
     margin-bottom: 2rem;
     animation: fadeIn 0.8s ease-out 0.4s both;
 }
