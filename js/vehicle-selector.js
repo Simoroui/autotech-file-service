@@ -2205,10 +2205,11 @@ function handleHashChange() {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
         const model = parts[3] ? decodeURIComponent(parts[3].replace(/-/g, ' ')) : null;
-        const version = parts[4] ? decodeURIComponent(parts[4].replace(/-/g, ' ')) : null;
-        const engineSlug = parts[5] ? decodeURIComponent(parts[5].replace(/-/g, ' ')) : null;
+        // On conserve pour la comparaison le slug brut venant de l'URL (déjà en format "f01---2009---2015")
+        const versionSlugFromHash = parts[4] ? parts[4].toLowerCase() : null;
+        const engineSlugFromHash = parts[5] ? parts[5].toLowerCase() : null;
         
-        console.log('URL hash détecté:', { type, brand, model, version, engineSlug });
+        console.log('URL hash détecté:', { type, brand, model, versionSlugFromHash, engineSlugFromHash });
 
         // Si nous avons au moins le type et la marque, simuler la sélection progressive
         if (type && brand) {
@@ -2235,20 +2236,26 @@ function handleHashChange() {
                                                 item.click();
                                                 
                                                 // Si nous avons une version, simuler sa sélection
-                                                if (version) {
+                                                if (versionSlugFromHash) {
                                                     setTimeout(() => {
                                                         const versionItems = document.querySelectorAll('.selection-item[data-version]');
                                                         for (const item of versionItems) {
-                                                            if (item.dataset.version.toLowerCase() === version.toLowerCase()) {
+                                                            const itemVersionSlug = item.dataset.version
+                                                                ? item.dataset.version.toLowerCase().replace(/\s+/g, '-')
+                                                                : '';
+                                                            if (itemVersionSlug === versionSlugFromHash) {
                                                                 item.click();
 
                                                                 // Si une motorisation est spécifiée dans le hash, la sélectionner aussi
-                                                                if (engineSlug) {
+                                                                if (engineSlugFromHash) {
                                                                     setTimeout(() => {
                                                                         const engineItems = document.querySelectorAll('.selection-item.engine-item');
                                                                         for (const engineItem of engineItems) {
                                                                             const engineName = engineItem.querySelector('.engine-type')?.textContent.trim().toLowerCase();
-                                                                            if (engineName && engineName === engineSlug.toLowerCase()) {
+                                                                            const engineNameSlug = engineName
+                                                                                ? engineName.replace(/\s+/g, '-')
+                                                                                : '';
+                                                                            if (engineNameSlug && engineNameSlug === engineSlugFromHash) {
                                                                                 engineItem.click();
                                                                                 break;
                                                                             }
