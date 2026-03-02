@@ -1280,30 +1280,16 @@ function showResultPage(vehicleData) {
         timestamp: Date.now(), // Pour l'expiration éventuelle des données
         url: window.location.href // Stocker l'URL associée à ces données
     }));
-
+    
     // Créer le conteneur (id unique pour le retirer au retour)
     const container = document.createElement('div');
     container.className = 'results-container';
     container.id = 'vehicle-results-page';
     
-    // Ajouter les paramètres à l'URL pour pouvoir les récupérer lors du retour
+    // Préparer une URL propre (sans paramètres de requête) pour la page de résultats
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('brand', brand);
-    currentUrl.searchParams.set('model', model);
-    currentUrl.searchParams.set('version', version);
-    currentUrl.searchParams.set('engine', engineType);
-    
-    // Ajouter aussi les valeurs de performance dans l'URL pour les liens partagés
-    currentUrl.searchParams.set('po', powerOriginal);
-    currentUrl.searchParams.set('ps', powerStage1);
-    currentUrl.searchParams.set('to', torqueOriginal);
-    currentUrl.searchParams.set('ts', torqueStage1);
-    
-    // Supprimer les paramètres techniques qui ne devraient pas être dans l'URL
-    currentUrl.searchParams.delete('powerOrig');
-    currentUrl.searchParams.delete('powerStage1');
-    currentUrl.searchParams.delete('torqueOrig');
-    currentUrl.searchParams.delete('torqueStage1');
+    // On ne conserve plus aucun paramètre en query string pour avoir des URLs SEO-friendly
+    currentUrl.search = '';
     
     // Construire le hash correct pour la page de résultats
     const type = currentSelection.type || 'cars'; // Utiliser 'cars' par défaut si non défini
@@ -2366,6 +2352,19 @@ function checkURLParamsAndShowResults() {
     // Si l'URL contient tous les paramètres nécessaires, traiter en priorité cette URL
     if (hasCurrentURLParams && parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1]; // cars, motorcycles, etc.
+        
+        // Construire une URL propre sans query string pour cette combinaison
+        const cleanBrandSlug = encodeURIComponent(brand.toLowerCase().replace(/\s+/g, '-'));
+        const cleanModelSlug = encodeURIComponent(model.toLowerCase().replace(/\s+/g, '-'));
+        const cleanVersionSlug = encodeURIComponent(version.toLowerCase().replace(/\s+/g, '-'));
+        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}`;
+        try {
+            const cleanUrl = `${window.location.origin}${window.location.pathname}#${cleanHash}`;
+            const currentState = window.history.state || {};
+            window.history.replaceState(currentState, '', cleanUrl);
+        } catch (e) {
+            console.error('Erreur lors du nettoyage des paramètres d’URL:', e);
+        }
         
         console.log('Paramètres d\'URL détectés:', { brand, model, version, type, engineType });
         
