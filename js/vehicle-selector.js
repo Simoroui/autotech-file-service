@@ -1292,11 +1292,13 @@ function showResultPage(vehicleData) {
     currentUrl.search = '';
     
     // Construire le hash correct pour la page de résultats
+    // Format: reprogrammation/type/marque/modele/version/motorisation
     const type = currentSelection.type || 'cars'; // Utiliser 'cars' par défaut si non défini
     const cleanBrand = (brand || '').toLowerCase().replace(/\s+/g, '-');
     const cleanModel = (model || '').toLowerCase().replace(/\s+/g, '-');
     const cleanVersion = (version || '').toLowerCase().replace(/\s+/g, '-');
-    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}`;
+    const cleanEngine = (engineType || '').toLowerCase().replace(/\s+/g, '-');
+    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}`;
     
     // Mettre à jour l'URL (hash + query) sans recharger la page
     currentUrl.hash = newHash;
@@ -2191,23 +2193,42 @@ function getEngineData(brand, model, version, engineType) {
     }
 }
 
-// Fonction pour gérer les URL avec hash
+    // Fonction pour gérer les URL avec hash
 function handleHashChange() {
     const hash = window.location.hash.substring(1); // Enlever le # du début
     if (!hash) return;
 
     const parts = hash.split('/').filter(part => part);
     
-    // Format attendu: reprogrammation/type/marque/modele/version
+    // Format attendu: reprogrammation/type/marque/modele/version[/motorisation]
     if (parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
         const model = parts[3] ? decodeURIComponent(parts[3].replace(/-/g, ' ')) : null;
         const version = parts[4] ? decodeURIComponent(parts[4].replace(/-/g, ' ')) : null;
+        const engineSlug = parts[5] ? decodeURIComponent(parts[5].replace(/-/g, ' ')) : null;
         
         console.log('URL hash détecté:', { type, brand, model, version });
-        
-        // Si nous avons au moins le type et la marque, simuler la sélection
+
+        // Si nous avons toutes les infos y compris la motorisation, afficher directement la page de résultats
+        if (type && brand && model && version && engineSlug) {
+            // Attendre que les données CSV soient bien chargées
+            setTimeout(() => {
+                try {
+                    const engineData = getEngineData(brand, model, version, engineSlug);
+                    if (engineData) {
+                        handleEngineSelection(brand, type, model, version, engineData);
+                    } else {
+                        console.warn('Aucune donnée moteur trouvée pour', { brand, model, version, engineSlug });
+                    }
+                } catch (e) {
+                    console.error('Erreur lors de la reconstruction des résultats depuis le hash:', e);
+                }
+            }, 500);
+            return;
+        }
+
+        // Sinon, si nous avons au moins le type et la marque, simuler la sélection progressive
         if (type && brand) {
             // Attendre que les données soient chargées
         setTimeout(() => {
@@ -2328,7 +2349,7 @@ function checkURLParamsAndShowResults() {
         return false;
     }
     
-    // D'abord, vérifions les paramètres dans l'URL actuelle
+    // D'abord, vérifions les paramètres dans l'URL actuelle (anciens liens partagés)
     // Récupérer les paramètres de l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const brand = urlParams.get('brand');
@@ -2357,7 +2378,8 @@ function checkURLParamsAndShowResults() {
         const cleanBrandSlug = encodeURIComponent(brand.toLowerCase().replace(/\s+/g, '-'));
         const cleanModelSlug = encodeURIComponent(model.toLowerCase().replace(/\s+/g, '-'));
         const cleanVersionSlug = encodeURIComponent(version.toLowerCase().replace(/\s+/g, '-'));
-        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}`;
+        const cleanEngineSlug = encodeURIComponent(engineType.toLowerCase().replace(/\s+/g, '-'));
+        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}/${cleanEngineSlug}`;
         try {
             const cleanUrl = `${window.location.origin}${window.location.pathname}#${cleanHash}`;
             const currentState = window.history.state || {};
