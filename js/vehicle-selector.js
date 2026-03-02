@@ -2208,27 +2208,9 @@ function handleHashChange() {
         const version = parts[4] ? decodeURIComponent(parts[4].replace(/-/g, ' ')) : null;
         const engineSlug = parts[5] ? decodeURIComponent(parts[5].replace(/-/g, ' ')) : null;
         
-        console.log('URL hash détecté:', { type, brand, model, version });
+        console.log('URL hash détecté:', { type, brand, model, version, engineSlug });
 
-        // Si nous avons toutes les infos y compris la motorisation, afficher directement la page de résultats
-        if (type && brand && model && version && engineSlug) {
-            // Attendre que les données CSV soient bien chargées
-            setTimeout(() => {
-                try {
-                    const engineData = getEngineData(brand, model, version, engineSlug);
-                    if (engineData) {
-                        handleEngineSelection(brand, type, model, version, engineData);
-                    } else {
-                        console.warn('Aucune donnée moteur trouvée pour', { brand, model, version, engineSlug });
-                    }
-                } catch (e) {
-                    console.error('Erreur lors de la reconstruction des résultats depuis le hash:', e);
-                }
-            }, 500);
-            return;
-        }
-
-        // Sinon, si nous avons au moins le type et la marque, simuler la sélection progressive
+        // Si nous avons au moins le type et la marque, simuler la sélection progressive
         if (type && brand) {
             // Attendre que les données soient chargées
         setTimeout(() => {
@@ -2259,6 +2241,20 @@ function handleHashChange() {
                                                         for (const item of versionItems) {
                                                             if (item.dataset.version.toLowerCase() === version.toLowerCase()) {
                                                                 item.click();
+
+                                                                // Si une motorisation est spécifiée dans le hash, la sélectionner aussi
+                                                                if (engineSlug) {
+                                                                    setTimeout(() => {
+                                                                        const engineItems = document.querySelectorAll('.selection-item.engine-item');
+                                                                        for (const engineItem of engineItems) {
+                                                                            const engineName = engineItem.querySelector('.engine-type')?.textContent.trim().toLowerCase();
+                                                                            if (engineName && engineName === engineSlug.toLowerCase()) {
+                                                                                engineItem.click();
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    }, 500);
+                                                                }
                                                                 break;
                                                             }
                                                         }
