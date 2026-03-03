@@ -21,6 +21,31 @@ function parseCSV(text) {
     return lines;
 }
 
+// Mapping global des types bruts CSV -> types utilisés dans l'UI
+const TYPE_MAPPING = {
+    'VOITURE': 'cars',
+    'Voiture': 'cars',
+    'MOTO': 'motorcycles',
+    'Moto': 'motorcycles',
+    'JETSKI': 'jetski',
+    'Jetski': 'jetski',
+    'QUAD': 'quad',
+    'Quad': 'quad',
+    'CAMION': 'trucks',
+    'Camion': 'trucks',
+    'AGRICOLE & ENGIN': 'agricultural',
+    'Agricole & Engin': 'agricultural',
+    'agricole & engin': 'agricultural'
+};
+
+// Helper: vérifier si une ligne CSV correspond bien au type d'onglet courant
+function csvLineMatchesType(columns, typeSlug) {
+    if (!typeSlug) return true;
+    const rawType = columns[columns.length - 1].trim();
+    const mapped = TYPE_MAPPING[rawType];
+    return mapped === typeSlug;
+}
+
 // Fonction pour extraire les marques
 function extractBrands(lines) {
     const brands = {
@@ -32,22 +57,6 @@ function extractBrands(lines) {
         agricultural: new Set()
     };
     
-    const typeMapping = {
-        'VOITURE': 'cars',
-        'Voiture': 'cars',
-        'MOTO': 'motorcycles',
-        'Moto': 'motorcycles',
-        'JETSKI': 'jetski',
-        'Jetski': 'jetski',
-        'QUAD': 'quad',
-        'Quad': 'quad',
-        'CAMION': 'trucks',
-        'Camion': 'trucks',
-        'AGRICOLE & ENGIN': 'agricultural',
-        'Agricole & Engin': 'agricultural',
-        'agricole & engin': 'agricultural'
-    };
-    
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (!line) continue;
@@ -56,7 +65,7 @@ function extractBrands(lines) {
         const brand = columns[0].trim();
         const rawType = columns[columns.length - 1].trim();
         
-        const type = typeMapping[rawType];
+        const type = TYPE_MAPPING[rawType];
         if (type && brands[type]) {
             brands[type].add(brand);
         }
@@ -472,13 +481,13 @@ function handleBrandSelection(brand, type) {
     // Cacher les onglets
     document.querySelector('.vehicle-tabs').style.display = 'none';
     
-    // Récupérer tous les modèles pour cette marque
+    // Récupérer tous les modèles pour cette marque et ce type (voiture, moto, etc.)
     const models = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -586,10 +595,10 @@ function getModelsForBrand(brand, type) {
     const lines = parseCSV(csvContent);
     const models = new Set();
     
-    // Parcourir les lignes pour trouver les modèles correspondant à la marque
+    // Parcourir les lignes pour trouver les modèles correspondant à la marque ET au type
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -656,13 +665,15 @@ function handleModelSelection(brand, type, model) {
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Récupérer toutes les versions pour cette marque et ce modèle
+    // Récupérer toutes les versions pour cette marque, ce modèle ET ce type (voiture, moto, etc.)
     const versions = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand && columns[1].trim() === model) {
+        if (columns[0].trim() === brand &&
+            columns[1].trim() === model &&
+            csvLineMatchesType(columns, type)) {
             versions.add(columns[2].trim());
         }
     }
