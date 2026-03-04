@@ -17,16 +17,52 @@
     --hover-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Container avec effet de verre */
+/* Container principal résultats : même style que le bloc de sélection (.vehicle-details) */
 .results-container {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 30px;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 24px 24px;
+    position: relative;
+    overflow: hidden;
+
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Fond + grille intégrés en multi-couches (évite les "seams"/calques visibles) */
+    background-color: #000000;
+    background-image:
+        linear-gradient(
+            160deg,
+            rgba(227, 6, 19, 0.14) 0%,
+            rgba(0, 0, 0, 1) 45%,
+            rgba(0, 0, 0, 1) 100%
+        ),
+        linear-gradient(0deg, rgba(227, 6, 19, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(227, 6, 19, 0.14) 1px, transparent 1px);
+    background-size: cover, 34px 34px, 34px 34px;
+    background-position: 0 0, 0 0, 0 0;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+    /* Évite l'effet "calque" visible sur certains écrans */
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+/* Ancien calque de grille (désactivé pour éviter une séparation nette) */
+.results-container::before {
+    content: none;
+}
+
+.results-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Réduire l'espace vide autour du tableau et du graphique sur la page résultats */
+.results-container .selection-page {
+    padding: 10px 12px 8px 12px;
+    gap: 12px;
 }
 
 /* Titres avec animation */
@@ -44,6 +80,54 @@
     color: #ffffff;
     margin-bottom: 2rem;
     animation: fadeIn 0.8s ease-out 0.4s both;
+}
+
+/* Grille d'en-tête (logos + titre + motorisation) */
+.results-header-grid {
+    margin-bottom: 2rem;
+    padding: 20px;
+    border-radius: 14px;
+    background: linear-gradient(
+        145deg,
+        rgba(0, 0, 0, 0.75),
+        rgba(0, 0, 0, 0.95)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.results-body-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    /* plus de fond ici : on laisse le dégradé du container */
+}
+
+/* Désactiver le dégradé de l'ENVELOPPE locale (la grille qui contient
+   Stage 1 / Stage 2 + texte + grilles) sans toucher la grille principale.
+   Fond semi-transparent pour laisser transparaître la grille et éviter une séparation nette. */
+.results-container > .selection-grid {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 14px 8px 14px;
+    gap: 0;
+    background: rgba(0, 0, 0, 0.82);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+@media screen and (max-width: 768px) {
+    .results-header-grid {
+        padding: 16px 12px;
+    }
 }
 
 /* Sélecteur de stage amélioré */
@@ -77,33 +161,38 @@
     box-shadow: 0 4px 15px rgba(227, 6, 19, 0.3);
 }
 
-/* Tableau avec effet néon */
+/* Tableau principal : wrapper avec logo en filigrane */
 .results-table {
     width: 100%;
     margin: 2rem 0;
-    background: var(--bg-dark);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: var(--card-shadow), var(--neon-glow);
-    transform: translateZ(0);
-    transition: transform 0.3s ease;
     position: relative !important;
     overflow: hidden !important;
+
+    border-radius: 12px;
+    padding: 0; /* le padding est géré par header/rows */
+
+    /* Fond simple et sombre, sans effet néon */
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .results-table:hover {
-    transform: translateZ(0) scale(1.01);
+    /* Légère mise en avant uniquement */
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
 }
 
-/* Ajustement du logo en filigrane pour le tableau */
+/* Logo en filigrane centré dans la partie basse du tableau (inchangé) */
 .results-table::before {
     content: '' !important;
     position: absolute !important;
     top: auto !important;
-    bottom: 25% !important; /* Ajusté pour être au centre des deux dernières lignes */
+    bottom: 22% !important;
     left: 50% !important;
     width: 80% !important;
-    height: 100px !important; /* Hauteur réduite pour mieux correspondre aux deux lignes */
+    height: 100px !important;
     background-image: url('../images/Logo-H.png') !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
@@ -114,195 +203,343 @@
     z-index: 0 !important;
 }
 
-/* En-tête du tableau avec effet laser amélioré */
-.results-table .table-header {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9));
-    padding: 20px;
+/* Nouveau tableau moderne : grille de métriques */
+.results-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1.5rem;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(227, 6, 19, 0.2);
-}
-
-.results-table .table-header::before {
-    content: '';
-    position: absolute;
-    top: -180%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        60deg,
-        transparent,
-        rgba(255, 255, 255, 0.05),
-        rgba(255, 255, 255, 0.2),
-        rgba(255, 255, 255, 0.05),
-        transparent
-    );
-    transform: rotate(45deg);
-    animation: laser 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    filter: blur(5px);
-    z-index: 2;
-}
-
-/* Second effet laser plus subtil */
-.results-table .table-header::after {
-    content: '';
-    position: absolute;
-    top: -180%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        60deg,
-        transparent,
-        rgba(227, 6, 19, 0.05),
-        rgba(227, 6, 19, 0.15),
-        rgba(227, 6, 19, 0.05),
-        transparent
-    );
-    transform: rotate(45deg);
-    animation: laser 3s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.5s;
-    filter: blur(3px);
     z-index: 1;
 }
 
-.results-table .table-content {
-    background: rgba(0, 0, 0, 0.3);
-}
-
-.results-table .table-row {
+.metrics-header {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-    position: relative;
+    grid-template-columns: 1.2fr 1fr 1fr 1.1fr;
+    gap: 0.75rem;
+    align-items: center;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
 }
 
-.results-table .table-row:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateX(10px);
-    box-shadow: inset 0 0 30px rgba(227, 6, 19, 0.1);
-}
-
-.results-table .label {
-    text-align: left;
-    color: white;
-    font-weight: 500;
-}
-
-.results-table .value {
+.metrics-header-col {
     text-align: center;
-    color: white;
-    font-weight: 500;
 }
 
-.results-table .diff {
+.metric-row {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1.1fr;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.metric-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.metric-value {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: #ffffff;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
     text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    color: var(--text-light);
-    background: var(--primary-gradient);
-    border-radius: 8px;
-    padding: 8px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.metric-value.origin {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.metric-value.stage {
+    /* Encadré rouge sans fond plein */
+    background: rgba(0, 0, 0, 0.75);
+    border-color: #e30613;
+    color: #ffffff;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 0 15px rgba(227, 6, 19, 0.4);
 }
 
-/* Animation laser pour les différences */
-.results-table .diff::before {
+/* Effet laser / miroir rouge qui balaye les valeurs Stage 1 */
+.metric-value.stage::before {
     content: '';
     position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    height: 300%;
-    background: var(--laser-gradient);
-    transform: rotate(45deg);
-    animation: laser 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    filter: blur(2px);
-    z-index: 1;
+    top: -50%;
+    left: -150%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(227, 6, 19, 0.2) 35%,
+        rgba(255, 255, 255, 0.35) 50%,
+        rgba(227, 6, 19, 0.2) 65%,
+        transparent 100%
+    );
+    opacity: 0.7;
+    pointer-events: none;
+    transform: translateX(0);
+    animation: stageLaser 3s linear infinite;
 }
 
-/* Animation pour le pulse des différences */
-@keyframes diffPulse {
+@keyframes stageLaser {
     0% {
-        box-shadow: 
-            0 0 15px rgba(227, 6, 19, 0.4),
-            inset 0 0 10px rgba(227, 6, 19, 0.4);
-    }
-    50% {
-        box-shadow: 
-            0 0 25px rgba(227, 6, 19, 0.6),
-            inset 0 0 15px rgba(227, 6, 19, 0.6);
+        transform: translateX(0);
     }
     100% {
-        box-shadow: 
-            0 0 15px rgba(227, 6, 19, 0.4),
-            inset 0 0 10px rgba(227, 6, 19, 0.4);
+        transform: translateX(75%);
     }
 }
 
-/* Animation pour l'effet laser des différences */
-@keyframes diffLaser {
-    0% {
-        top: -100%;
-        left: -100%;
-        opacity: 0;
-    }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        top: 100%;
-        left: 100%;
-        opacity: 0;
-    }
+.metric-value.diff {
+    background: #111111;
+    border-color: #2c2c2c;
+    color: #4ade80;
 }
 
-/* Assurer que le texte reste visible */
-.results-table .diff span {
-    position: relative;
-    z-index: 2;
-}
-
-/* Graphique avec effet 3D */
-.performance-graph {
-    width: 100%;
-    height: 350px;
-    margin: 2rem 0;
-    padding: 20px;
-    background: var(--bg-dark);
-    border-radius: 20px;
-    box-shadow: var(--card-shadow);
-    position: relative !important;
-    overflow: hidden !important;
-}
-
-.performance-graph::before {
-    content: '' !important;
-    position: absolute !important;
-    top: 50% !important;
-    left: 50% !important;
-    width: 70% !important;
-    height: 70% !important;
-    background-image: url('../images/Logo-H.png') !important;
-    background-size: contain !important;
-    background-repeat: no-repeat !important;
-    background-position: center !important;
-    transform: translate(-50%, -50%) !important;
-    opacity: 0.04 !important;
-    pointer-events: none !important;
-    z-index: 0 !important;
-}
-
-/* Supprimer l'ancien effet de brillance globale */
-.performance-graph::after {
+/* Libellés de colonne à côté des valeurs (utilisés sur mobile) */
+.metric-col-label {
     display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .metrics-header {
+        display: none;
+    }
+    .metric-row {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+    .metric-col-label {
+        display: inline;
+        margin-right: 0.5rem;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: rgba(255, 255, 255, 0.7);
+    }
+}
+
+/* Graphique moderne : barres horizontales CSS (contenu uniquement, la grille est .graph-chart-box) */
+.graph-chart-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Ajustements spécifiques aux grilles du tableau et du graphique */
+.results-grid-table {
+    margin-top: 1.5rem;
+    /* Même style que les cartes "sélectionnées" (voir screenshot) */
+    background: linear-gradient(
+        145deg,
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.9)
+    );
+    border: 1px solid rgba(227, 6, 19, 0.35);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Bloc graphique : une seule grille avec effets + logo, hauteur au contenu */
+.graph-chart-box {
+    margin-top: 0.75rem;
+    width: 100%;
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    padding: 14px 20px 14px;
+    box-sizing: border-box;
+    background: linear-gradient(
+        145deg,
+        rgba(0, 0, 0, 0.65),
+        rgba(0, 0, 0, 0.9)
+    );
+    border: 1px solid rgba(227, 6, 19, 0.35);
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+/* Logo en fond (filigrane) */
+.graph-chart-box::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 70%;
+    background-image: url('../images/Logo-H.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: translate(-50%, -50%);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Halo rouge flouté */
+.graph-chart-box::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(circle at 0 0, rgba(227, 6, 19, 0.35), transparent 60%);
+    opacity: 0.35;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    z-index: 0;
+}
+
+/* Halo rouge pour le tableau (la grille graph a le sien sur .graph-chart-box::after) */
+.results-grid-table::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background:
+        radial-gradient(circle at 0 0, rgba(227, 6, 19, 0.35), transparent 60%);
+    opacity: 0.35;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
+.results-grid-table::after {
+    content: none;
+}
+
+.performance-row {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.performance-row:last-child {
+    margin-bottom: 0;
+}
+
+.performance-label {
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.performance-bars {
+    position: relative;
+    width: 100%;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.performance-bar {
+    position: absolute;
+    left: 4px;
+    border-radius: 999px;
+    max-width: calc(100% - 8px);
+    width: 0;
+    height: 7px;
+    transition: width 0.7s ease-in-out;
+}
+
+.performance-bar.origin {
+    top: 6px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.55), rgba(148, 163, 184, 0.45));
+}
+
+.performance-bar.stage1 {
+    top: 14px;
+    background: linear-gradient(90deg, #e30613, #ff3b30);
+    box-shadow: 0 0 14px rgba(227, 6, 19, 0.5);
+}
+
+.performance-bar.stage2 {
+    top: 22px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 1));
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.65);
+}
+
+.performance-values {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    font-size: 0.85rem;
+}
+
+.performance-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.performance-pill.origin-pill {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.performance-pill.stage-pill {
+    border-color: #e30613;
+    color: #ffe4e6;
+    box-shadow: 0 0 10px rgba(227, 6, 19, 0.4);
+}
+
+.performance-pill.stage1-pill {
+    border-color: #e30613;
+    color: #ffe4e6;
+    box-shadow: 0 0 10px rgba(227, 6, 19, 0.4);
+}
+
+.performance-pill.stage2-pill {
+    border-color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.performance-pill .pill-label {
+    font-weight: 600;
+    letter-spacing: 0.03em;
+}
+
+.performance-value {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Compteur de différence % Origine → Stage 1 (à droite de Stage 1, comme sur la photo) */
+.performance-diff-pct {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e30613;
+    text-shadow: 0 0 12px rgba(227, 6, 19, 0.6);
+    letter-spacing: 0.02em;
+    margin-left: 0.25rem;
+}
+
+/* Compteur de différence % Origine → Stage 2 */
+.performance-diff-pct-stage2 {
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
 }
 
 /* Animations */
@@ -460,13 +697,35 @@
         padding: 2px 15px !important;
     }
 
-    /* Style amélioré du bouton retour */
+    /* Style amélioré du bouton retour - ne pas le mettre en absolute pour éviter le chevauchement avec le breadcrumb */
+    .vehicle-details-header {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: stretch !important;
+    }
+    .vehicle-details-header .back-button {
+        order: 0;
+        position: relative !important;
+        align-self: flex-start !important;
+        margin: 0 !important;
+        padding: 6px 14px 6px 10px !important;
+        background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
+        border: none !important;
+        border-radius: 5px !important;
+        z-index: 2 !important;
+    }
+    .vehicle-details-header .breadcrumb-slot {
+        order: 1;
+        min-width: 0 !important;
+        padding-right: 0 !important;
+    }
     .back-button {
-        position: absolute !important;
-        top: 0 !important;
-        right: 10px !important;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
         z-index: 10 !important;
-        padding: 4px 12px 4px 8px !important;
+        padding: 6px 14px 6px 10px !important;
         background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
         border: none !important;
         border-radius: 5px !important;
@@ -493,7 +752,8 @@
 
     /* Réduire spécifiquement l'espace entre le breadcrumb et le bouton */
     .vehicle-details {
-        margin-top: -5px !important; /* Réduire l'espace vertical */
+        margin-top: -5px !important;
+        padding-top: 0.5rem !important; /* plus besoin de 60px car le bouton est dans le flux */
     }
 
     /* Garder l'espacement d'origine pour le titre */
@@ -510,19 +770,11 @@
         margin: 10px 0 !important;
     }
 
-    /* Supprimer les espaces inutiles */
-    .results-container {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-
-    /* Suppression complète des marges du conteneur */
+    /* Adapter légèrement le container sur mobile en gardant son style */
     .results-container {
         width: 100vw;
         margin: 0;
-        padding: 0;
-        background: none;
-        border: none;
+        padding: 20px 12px;
         position: relative;
         left: 50%;
         transform: translateX(-50%);
@@ -556,11 +808,8 @@
     }
 
     /* Optimisation du graphique */
-    .performance-graph {
-        width: 100vw;
-        margin: 0;
-        padding: 20px 10px;
-        height: 400px; /* Plus grand pour meilleure visibilité */
+    .graph-chart-box {
+        padding: 14px 18px 14px;
     }
 
     /* Optimisation des titres et contenus */
@@ -746,17 +995,22 @@
         text-align: center !important;
     }
 
-    /* Ajuster la position du bouton retour dans la page de sélection */
+    /* Ajuster le bouton retour dans la page de sélection : pas de position absolute pour éviter le chevauchement */
+    .vehicle-details .vehicle-details-header {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
     .vehicle-details .back-button {
-        position: absolute !important;
-        top: 0 !important;
-        right: 10px !important;
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        align-self: flex-start !important;
         z-index: 10 !important;
-        padding: 4px 12px 4px 8px !important;
+        padding: 6px 14px 6px 10px !important;
         background: linear-gradient(135deg, rgba(227, 6, 19, 0.8), rgba(227, 6, 19, 0.9)) !important;
         border: none !important;
         border-radius: 5px !important;
-        margin: 10px !important; /* Ajouter une marge */
+        margin: 0 !important;
     }
 
     /* Ajuster l'espacement de la grille de marque sélectionnée */
@@ -840,7 +1094,7 @@
         width: 100%;
     }
 
-    /* Style des items de sélection */
+    /* Style des items de sélection : carte comme sur PC */
     .selection-item {
         width: 100%;
         padding: 15px;
@@ -849,9 +1103,23 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 8px;
+        border-radius: 10px;
         min-height: 60px;
+        background: linear-gradient(
+            145deg,
+            rgba(0, 0, 0, 0.65),
+            rgba(0, 0, 0, 0.9)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+        color: #ffffff;
+        transition: all 0.25s ease;
+    }
+
+    .selection-item:hover {
+        transform: translateY(-3px);
+        border-color: var(--primary-color);
+        box-shadow: 0 0 20px rgba(227, 6, 19, 0.2);
     }
 
     /* Ajustement du texte */
