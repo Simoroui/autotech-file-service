@@ -1345,7 +1345,7 @@ function showResultPage(vehicleData) {
             
             <div class="selection-page">
                 <div class="selected-info">
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="brand" title="Changer de marque">
                         <div class="selected-label">Marque sélectionnée</div>
                         <div class="selected-value">
                             <img src="${getLogoPath(brand)}" alt="${brand}" class="brand-logo" 
@@ -1354,19 +1354,19 @@ function showResultPage(vehicleData) {
                             <span class="brand-name">${brand}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="model" title="Changer de modèle">
                         <div class="selected-label">Modèle sélectionné</div>
                         <div class="selected-value">
                             <span class="model-name">${model}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="version" title="Changer de version">
                         <div class="selected-label">Version sélectionnée</div>
                         <div class="selected-value">
                             <span class="version-name">${version}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="engine" title="Changer de motorisation">
                         <div class="selected-label">Motorisation sélectionnée</div>
                         <div class="selected-value">
                             <span class="version-name">${engineType}</span>
@@ -1398,7 +1398,7 @@ function showResultPage(vehicleData) {
             
             <div class="selection-page">
                 <div class="selected-info">
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="brand" title="Changer de marque">
                         <div class="selected-label">Marque sélectionnée</div>
                         <div class="selected-value">
                             <img src="${getLogoPath(brand)}" alt="${brand}" class="brand-logo" 
@@ -1407,19 +1407,19 @@ function showResultPage(vehicleData) {
                             <span class="brand-name">${brand}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="model" title="Changer de modèle">
                         <div class="selected-label">Modèle sélectionné</div>
                         <div class="selected-value">
                             <span class="model-name">${model}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="version" title="Changer de version">
                         <div class="selected-label">Version sélectionnée</div>
                         <div class="selected-value">
                             <span class="version-name">${version}</span>
                         </div>
                     </div>
-                    <div class="selected-item">
+                    <div class="selected-item" data-goto="engine" title="Changer de motorisation">
                         <div class="selected-label">Motorisation sélectionnée</div>
                         <div class="selected-value">
                             <span class="version-name">${engineType}</span>
@@ -1473,6 +1473,10 @@ function showResultPage(vehicleData) {
             <div class="selection-grid results-grid-table">
                 <div class="results-table">
                     <div class="results-metrics">
+                        <div class="results-table-title-row">
+                            <span class="results-table-title-text">${brand} ${model} ${version} ${engineType}</span>
+                            <img src="images/logo-minResult.png" alt="AUTOTECH" class="results-table-logo">
+                        </div>
                         <div class="metrics-header">
                             <div class="metrics-header-label"></div>
                             <div class="metrics-header-col">ORIGINE</div>
@@ -1766,6 +1770,22 @@ function showResultPage(vehicleData) {
         });
     });
     }
+
+    // Grilles des choix sur la page résultats : clic renvoie à la page de sélection correspondante
+    container.querySelectorAll('.selected-info .selected-item[data-goto]').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+            const step = item.dataset.goto;
+            const resultsPage = document.getElementById('vehicle-results-page');
+            if (resultsPage) resultsPage.remove();
+            const detailsSection = document.querySelector('.vehicle-details');
+            if (detailsSection) detailsSection.style.display = 'block';
+            if (step === 'brand') goToBrandList(type);
+            else if (step === 'model') handleBrandSelection(brand, type);
+            else if (step === 'version') handleModelSelection(brand, type, model);
+            else if (step === 'engine') handleVersionSelection(brand, type, model, version);
+        });
+    });
 
     return container;
 }
