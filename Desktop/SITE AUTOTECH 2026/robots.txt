@@ -1,5 +1,0 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://autotech-tunisia.com/sitemap.xml
-
