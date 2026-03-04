@@ -1474,19 +1474,6 @@ function showResultPage(vehicleData) {
                 <button class="stage-btn" data-stage="2">Stage 2</button>
             </div>
 
-            <div class="stage-info" style="text-align: center; margin: 15px 0; padding: 10px; background: #000000; border-radius: 8px;">
-                <div class="stage1-info" style="display: block;">
-                    <span style="color: #fff; font-size: 0.9rem;">
-                        ℹ️ Le Stage 1 est un simple débridage électronique, aucune modification mécanique n'est nécessaire
-                    </span>
-                </div>
-                <div class="stage2-info" style="display: none;">
-                    <span style="color: #fff; font-size: 0.9rem;">
-                        ⚠️ Le Stage 2 nécessite une préparation mécanique : système d'échappement et/ou système d'admission et/ou injection
-                    </span>
-                </div>
-            </div>
-
             <!-- Grille 1 : tableau des résultats (design moderne) -->
             <div class="selection-grid results-grid-table">
                 <div class="results-table">
@@ -1512,6 +1499,18 @@ function showResultPage(vehicleData) {
                             <div class="metric-value origin"><span class="metric-col-label">ORIGINE</span> ${torqueOriginal.toString().includes('Nm') ? torqueOriginal : `${torqueOriginal} Nm`}</div>
                             <div class="metric-value stage" data-stage-label="STAGE 1"><span class="metric-col-label">STAGE 1</span> ${torqueStage1.toString().includes('Nm') ? torqueStage1 : `${torqueStage1} Nm`}</div>
                             <div class="metric-value diff"><span class="metric-col-label">DIFFÉRENCE</span> +${torqueDiff} Nm</div>
+                        </div>
+                        <div class="stage-info" style="text-align: center; margin: 15px 0 0; padding: 10px; background: transparent; border-radius: 8px; border-top: 1px solid rgba(255,255,255,0.15);">
+                            <div class="stage1-info" style="display: block;">
+                                <span style="color: #fff; font-size: 0.9rem;">
+                                    ℹ️ Le Stage 1 est un simple débridage électronique, aucune modification mécanique n'est nécessaire
+                                </span>
+                            </div>
+                            <div class="stage2-info" style="display: none;">
+                                <span style="color: #fff; font-size: 0.9rem;">
+                                    ⚠️ Le Stage 2 nécessite une préparation mécanique : système d'échappement et/ou système d'admission et/ou injection
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
