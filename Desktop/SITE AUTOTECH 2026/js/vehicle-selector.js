@@ -1,6 +1,30 @@
 // Test simple pour vérifier que le script est chargé
 console.log('Script chargé');
 
+// Mapping type véhicule CSV (dernière colonne) -> type UI (onglet)
+const TYPE_MAPPING = {
+    'VOITURE': 'cars',
+    'Voiture': 'cars',
+    'MOTO': 'motorcycles',
+    'Moto': 'motorcycles',
+    'JETSKI': 'jetski',
+    'Jetski': 'jetski',
+    'QUAD': 'quad',
+    'Quad': 'quad',
+    'CAMION': 'trucks',
+    'Camion': 'trucks',
+    'AGRICOLE & ENGIN': 'agricultural',
+    'Agricole & Engin': 'agricultural',
+    'agricole & engin': 'agricultural'
+};
+
+/** Retourne true si la ligne CSV correspond au type d'onglet (cars, motorcycles, etc.) */
+function csvLineMatchesType(columns, uiType) {
+    const rawType = (columns[columns.length - 1] || '').trim();
+    const mapped = TYPE_MAPPING[rawType];
+    return mapped === uiType;
+}
+
 // Fonction pour tester le chargement du fichier
 async function testFileAccess() {
     try {
@@ -56,7 +80,7 @@ function extractBrands(lines) {
         const brand = columns[0].trim();
         const rawType = columns[columns.length - 1].trim();
         
-        const type = typeMapping[rawType];
+        const type = typeMapping[rawType] || TYPE_MAPPING[rawType];
         if (type && brands[type]) {
             brands[type].add(brand);
         }
@@ -472,13 +496,13 @@ function handleBrandSelection(brand, type) {
     // Cacher les onglets
     document.querySelector('.vehicle-tabs').style.display = 'none';
     
-    // Récupérer tous les modèles pour cette marque
+    // Récupérer tous les modèles pour cette marque (uniquement pour le type d'onglet : voiture, moto, etc.)
     const models = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -540,11 +564,6 @@ function handleBrandSelection(brand, type) {
         });
     }
 
-    // Ajouter l'écouteur pour le bouton retour (synchronisé avec l'historique)
-    detailsSection.querySelector('.back-button').addEventListener('click', () => {
-        handleBack();
-    });
-
     // Enregistrer l'étape dans l'historique (sélection de marque)
     pushSelectionState('brand', { type, brand });
 
@@ -577,7 +596,7 @@ function handleBrandSelection(brand, type) {
     }, 100);
 }
 
-// Fonction pour récupérer les modèles pour une marque donnée
+// Fonction pour récupérer les modèles pour une marque donnée (filtrés par type véhicule)
 function getModelsForBrand(brand, type) {
     // Vérifier si nous avons des données CSV
     if (!csvContent) return [];
@@ -586,10 +605,10 @@ function getModelsForBrand(brand, type) {
     const lines = parseCSV(csvContent);
     const models = new Set();
     
-    // Parcourir les lignes pour trouver les modèles correspondant à la marque
+    // Parcourir les lignes pour trouver les modèles correspondant à la marque et au type
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -599,6 +618,7 @@ function getModelsForBrand(brand, type) {
 
 // Fonction séparée pour ajouter les écouteurs d'événements
 function addEventListeners(detailsSection, brand, type, models) {
+    if (!detailsSection) return;
     // Écouteur pour le scroll sur mobile lorsqu'on clique sur la marque sélectionnée
     const selectedBrand = detailsSection.querySelector('.selection-item.selected');
     if (selectedBrand) {
@@ -631,11 +651,6 @@ function addEventListeners(detailsSection, brand, type, models) {
     });
     }
 
-    // Écouteur pour le bouton retour (synchronisé avec l'historique)
-    detailsSection.querySelector('.back-button').addEventListener('click', () => {
-        handleBack();
-    });
-
     // Écouteurs pour les modèles
     detailsSection.querySelectorAll('.selection-item[data-model]').forEach(item => {
         item.addEventListener('click', () => handleModelSelection(brand, type, item.dataset.model));
@@ -656,19 +671,28 @@ function handleModelSelection(brand, type, model) {
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Récupérer toutes les versions pour cette marque et ce modèle
+    // Récupérer toutes les versions pour cette marque et ce modèle (uniquement pour le type d'onglet)
     const versions = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand && columns[1].trim() === model) {
+        if (columns[0].trim() === brand && columns[1].trim() === model && csvLineMatchesType(columns, type)) {
             versions.add(columns[2].trim());
         }
     }
 
     // Mettre à jour le contenu de la page avec un affichage en boîtes
-    const detailsSection = document.querySelector('.vehicle-details');
+    // Créer ou réutiliser la section de détails (elle peut avoir été supprimée par la page de résultats)
+    let detailsSection = document.querySelector('.vehicle-details');
+    if (!detailsSection) {
+        detailsSection = document.createElement('div');
+        detailsSection.className = 'vehicle-details';
+        const container = document.querySelector('.section-container');
+        if (container) {
+            container.appendChild(detailsSection);
+        }
+    }
     
     // S'assurer que la section est visible
     detailsSection.style.display = 'block';
@@ -733,11 +757,6 @@ function handleModelSelection(brand, type, model) {
         });
     }
 
-    // Ajouter l'écouteur pour le bouton retour (synchronisé avec l'historique)
-    detailsSection.querySelector('.back-button').addEventListener('click', () => {
-        handleBack();
-    });
-    
     // Faire défiler la page : sur PC, afficher les grilles de récap en haut ; sur mobile, centrer la liste
     setTimeout(() => {
         const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
@@ -778,13 +797,13 @@ function handleVersionSelection(brand, type, model, version) {
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Récupérer tous les moteurs pour cette marque, ce modèle et cette version
+    // Récupérer tous les moteurs pour cette marque, ce modèle et cette version (même type véhicule)
     const engines = [];
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand && columns[1].trim() === model && columns[2].trim() === version) {
+        if (columns[0].trim() === brand && columns[1].trim() === model && columns[2].trim() === version && csvLineMatchesType(columns, type)) {
             const engine = {
                 type: columns[3]?.trim() || 'N/A',
                 energy: columns[4]?.trim() || 'N/A',
@@ -813,7 +832,16 @@ function handleVersionSelection(brand, type, model, version) {
     const energyTypes = [...new Set(engines.map(engine => engine.energy))];
 
     // Mettre à jour le contenu de la page avec un affichage en boîtes
-    const detailsSection = document.querySelector('.vehicle-details');
+    // Créer ou réutiliser la section de détails (elle peut avoir été supprimée par la page de résultats)
+    let detailsSection = document.querySelector('.vehicle-details');
+    if (!detailsSection) {
+        detailsSection = document.createElement('div');
+        detailsSection.className = 'vehicle-details';
+        const container = document.querySelector('.section-container');
+        if (container) {
+            container.appendChild(detailsSection);
+        }
+    }
     
     // S'assurer que la section est visible
     detailsSection.style.display = 'block';
@@ -955,11 +983,6 @@ function handleVersionSelection(brand, type, model, version) {
         });
     }
 
-    // Ajouter l'écouteur pour le bouton retour (synchronisé avec l'historique)
-    detailsSection.querySelector('.back-button').addEventListener('click', () => {
-        handleBack();
-    });
-    
     // Faire défiler la page : sur PC, afficher les grilles de récap en haut ; sur mobile, centrer la liste
     setTimeout(() => {
         const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
@@ -1049,6 +1072,12 @@ function handleEngineSelection(brand, type, model, version, engineData) {
         const existingResults = mainContent.querySelectorAll('.results-container');
         existingResults.forEach(el => el.remove());
         mainContent.appendChild(container);
+    }
+
+    // Supprimer la fiche de sélection lorsqu'on affiche les résultats
+    const detailsSection = document.querySelector('.vehicle-details');
+    if (detailsSection) {
+        detailsSection.remove();
     }
 }
 
@@ -1280,37 +1309,25 @@ function showResultPage(vehicleData) {
         timestamp: Date.now(), // Pour l'expiration éventuelle des données
         url: window.location.href // Stocker l'URL associée à ces données
     }));
-
-    // Créer le conteneur (id unique pour le retirer au retour)
+    
+    // Créer le conteneur "page résultats" (wrapper neutre, sans style visuel)
     const container = document.createElement('div');
-    container.className = 'results-container';
+    container.className = 'vehicle-results-page';
     container.id = 'vehicle-results-page';
     
-    // Ajouter les paramètres à l'URL pour pouvoir les récupérer lors du retour
+    // Préparer une URL propre (sans paramètres de requête) pour la page de résultats
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('brand', brand);
-    currentUrl.searchParams.set('model', model);
-    currentUrl.searchParams.set('version', version);
-    currentUrl.searchParams.set('engine', engineType);
-    
-    // Ajouter aussi les valeurs de performance dans l'URL pour les liens partagés
-    currentUrl.searchParams.set('po', powerOriginal);
-    currentUrl.searchParams.set('ps', powerStage1);
-    currentUrl.searchParams.set('to', torqueOriginal);
-    currentUrl.searchParams.set('ts', torqueStage1);
-    
-    // Supprimer les paramètres techniques qui ne devraient pas être dans l'URL
-    currentUrl.searchParams.delete('powerOrig');
-    currentUrl.searchParams.delete('powerStage1');
-    currentUrl.searchParams.delete('torqueOrig');
-    currentUrl.searchParams.delete('torqueStage1');
+    // On ne conserve plus aucun paramètre en query string pour avoir des URLs SEO-friendly
+    currentUrl.search = '';
     
     // Construire le hash correct pour la page de résultats
+    // Format: reprogrammation/type/marque/modele/version/motorisation
     const type = currentSelection.type || 'cars'; // Utiliser 'cars' par défaut si non défini
     const cleanBrand = (brand || '').toLowerCase().replace(/\s+/g, '-');
     const cleanModel = (model || '').toLowerCase().replace(/\s+/g, '-');
     const cleanVersion = (version || '').toLowerCase().replace(/\s+/g, '-');
-    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}`;
+    const cleanEngine = (engineType || '').toLowerCase().replace(/\s+/g, '-');
+    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}`;
     
     // Mettre à jour l'URL (hash + query) sans recharger la page
     currentUrl.hash = newHash;
@@ -1343,22 +1360,43 @@ function showResultPage(vehicleData) {
         container.innerHTML = `
         <div class="results-container">
             <button class="back-button" onclick="handleBack()">Retour</button>
-            <div class="title-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 30px; width: 100%;">
-                <div class="logos-container" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px; width: 100%; max-width: 300px;">
-                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 10px;">
-                        <img src="${getLogoPath(brand)}" alt="Logo ${brand}" class="brand-logo" style="max-height: 70px; max-width: 100%; width: auto; object-fit: contain;" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/120x70?text=${brand}';">
+            
+            <div class="selection-page">
+                <div class="selected-info">
+                    <div class="selected-item" data-goto="brand" title="Changer de marque">
+                        <div class="selected-label">Marque sélectionnée</div>
+                        <div class="selected-value">
+                            <img src="${getLogoPath(brand)}" alt="${brand}" class="brand-logo" 
+                                 onerror="this.onerror=null; this.src='images/logos/default.png';"
+                                 onload="this.style.display='block';">
+                            <span class="brand-name">${brand}</span>
+                        </div>
                     </div>
-                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 10px;">
-                        <img src="images/logo-minResult.png" alt="AutoTech Logo" class="company-logo" style="max-height: 70px; max-width: 100%; width: auto; object-fit: contain;"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/120x70?text=AutoTech';">
+                    <div class="selected-item" data-goto="model" title="Changer de modèle">
+                        <div class="selected-label">Modèle sélectionné</div>
+                        <div class="selected-value">
+                            <span class="model-name">${model}</span>
+                        </div>
+                    </div>
+                    <div class="selected-item" data-goto="version" title="Changer de version">
+                        <div class="selected-label">Version sélectionnée</div>
+                        <div class="selected-value">
+                            <span class="version-name">${version}</span>
+                        </div>
+                    </div>
+                    <div class="selected-item" data-goto="engine" title="Changer de motorisation">
+                        <div class="selected-label">Motorisation sélectionnée</div>
+                        <div class="selected-value">
+                            <span class="version-name">${engineType}</span>
+                        </div>
                     </div>
                 </div>
-                <h1 class="vehicle-title" style="text-align: center; width: 100%;">${brand} ${model} ${version}</h1>
-                <h2 class="engine-type" style="text-align: center; width: 100%;">${engineType}</h2>
-            </div>
-            <div class="dev-in-progress-message">
-                <p>${escapeHtml(messageEnCoursDeDev)}</p>
+
+                <div class="selection-grid">
+                    <div class="dev-in-progress-message">
+                        <p>${escapeHtml(messageEnCoursDeDev)}</p>
+                    </div>
+                </div>
             </div>
         </div>
         `;
@@ -1372,24 +1410,40 @@ function showResultPage(vehicleData) {
             }
         }, 150);
     } else {
-    container.innerHTML = `
+        container.innerHTML = `
         <div class="results-container">
             <button class="back-button" onclick="handleBack()">Retour</button>
             
-            <div class="title-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 30px; width: 100%;">
-                <div class="logos-container" style="display: flex; align-items: center; justify-content: center; margin-bottom: 20px; width: 100%; max-width: 300px;">
-                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 10px;">
-                        <img src="${getLogoPath(brand)}" alt="Logo ${brand}" class="brand-logo" style="max-height: 70px; max-width: 100%; width: auto; object-fit: contain;" 
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/120x70?text=${brand}';">
+            <div class="selection-page">
+                <div class="selected-info">
+                    <div class="selected-item" data-goto="brand" title="Changer de marque">
+                        <div class="selected-label">Marque sélectionnée</div>
+                        <div class="selected-value">
+                            <img src="${getLogoPath(brand)}" alt="${brand}" class="brand-logo" 
+                                 onerror="this.onerror=null; this.src='images/logos/default.png';"
+                                 onload="this.style.display='block';">
+                            <span class="brand-name">${brand}</span>
+                        </div>
                     </div>
-                    <div style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 0 10px;">
-                        <img src="images/logo-minResult.png" alt="AutoTech Logo" class="company-logo" style="max-height: 70px; max-width: 100%; width: auto; object-fit: contain;"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/120x70?text=AutoTech';">
+                    <div class="selected-item" data-goto="model" title="Changer de modèle">
+                        <div class="selected-label">Modèle sélectionné</div>
+                        <div class="selected-value">
+                            <span class="model-name">${model}</span>
+                        </div>
+                    </div>
+                    <div class="selected-item" data-goto="version" title="Changer de version">
+                        <div class="selected-label">Version sélectionnée</div>
+                        <div class="selected-value">
+                            <span class="version-name">${version}</span>
+                        </div>
+                    </div>
+                    <div class="selected-item" data-goto="engine" title="Changer de motorisation">
+                        <div class="selected-label">Motorisation sélectionnée</div>
+                        <div class="selected-value">
+                            <span class="version-name">${engineType}</span>
+                        </div>
                     </div>
                 </div>
-            <h1 class="vehicle-title" style="text-align: center; width: 100%;">${brand} ${model} ${version}</h1>
-            <h2 class="engine-type" style="text-align: center; width: 100%;">${engineType}</h2>
-            </div>
 
             <style>
                 /* Styles pour supprimer le symbole ✔️ */
@@ -1420,44 +1474,100 @@ function showResultPage(vehicleData) {
                 <button class="stage-btn" data-stage="2">Stage 2</button>
             </div>
 
-            <div class="stage-info" style="text-align: center; margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px;">
-                <div class="stage1-info" style="display: block;">
-                    <span style="color: #fff; font-size: 0.9rem;">
-                        ℹ️ Le Stage 1 est un simple débridage électronique, aucune modification mécanique n'est nécessaire
-                    </span>
-                </div>
-                <div class="stage2-info" style="display: none;">
-                    <span style="color: #fff; font-size: 0.9rem;">
-                        ⚠️ Le Stage 2 nécessite une préparation mécanique : système d'échappement et/ou système d'admission et/ou injection
-                    </span>
+            <!-- Grille 1 : tableau des résultats (design moderne) -->
+            <div class="selection-grid results-grid-table">
+                <div class="results-table">
+                    <div class="results-metrics">
+                        <div class="results-table-title-row">
+                            <span class="results-table-title-text">${brand} ${model} ${version} ${engineType}</span>
+                            <img src="images/logo-minResult.png" alt="AUTOTECH" class="results-table-logo">
+                        </div>
+                        <div class="metrics-header">
+                            <div class="metrics-header-label"></div>
+                            <div class="metrics-header-col">ORIGINE</div>
+                            <div class="metrics-header-col">STAGE 1</div>
+                            <div class="metrics-header-col">DIFFÉRENCE</div>
+                        </div>
+                        <div class="metric-row" data-metric="power">
+                            <div class="metric-label">Puissance</div>
+                            <div class="metric-value origin"><span class="metric-col-label">ORIGINE</span> ${powerOriginal.toString().includes('Hp') ? powerOriginal : `${powerOriginal} Hp`}</div>
+                            <div class="metric-value stage" data-stage-label="STAGE 1"><span class="metric-col-label">STAGE 1</span> ${powerStage1.toString().includes('Hp') ? powerStage1 : `${powerStage1} Hp`}</div>
+                            <div class="metric-value diff"><span class="metric-col-label">DIFFÉRENCE</span> +${powerDiff} Hp</div>
+                        </div>
+                        <div class="metric-row" data-metric="torque">
+                            <div class="metric-label">Couple</div>
+                            <div class="metric-value origin"><span class="metric-col-label">ORIGINE</span> ${torqueOriginal.toString().includes('Nm') ? torqueOriginal : `${torqueOriginal} Nm`}</div>
+                            <div class="metric-value stage" data-stage-label="STAGE 1"><span class="metric-col-label">STAGE 1</span> ${torqueStage1.toString().includes('Nm') ? torqueStage1 : `${torqueStage1} Nm`}</div>
+                            <div class="metric-value diff"><span class="metric-col-label">DIFFÉRENCE</span> +${torqueDiff} Nm</div>
+                        </div>
+                        <div class="stage-info" style="text-align: center; margin: 15px 0 0; padding: 10px; background: transparent; border-radius: 8px; border-top: 1px solid rgba(255,255,255,0.15);">
+                            <div class="stage1-info" style="display: block;">
+                                <span style="color: #fff; font-size: 0.9rem;">
+                                    ℹ️ Le Stage 1 est un simple débridage électronique, aucune modification mécanique n'est nécessaire
+                                </span>
+                            </div>
+                            <div class="stage2-info" style="display: none;">
+                                <span style="color: #fff; font-size: 0.9rem;">
+                                    ⚠️ Le Stage 2 nécessite une préparation mécanique : système d'échappement et/ou système d'admission et/ou injection
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="results-table">
-                <div class="table-header">
-                    <div class="label"></div>
-                    <div class="stage-column">ORIGINE</div>
-                    <div class="stage-column">STAGE1</div>
-                    <div>DIFFÉRENCE</div>
-                </div>
-                <div class="table-content">
-                    <div class="table-row">
-                        <div class="label">Puissance</div>
-                        <div class="value">${powerOriginal.toString().includes('Hp') ? powerOriginal : `${powerOriginal} Hp`}</div>
-                        <div class="value stage-value">${powerStage1.toString().includes('Hp') ? powerStage1 : `${powerStage1} Hp`}</div>
-                        <div class="diff power-diff"><span>+${powerDiff} Hp</span></div>
+            <!-- Bloc graphique : une seule grille (effets + logo + contenu) -->
+            <div class="graph-chart-box">
+                <div class="graph-chart-content">
+                    <div class="performance-row" data-metric="power">
+                        <div class="performance-label">Puissance</div>
+                        <div class="performance-bars">
+                            <div class="performance-bar origin" data-metric="power-origin"></div>
+                            <div class="performance-bar stage1" data-metric="power-stage1"></div>
+                            <div class="performance-bar stage2" data-metric="power-stage2"></div>
+                        </div>
+                        <div class="performance-values">
+                            <span class="performance-pill origin-pill">
+                                ORIGINE&nbsp;
+                                <span class="performance-value" data-metric="power-origin-value"></span>
+                            </span>
+                            <span class="performance-pill stage1-pill">
+                                STAGE 1&nbsp;
+                                <span class="performance-value" data-metric="power-stage1-value"></span>
+                            </span>
+                            <span class="performance-diff-pct" data-metric="power-diff-pct"></span>
+                            <span class="performance-pill stage2-pill">
+                                STAGE 2&nbsp;
+                                <span class="performance-value" data-metric="power-stage2-value"></span>
+                            </span>
+                            <span class="performance-diff-pct performance-diff-pct-stage2" data-metric="power-diff-pct-stage2"></span>
+                        </div>
                     </div>
-                    <div class="table-row">
-                        <div class="label">Couple</div>
-                        <div class="value">${torqueOriginal.toString().includes('Nm') ? torqueOriginal : `${torqueOriginal} Nm`}</div>
-                        <div class="value stage-value">${torqueStage1.toString().includes('Nm') ? torqueStage1 : `${torqueStage1} Nm`}</div>
-                        <div class="diff torque-diff"><span>+${torqueDiff} Nm</span></div>
+                    <div class="performance-row" data-metric="torque">
+                        <div class="performance-label">Couple</div>
+                        <div class="performance-bars">
+                            <div class="performance-bar origin" data-metric="torque-origin"></div>
+                            <div class="performance-bar stage1" data-metric="torque-stage1"></div>
+                            <div class="performance-bar stage2" data-metric="torque-stage2"></div>
+                        </div>
+                        <div class="performance-values">
+                            <span class="performance-pill origin-pill">
+                                ORIGINE&nbsp;
+                                <span class="performance-value" data-metric="torque-origin-value"></span>
+                            </span>
+                            <span class="performance-pill stage1-pill">
+                                STAGE 1&nbsp;
+                                <span class="performance-value" data-metric="torque-stage1-value"></span>
+                            </span>
+                            <span class="performance-diff-pct" data-metric="torque-diff-pct"></span>
+                            <span class="performance-pill stage2-pill">
+                                STAGE 2&nbsp;
+                                <span class="performance-value" data-metric="torque-stage2-value"></span>
+                            </span>
+                            <span class="performance-diff-pct performance-diff-pct-stage2" data-metric="torque-diff-pct-stage2"></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="performance-graph">
-                <canvas id="performanceChart"></canvas>
             </div>
 
             <!-- Autres sections de la page de résultats -->
@@ -1509,116 +1619,118 @@ function showResultPage(vehicleData) {
                     Réserver maintenant
                 </button>
                 </div>
-            </div>
+            </div> <!-- .results-body-grid -->
         </div>
     `;
     }
 
-    // Initialiser le graphique et le reste uniquement si données disponibles
+    // Initialiser le graphique CSS (barres) uniquement si données disponibles
     if (!enCoursDeDeveloppement) {
-    setTimeout(() => {
-        const canvas = document.getElementById('performanceChart');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-            // Convertir les valeurs "00" en zéro pour le graphique
-            const powerOriginalValue = initialValues.powerOriginal === "00" ? 0 : initialValues.powerOriginal;
-            const powerStage1Value = initialValues.powerStage1 === "00" ? 0 : initialValues.powerStage1;
-            const torqueOriginalValue = initialValues.torqueOriginal === "00" ? 0 : initialValues.torqueOriginal;
-            const torqueStage1Value = initialValues.torqueStage1 === "00" ? 0 : initialValues.torqueStage1;
-            
-            const chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Puissance', 'Couple'],
-                    datasets: [{
-                        label: 'Origine',
-                        data: [powerOriginalValue, torqueOriginalValue],
-                        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                        borderColor: 'rgba(255, 255, 255, 0.8)',
-                        borderWidth: 1,
-                        barPercentage: 0.8
-                    }, {
-                        label: 'Stage 1',
-                        data: [powerStage1Value, torqueStage1Value],
-                        backgroundColor: function(context) {
-                            const chart = context.chart;
-                            const {ctx, chartArea} = chart;
-                            
-                            if (!chartArea) {
-                                return 'rgba(227, 6, 19, 0.4)';
-                            }
+        setTimeout(() => {
+            // Convertir les valeurs "00" en nombres pour calculer les largeurs
+            const powerOriginalValue = initialValues.powerOriginal === "00" ? 0 : parseInt(initialValues.powerOriginal, 10);
+            const powerStage1Value = initialValues.powerStage1 === "00" ? 0 : parseInt(initialValues.powerStage1, 10);
+            const torqueOriginalValue = initialValues.torqueOriginal === "00" ? 0 : parseInt(initialValues.torqueOriginal, 10);
+            const torqueStage1Value = initialValues.torqueStage1 === "00" ? 0 : parseInt(initialValues.torqueStage1, 10);
 
-                            const gradient = ctx.createLinearGradient(chartArea.left, 0, chartArea.right, 0);
-                            const time = Date.now() * 0.001;
-                            const position = (Math.sin(time * 2) + 1) / 2;
+            // Calculer les valeurs Stage 2 (même logique que dans updatePerformanceData)
+            const powerStage2Value = powerStage1Value ? powerStage1Value + 10 : 0;
+            const torqueStage2Value = torqueStage1Value ? torqueStage1Value + 20 : 0;
 
-                            gradient.addColorStop(0, 'rgba(227, 6, 19, 0.4)');
-                            gradient.addColorStop(Math.max(0, position - 0.1), 'rgba(227, 6, 19, 0.4)');
-                            gradient.addColorStop(position, 'rgba(255, 255, 255, 0.9)');
-                            gradient.addColorStop(Math.min(1, position + 0.1), 'rgba(227, 6, 19, 0.4)');
-                            gradient.addColorStop(1, 'rgba(227, 6, 19, 0.4)');
+            const maxPower = Math.max(powerOriginalValue, powerStage1Value, powerStage2Value, 1);
+            const maxTorque = Math.max(torqueOriginalValue, torqueStage1Value, torqueStage2Value, 1);
 
-                            requestAnimationFrame(() => chart.draw());
+            const powerOriginBar = document.querySelector('.performance-bar.origin[data-metric="power-origin"]');
+            const powerStage1Bar = document.querySelector('.performance-bar.stage1[data-metric="power-stage1"]');
+            const powerStage2Bar = document.querySelector('.performance-bar.stage2[data-metric="power-stage2"]');
+            const torqueOriginBar = document.querySelector('.performance-bar.origin[data-metric="torque-origin"]');
+            const torqueStage1Bar = document.querySelector('.performance-bar.stage1[data-metric="torque-stage1"]');
+            const torqueStage2Bar = document.querySelector('.performance-bar.stage2[data-metric="torque-stage2"]');
 
-                            return gradient;
-                        },
-                        borderColor: 'rgba(227, 6, 19, 0.8)',
-                        borderWidth: 2,
-                        barPercentage: 0.8
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    animation: {
-                        duration: 1
-                    },
-                    plugins: {
-                        legend: {
-                            labels: {
-                                color: 'white',
-                                font: { size: 12 }
-                            }
-                        },
-                        tooltip: {
-                            enabled: false
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: { 
-                                color: 'white',
-                                callback: function(value) {
-                                    return value;
-                                }
-                            }
-                        },
-                        y: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: { color: 'white' }
-                        }
-                    }
-                }
-            });
+            const powerOriginText = document.querySelector('.performance-value[data-metric="power-origin-value"]');
+            const powerStage1Text = document.querySelector('.performance-value[data-metric="power-stage1-value"]');
+            const powerStage2Text = document.querySelector('.performance-value[data-metric="power-stage2-value"]');
+            const torqueOriginText = document.querySelector('.performance-value[data-metric="torque-origin-value"]');
+            const torqueStage1Text = document.querySelector('.performance-value[data-metric="torque-stage1-value"]');
+            const torqueStage2Text = document.querySelector('.performance-value[data-metric="torque-stage2-value"]');
 
-            // Fonction d'animation
-            function animate() {
-                chart.update('none');
-                requestAnimationFrame(animate);
+            if (powerOriginBar) {
+                const width = (powerOriginalValue / maxPower) * 100;
+                powerOriginBar.style.width = `${width}%`;
+            }
+            if (powerStage1Bar) {
+                const width = (powerStage1Value / maxPower) * 100;
+                powerStage1Bar.style.width = `${width}%`;
+            }
+            if (powerStage2Bar) {
+                const width = (powerStage2Value / maxPower) * 100;
+                powerStage2Bar.style.width = `${width}%`;
+            }
+            if (torqueOriginBar) {
+                const width = (torqueOriginalValue / maxTorque) * 100;
+                torqueOriginBar.style.width = `${width}%`;
+            }
+            if (torqueStage1Bar) {
+                const width = (torqueStage1Value / maxTorque) * 100;
+                torqueStage1Bar.style.width = `${width}%`;
+            }
+            if (torqueStage2Bar) {
+                const width = (torqueStage2Value / maxTorque) * 100;
+                torqueStage2Bar.style.width = `${width}%`;
             }
 
-            // Démarrer l'animation
-            animate();
-        }
-    }, 100);
+            // Texte des valeurs (6 valeurs affichées)
+            if (powerOriginText) {
+                powerOriginText.textContent = powerOriginalValue ? `${powerOriginalValue} Hp` : '00 Hp';
+            }
+            if (powerStage1Text) {
+                powerStage1Text.textContent = powerStage1Value ? `${powerStage1Value} Hp` : '00 Hp';
+            }
+            if (powerStage2Text) {
+                powerStage2Text.textContent = powerStage2Value ? `${powerStage2Value} Hp` : '00 Hp';
+            }
+            if (torqueOriginText) {
+                torqueOriginText.textContent = torqueOriginalValue ? `${torqueOriginalValue} Nm` : '00 Nm';
+            }
+            if (torqueStage1Text) {
+                torqueStage1Text.textContent = torqueStage1Value ? `${torqueStage1Value} Nm` : '00 Nm';
+            }
+            if (torqueStage2Text) {
+                torqueStage2Text.textContent = torqueStage2Value ? `${torqueStage2Value} Nm` : '00 Nm';
+            }
+
+            // Pourcentage différence Origine → Stage 1 (comme sur la photo)
+            const powerDiffPctEl = document.querySelector('.performance-diff-pct[data-metric="power-diff-pct"]');
+            const torqueDiffPctEl = document.querySelector('.performance-diff-pct[data-metric="torque-diff-pct"]');
+            if (powerDiffPctEl) {
+                const pct = powerOriginalValue > 0
+                    ? Math.round((powerStage1Value - powerOriginalValue) / powerOriginalValue * 100)
+                    : 0;
+                powerDiffPctEl.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
+            }
+            if (torqueDiffPctEl) {
+                const pct = torqueOriginalValue > 0
+                    ? Math.round((torqueStage1Value - torqueOriginalValue) / torqueOriginalValue * 100)
+                    : 0;
+                torqueDiffPctEl.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
+            }
+
+            // Pourcentage différence Origine → Stage 2
+            const powerDiffPctStage2El = document.querySelector('.performance-diff-pct[data-metric="power-diff-pct-stage2"]');
+            const torqueDiffPctStage2El = document.querySelector('.performance-diff-pct[data-metric="torque-diff-pct-stage2"]');
+            if (powerDiffPctStage2El) {
+                const pct = powerOriginalValue > 0
+                    ? Math.round((powerStage2Value - powerOriginalValue) / powerOriginalValue * 100)
+                    : 0;
+                powerDiffPctStage2El.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
+            }
+            if (torqueDiffPctStage2El) {
+                const pct = torqueOriginalValue > 0
+                    ? Math.round((torqueStage2Value - torqueOriginalValue) / torqueOriginalValue * 100)
+                    : 0;
+                torqueDiffPctStage2El.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
+            }
+        }, 100);
 
     // Centrer le tableau des résultats
     setTimeout(() => {
@@ -1675,6 +1787,22 @@ function showResultPage(vehicleData) {
         });
     });
     }
+
+    // Grilles des choix sur la page résultats : clic renvoie à la page de sélection correspondante
+    container.querySelectorAll('.selected-info .selected-item[data-goto]').forEach(item => {
+        item.style.cursor = 'pointer';
+        item.addEventListener('click', () => {
+            const step = item.dataset.goto;
+            const resultsPage = document.getElementById('vehicle-results-page');
+            if (resultsPage) resultsPage.remove();
+            const detailsSection = document.querySelector('.vehicle-details');
+            if (detailsSection) detailsSection.style.display = 'block';
+            if (step === 'brand') goToBrandList(type);
+            else if (step === 'model') handleBrandSelection(brand, type);
+            else if (step === 'version') handleModelSelection(brand, type, model);
+            else if (step === 'engine') handleVersionSelection(brand, type, model, version);
+        });
+    });
 
     return container;
 }
@@ -1767,14 +1895,49 @@ function initializeSlideshow() {
 
 // Fonction pour gérer le retour (bouton "Retour" interne)
 function handleBack() {
-    // Si l'historique contient au moins une entrée précédente, utiliser le mécanisme natif
-    if (window.history && window.history.length > 1) {
-        window.history.back();
-    } else {
-        // Fallback : revenir à la section de sélection sur la page principale
-        window.location.href = 'index.html#boost';
+    const s = currentSelection;
+
+    // 1) Si la page résultats est affichée : la supprimer et revenir à la sélection motorisation
+    const resultsPage = document.getElementById('vehicle-results-page');
+    if (resultsPage) {
+        resultsPage.remove();
+        if (s && s.type && s.brand && s.model && s.version) {
+            handleVersionSelection(s.brand, s.type, s.model, s.version);
+            const detailsSection = document.querySelector('.vehicle-details');
+            if (detailsSection) detailsSection.style.display = 'block';
+            scrollToStepCenter('engine');
+        }
+        return;
     }
+
+    // 2) Sinon on est sur une page de sélection : revenir d’une étape
+    if (s && s.type && s.brand && s.model && s.version) {
+        // Étape motorisation -> revenir à l’étape version (liste des versions)
+        handleModelSelection(s.brand, s.type, s.model);
+        return;
+    }
+    if (s && s.type && s.brand && s.model) {
+        // Étape version -> revenir à l’étape modèle (liste des modèles)
+        handleBrandSelection(s.brand, s.type);
+        return;
+    }
+    if (s && s.type && s.brand) {
+        // Étape modèle -> revenir à la liste des marques
+        goToBrandList(s.type);
+        return;
+    }
+
+    // 3) Sinon (étape marque ou rien) : aller à l’accueil
+    window.location.href = 'index.html#boost';
 }
+
+// Délégation d’événements : tout clic sur un .back-button appelle handleBack
+document.addEventListener('click', function (e) {
+    if (e.target.closest && e.target.closest('.back-button')) {
+        e.preventDefault();
+        handleBack();
+    }
+});
 
 // Restaurer l'interface en fonction de l'état de l'historique
 window.addEventListener('popstate', (event) => {
@@ -1786,10 +1949,6 @@ window.addEventListener('popstate', (event) => {
         if (!state || state.step !== 'result') {
             const byId = document.getElementById('vehicle-results-page');
             if (byId) byId.remove();
-            const mainContent = document.querySelector('.section-container');
-            if (mainContent) {
-                mainContent.querySelectorAll('.results-container').forEach(el => el.remove());
-            }
         }
 
         // S'il n'y a pas d'état structuré, on s'arrête ici
@@ -1973,12 +2132,19 @@ async function cacheData(key, data) {
 
 // Fonction pour mettre à jour les données de performance en fonction du stage sélectionné
 function updatePerformanceData(isStage2) {
-    // Récupérer les éléments
-    const powerStageCell = document.querySelector('.table-row:first-child .stage-value');
-    const torqueStageCell = document.querySelector('.table-row:last-child .stage-value');
-    const powerDiffCell = document.querySelector('.power-diff span');
-    const torqueDiffCell = document.querySelector('.torque-diff span');
-    const stageColumn = document.querySelector('.stage-column:nth-child(3)');
+    // Récupérer les lignes du nouveau tableau moderne
+    const rows = document.querySelectorAll('.results-metrics .metric-row');
+    if (!rows.length) {
+        return;
+    }
+    const powerRow = rows[0];
+    const torqueRow = rows[1];
+
+    const powerStageCell = powerRow.querySelector('.metric-value.stage');
+    const torqueStageCell = torqueRow.querySelector('.metric-value.stage');
+    const powerDiffCell = powerRow.querySelector('.metric-value.diff');
+    const torqueDiffCell = torqueRow.querySelector('.metric-value.diff');
+    const stageHeaderCol = document.querySelector('.metrics-header-col:nth-child(3)');
     
     // Vérifier si les valeurs sont "00"
     const powerOriginalIsZero = initialValues.powerOriginal === "00";
@@ -1997,65 +2163,95 @@ function updatePerformanceData(isStage2) {
         const powerStage2 = powerStage1IsZero ? "00" : (powerStage1 + 10);  // +10 Hp par rapport au Stage 1
         const torqueStage2 = torqueStage1IsZero ? "00" : (torqueStage1 + 20);  // +20 Nm par rapport au Stage 1
 
-        // Mettre à jour le titre
-        stageColumn.textContent = 'STAGE2';
+        // Mettre à jour le titre de colonne
+        if (stageHeaderCol) {
+            stageHeaderCol.textContent = 'STAGE 2';
+        }
+        document.querySelectorAll('.metric-value.stage').forEach(cell => {
+            cell.setAttribute('data-stage-label', 'STAGE 2');
+            const label = cell.querySelector('.metric-col-label');
+            if (label) label.textContent = 'STAGE 2';
+        });
         
-        // Mettre à jour les valeurs
-        powerStageCell.textContent = powerStage2 === "00" ? "00 Hp" : `${powerStage2} Hp`;
-        torqueStageCell.textContent = torqueStage2 === "00" ? "00 Nm" : `${torqueStage2} Nm`;
+        // Mettre à jour les valeurs Stage
+        if (powerStageCell) {
+            const label = powerStageCell.querySelector('.metric-col-label');
+            const lbl = label ? label.outerHTML : '';
+            powerStageCell.innerHTML = lbl + (powerStage2 === "00" ? "00 Hp" : `${powerStage2} Hp`);
+        }
+        if (torqueStageCell) {
+            const label = torqueStageCell.querySelector('.metric-col-label');
+            const lbl = label ? label.outerHTML : '';
+            torqueStageCell.innerHTML = lbl + (torqueStage2 === "00" ? "00 Nm" : `${torqueStage2} Nm`);
+        }
         
         // Calculer et mettre à jour les différences
-        if (powerOriginalIsZero || powerStage2 === "00") {
-            powerDiffCell.textContent = "+00 Hp";
-        } else {
-            powerDiffCell.textContent = `+${powerStage2 - powerOriginal} Hp`;
+        if (powerDiffCell) {
+            const diffLabel = powerDiffCell.querySelector('.metric-col-label');
+            const diffLbl = diffLabel ? diffLabel.outerHTML : '';
+            if (powerOriginalIsZero || powerStage2 === "00") {
+                powerDiffCell.innerHTML = diffLbl + "+00 Hp";
+            } else {
+                powerDiffCell.innerHTML = diffLbl + `+${powerStage2 - powerOriginal} Hp`;
+            }
         }
         
-        if (torqueOriginalIsZero || torqueStage2 === "00") {
-            torqueDiffCell.textContent = "+00 Nm";
-        } else {
-            torqueDiffCell.textContent = `+${torqueStage2 - torqueOriginal} Nm`;
+        if (torqueDiffCell) {
+            const diffLabel = torqueDiffCell.querySelector('.metric-col-label');
+            const diffLbl = diffLabel ? diffLabel.outerHTML : '';
+            if (torqueOriginalIsZero || torqueStage2 === "00") {
+                torqueDiffCell.innerHTML = diffLbl + "+00 Nm";
+            } else {
+                torqueDiffCell.innerHTML = diffLbl + `+${torqueStage2 - torqueOriginal} Nm`;
+            }
         }
         
-        // Mettre à jour le graphique
-        const chart = Chart.getChart('performanceChart');
-        if (chart) {
-            chart.data.datasets[1].data = [
-                powerStage2 === "00" ? 0 : powerStage2, 
-                torqueStage2 === "00" ? 0 : torqueStage2
-            ];
-            chart.data.datasets[1].label = 'Stage 2';
-            chart.update();
-        }
+        // Le graphique affiche en permanence Origine / Stage 1 / Stage 2,
+        // pas besoin de le recalculer ici (seul le tableau change).
     } else {
         // Restaurer Stage 1
-        stageColumn.textContent = 'STAGE1';
-        powerStageCell.textContent = powerStage1IsZero ? "00 Hp" : `${powerStage1} Hp`;
-        torqueStageCell.textContent = torqueStage1IsZero ? "00 Nm" : `${torqueStage1} Nm`;
+        if (stageHeaderCol) {
+            stageHeaderCol.textContent = 'STAGE 1';
+        }
+        document.querySelectorAll('.metric-value.stage').forEach(cell => {
+            cell.setAttribute('data-stage-label', 'STAGE 1');
+            const label = cell.querySelector('.metric-col-label');
+            if (label) label.textContent = 'STAGE 1';
+        });
+        if (powerStageCell) {
+            const label = powerStageCell.querySelector('.metric-col-label');
+            const lbl = label ? label.outerHTML : '';
+            powerStageCell.innerHTML = lbl + (powerStage1IsZero ? "00 Hp" : `${powerStage1} Hp`);
+        }
+        if (torqueStageCell) {
+            const label = torqueStageCell.querySelector('.metric-col-label');
+            const lbl = label ? label.outerHTML : '';
+            torqueStageCell.innerHTML = lbl + (torqueStage1IsZero ? "00 Nm" : `${torqueStage1} Nm`);
+        }
         
         // Calculer et mettre à jour les différences
-        if (powerOriginalIsZero || powerStage1IsZero) {
-            powerDiffCell.textContent = "+00 Hp";
-        } else {
-            powerDiffCell.textContent = `+${powerStage1 - powerOriginal} Hp`;
+        if (powerDiffCell) {
+            const diffLabel = powerDiffCell.querySelector('.metric-col-label');
+            const diffLbl = diffLabel ? diffLabel.outerHTML : '';
+            if (powerOriginalIsZero || powerStage1IsZero) {
+                powerDiffCell.innerHTML = diffLbl + "+00 Hp";
+            } else {
+                powerDiffCell.innerHTML = diffLbl + `+${powerStage1 - powerOriginal} Hp`;
+            }
         }
         
-        if (torqueOriginalIsZero || torqueStage1IsZero) {
-            torqueDiffCell.textContent = "+00 Nm";
-        } else {
-            torqueDiffCell.textContent = `+${torqueStage1 - torqueOriginal} Nm`;
+        if (torqueDiffCell) {
+            const diffLabel = torqueDiffCell.querySelector('.metric-col-label');
+            const diffLbl = diffLabel ? diffLabel.outerHTML : '';
+            if (torqueOriginalIsZero || torqueStage1IsZero) {
+                torqueDiffCell.innerHTML = diffLbl + "+00 Nm";
+            } else {
+                torqueDiffCell.innerHTML = diffLbl + `+${torqueStage1 - torqueOriginal} Nm`;
+            }
         }
 
-        // Restaurer le graphique
-        const chart = Chart.getChart('performanceChart');
-        if (chart) {
-            chart.data.datasets[1].data = [
-                powerStage1IsZero ? 0 : powerStage1, 
-                torqueStage1IsZero ? 0 : torqueStage1
-            ];
-            chart.data.datasets[1].label = 'Stage 1';
-            chart.update();
-        }
+        // Le graphique affiche en permanence Origine / Stage 1 / Stage 2,
+        // pas besoin de le recalculer ici (seul le tableau change).
     }
 }
 
@@ -2205,23 +2401,25 @@ function getEngineData(brand, model, version, engineType) {
     }
 }
 
-// Fonction pour gérer les URL avec hash
+    // Fonction pour gérer les URL avec hash
 function handleHashChange() {
     const hash = window.location.hash.substring(1); // Enlever le # du début
     if (!hash) return;
 
     const parts = hash.split('/').filter(part => part);
     
-    // Format attendu: reprogrammation/type/marque/modele/version
+    // Format attendu: reprogrammation/type/marque/modele/version[/motorisation]
     if (parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
         const model = parts[3] ? decodeURIComponent(parts[3].replace(/-/g, ' ')) : null;
-        const version = parts[4] ? decodeURIComponent(parts[4].replace(/-/g, ' ')) : null;
+        // On conserve pour la comparaison le slug brut venant de l'URL (déjà en format "f01---2009---2015")
+        const versionSlugFromHash = parts[4] ? parts[4].toLowerCase() : null;
+        const engineSlugFromHash = parts[5] ? parts[5].toLowerCase() : null;
         
-        console.log('URL hash détecté:', { type, brand, model, version });
-        
-        // Si nous avons au moins le type et la marque, simuler la sélection
+        console.log('URL hash détecté:', { type, brand, model, versionSlugFromHash, engineSlugFromHash });
+
+        // Si nous avons au moins le type et la marque, simuler la sélection progressive
         if (type && brand) {
             // Attendre que les données soient chargées
         setTimeout(() => {
@@ -2246,12 +2444,32 @@ function handleHashChange() {
                                                 item.click();
                                                 
                                                 // Si nous avons une version, simuler sa sélection
-                                                if (version) {
+                                                if (versionSlugFromHash) {
                                                     setTimeout(() => {
                                                         const versionItems = document.querySelectorAll('.selection-item[data-version]');
                                                         for (const item of versionItems) {
-                                                            if (item.dataset.version.toLowerCase() === version.toLowerCase()) {
+                                                            const itemVersionSlug = item.dataset.version
+                                                                ? item.dataset.version.toLowerCase().replace(/\s+/g, '-')
+                                                                : '';
+                                                            if (itemVersionSlug === versionSlugFromHash) {
                                                                 item.click();
+
+                                                                // Si une motorisation est spécifiée dans le hash, la sélectionner aussi
+                                                                if (engineSlugFromHash) {
+                                                                    setTimeout(() => {
+                                                                        const engineItems = document.querySelectorAll('.selection-item.engine-item');
+                                                                        for (const engineItem of engineItems) {
+                                                                            const engineName = engineItem.querySelector('.engine-type')?.textContent.trim().toLowerCase();
+                                                                            const engineNameSlug = engineName
+                                                                                ? engineName.replace(/\s+/g, '-')
+                                                                                : '';
+                                                                            if (engineNameSlug && engineNameSlug === engineSlugFromHash) {
+                                                                                engineItem.click();
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                    }, 500);
+                                                                }
                                                                 break;
                                                             }
                                                         }
@@ -2342,7 +2560,7 @@ function checkURLParamsAndShowResults() {
         return false;
     }
     
-    // D'abord, vérifions les paramètres dans l'URL actuelle
+    // D'abord, vérifions les paramètres dans l'URL actuelle (anciens liens partagés)
     // Récupérer les paramètres de l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const brand = urlParams.get('brand');
@@ -2366,6 +2584,20 @@ function checkURLParamsAndShowResults() {
     // Si l'URL contient tous les paramètres nécessaires, traiter en priorité cette URL
     if (hasCurrentURLParams && parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1]; // cars, motorcycles, etc.
+        
+        // Construire une URL propre sans query string pour cette combinaison
+        const cleanBrandSlug = encodeURIComponent(brand.toLowerCase().replace(/\s+/g, '-'));
+        const cleanModelSlug = encodeURIComponent(model.toLowerCase().replace(/\s+/g, '-'));
+        const cleanVersionSlug = encodeURIComponent(version.toLowerCase().replace(/\s+/g, '-'));
+        const cleanEngineSlug = encodeURIComponent(engineType.toLowerCase().replace(/\s+/g, '-'));
+        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}/${cleanEngineSlug}`;
+        try {
+            const cleanUrl = `${window.location.origin}${window.location.pathname}#${cleanHash}`;
+            const currentState = window.history.state || {};
+            window.history.replaceState(currentState, '', cleanUrl);
+        } catch (e) {
+            console.error('Erreur lors du nettoyage des paramètres d’URL:', e);
+        }
         
         console.log('Paramètres d\'URL détectés:', { brand, model, version, type, engineType });
         
