@@ -1,6 +1,30 @@
 // Test simple pour vérifier que le script est chargé
 console.log('Script chargé');
 
+// Mapping type véhicule CSV (dernière colonne) -> type UI (onglet)
+const TYPE_MAPPING = {
+    'VOITURE': 'cars',
+    'Voiture': 'cars',
+    'MOTO': 'motorcycles',
+    'Moto': 'motorcycles',
+    'JETSKI': 'jetski',
+    'Jetski': 'jetski',
+    'QUAD': 'quad',
+    'Quad': 'quad',
+    'CAMION': 'trucks',
+    'Camion': 'trucks',
+    'AGRICOLE & ENGIN': 'agricultural',
+    'Agricole & Engin': 'agricultural',
+    'agricole & engin': 'agricultural'
+};
+
+/** Retourne true si la ligne CSV correspond au type d'onglet (cars, motorcycles, etc.) */
+function csvLineMatchesType(columns, uiType) {
+    const rawType = (columns[columns.length - 1] || '').trim();
+    const mapped = TYPE_MAPPING[rawType];
+    return mapped === uiType;
+}
+
 // Fonction pour tester le chargement du fichier
 async function testFileAccess() {
     try {
@@ -56,7 +80,7 @@ function extractBrands(lines) {
         const brand = columns[0].trim();
         const rawType = columns[columns.length - 1].trim();
         
-        const type = typeMapping[rawType];
+        const type = typeMapping[rawType] || TYPE_MAPPING[rawType];
         if (type && brands[type]) {
             brands[type].add(brand);
         }
@@ -472,13 +496,13 @@ function handleBrandSelection(brand, type) {
     // Cacher les onglets
     document.querySelector('.vehicle-tabs').style.display = 'none';
     
-    // Récupérer tous les modèles pour cette marque
+    // Récupérer tous les modèles pour cette marque (uniquement pour le type d'onglet : voiture, moto, etc.)
     const models = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -572,7 +596,7 @@ function handleBrandSelection(brand, type) {
     }, 100);
 }
 
-// Fonction pour récupérer les modèles pour une marque donnée
+// Fonction pour récupérer les modèles pour une marque donnée (filtrés par type véhicule)
 function getModelsForBrand(brand, type) {
     // Vérifier si nous avons des données CSV
     if (!csvContent) return [];
@@ -581,10 +605,10 @@ function getModelsForBrand(brand, type) {
     const lines = parseCSV(csvContent);
     const models = new Set();
     
-    // Parcourir les lignes pour trouver les modèles correspondant à la marque
+    // Parcourir les lignes pour trouver les modèles correspondant à la marque et au type
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand) {
+        if (columns[0].trim() === brand && csvLineMatchesType(columns, type)) {
             models.add(columns[1].trim());
         }
     }
@@ -647,13 +671,13 @@ function handleModelSelection(brand, type, model) {
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Récupérer toutes les versions pour cette marque et ce modèle
+    // Récupérer toutes les versions pour cette marque et ce modèle (uniquement pour le type d'onglet)
     const versions = new Set();
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand && columns[1].trim() === model) {
+        if (columns[0].trim() === brand && columns[1].trim() === model && csvLineMatchesType(columns, type)) {
             versions.add(columns[2].trim());
         }
     }
@@ -764,13 +788,13 @@ function handleVersionSelection(brand, type, model, version) {
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Récupérer tous les moteurs pour cette marque, ce modèle et cette version
+    // Récupérer tous les moteurs pour cette marque, ce modèle et cette version (même type véhicule)
     const engines = [];
     const lines = parseCSV(csvContent);
     
     for (let i = 1; i < lines.length; i++) {
         const columns = lines[i].split(',');
-        if (columns[0].trim() === brand && columns[1].trim() === model && columns[2].trim() === version) {
+        if (columns[0].trim() === brand && columns[1].trim() === model && columns[2].trim() === version && csvLineMatchesType(columns, type)) {
             const engine = {
                 type: columns[3]?.trim() || 'N/A',
                 energy: columns[4]?.trim() || 'N/A',
