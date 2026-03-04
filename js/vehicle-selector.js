@@ -683,7 +683,16 @@ function handleModelSelection(brand, type, model) {
     }
 
     // Mettre à jour le contenu de la page avec un affichage en boîtes
-    const detailsSection = document.querySelector('.vehicle-details');
+    // Créer ou réutiliser la section de détails (elle peut avoir été supprimée par la page de résultats)
+    let detailsSection = document.querySelector('.vehicle-details');
+    if (!detailsSection) {
+        detailsSection = document.createElement('div');
+        detailsSection.className = 'vehicle-details';
+        const container = document.querySelector('.section-container');
+        if (container) {
+            container.appendChild(detailsSection);
+        }
+    }
     
     // S'assurer que la section est visible
     detailsSection.style.display = 'block';
@@ -823,7 +832,16 @@ function handleVersionSelection(brand, type, model, version) {
     const energyTypes = [...new Set(engines.map(engine => engine.energy))];
 
     // Mettre à jour le contenu de la page avec un affichage en boîtes
-    const detailsSection = document.querySelector('.vehicle-details');
+    // Créer ou réutiliser la section de détails (elle peut avoir été supprimée par la page de résultats)
+    let detailsSection = document.querySelector('.vehicle-details');
+    if (!detailsSection) {
+        detailsSection = document.createElement('div');
+        detailsSection.className = 'vehicle-details';
+        const container = document.querySelector('.section-container');
+        if (container) {
+            container.appendChild(detailsSection);
+        }
+    }
     
     // S'assurer que la section est visible
     detailsSection.style.display = 'block';
@@ -1056,10 +1074,10 @@ function handleEngineSelection(brand, type, model, version, engineData) {
         mainContent.appendChild(container);
     }
 
-    // Masquer la fiche de sélection lorsqu'on affiche les résultats
+    // Supprimer la fiche de sélection lorsqu'on affiche les résultats
     const detailsSection = document.querySelector('.vehicle-details');
     if (detailsSection) {
-        detailsSection.style.display = 'none';
+        detailsSection.remove();
     }
 }
 
@@ -1483,13 +1501,13 @@ function showResultPage(vehicleData) {
                             <div class="metrics-header-col">STAGE 1</div>
                             <div class="metrics-header-col">DIFFÉRENCE</div>
                         </div>
-                        <div class="metric-row">
+                        <div class="metric-row" data-metric="power">
                             <div class="metric-label">Puissance</div>
                             <div class="metric-value origin"><span class="metric-col-label">ORIGINE</span> ${powerOriginal.toString().includes('Hp') ? powerOriginal : `${powerOriginal} Hp`}</div>
                             <div class="metric-value stage" data-stage-label="STAGE 1"><span class="metric-col-label">STAGE 1</span> ${powerStage1.toString().includes('Hp') ? powerStage1 : `${powerStage1} Hp`}</div>
                             <div class="metric-value diff"><span class="metric-col-label">DIFFÉRENCE</span> +${powerDiff} Hp</div>
                         </div>
-                        <div class="metric-row">
+                        <div class="metric-row" data-metric="torque">
                             <div class="metric-label">Couple</div>
                             <div class="metric-value origin"><span class="metric-col-label">ORIGINE</span> ${torqueOriginal.toString().includes('Nm') ? torqueOriginal : `${torqueOriginal} Nm`}</div>
                             <div class="metric-value stage" data-stage-label="STAGE 1"><span class="metric-col-label">STAGE 1</span> ${torqueStage1.toString().includes('Nm') ? torqueStage1 : `${torqueStage1} Nm`}</div>

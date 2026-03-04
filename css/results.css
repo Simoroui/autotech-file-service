@@ -343,6 +343,21 @@
         grid-template-columns: 1fr;
         align-items: stretch;
     }
+    /* Titres du tableau sur mobile : - PUISSANCE - et - COUPLE - */
+    .metric-row[data-metric="power"] .metric-label {
+        font-size: 0;
+    }
+    .metric-row[data-metric="power"] .metric-label::before {
+        content: "- PUISSANCE -";
+        font-size: 0.95rem;
+    }
+    .metric-row[data-metric="torque"] .metric-label {
+        font-size: 0;
+    }
+    .metric-row[data-metric="torque"] .metric-label::before {
+        content: "- COUPLE -";
+        font-size: 0.95rem;
+    }
     .metric-col-label {
         display: inline;
         margin-right: 0.5rem;
