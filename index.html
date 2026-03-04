@@ -9,7 +9,7 @@
     <!-- Balises Open Graph pour Facebook, LinkedIn, etc. -->
     <meta property="og:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
     <meta property="og:description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation.">
-    <meta property="og:image" content="https://autotech-tunisia.com/images/logo-min.png">
+    <meta property="og:image" content="https://autotech-tunisia.com/images/Logo-H.png">
     <meta property="og:url" content="https://autotech-tunisia.com/">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AUTOTECH">
@@ -19,7 +19,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
     <meta name="twitter:description" content="AUTOTECH - Reprogrammation moteur sur banc de puissance en Tunisie pour optimiser les performances de votre véhicule.">
-    <meta name="twitter:image" content="https://autotech-tunisia.com/images/logo-min.png">
+    <meta name="twitter:image" content="https://autotech-tunisia.com/images/Logo-H.png">
 
     <!-- Canonical -->
     <link rel="canonical" href="https://autotech-tunisia.com/">
@@ -31,7 +31,7 @@
       "@type": "AutoRepair",
       "name": "AUTOTECH Reprogrammation Moteur",
       "url": "https://autotech-tunisia.com/",
-      "image": "https://autotech-tunisia.com/images/logo-min.png",
+      "image": "https://autotech-tunisia.com/images/Logo-H.png",
       "telephone": "+21650720660",
       "email": "autotechtunis@gmail.com",
       "address": {
@@ -422,48 +422,30 @@
             }
         }
 
-        /* Hero mobile : cadre au centre (logo + texte) ; bouton EN BAS de l’écran */
+        /* Ajustements pour le bouton dans la section hero */
         @media screen and (max-width: 768px) {
             .hero-content {
                 position: relative !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: flex-start !important;
-                padding-top: 28vh !important;
-                padding-left: 15px !important;
-                padding-right: 15px !important;
-                padding-bottom: 0 !important;
-                min-height: 100%;
-                box-sizing: border-box !important;
             }
             
-            /* Cadre rouge au centre : uniquement logo + 2 lignes (hauteur augmentée pour bien dégager le texte) */
             .hero-content::before {
                 position: absolute !important;
-                top: 28vh !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
                 width: 90% !important;
                 max-width: 320px !important;
-                height: 200px !important;
-                box-sizing: border-box !important;
+                height: 170px !important;
             }
             
             .hero-content h1 {
-                position: relative !important;
-                top: auto !important;
-                left: auto !important;
-                transform: none !important;
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: center !important;
                 justify-content: center !important;
                 width: 85% !important;
                 z-index: 2 !important;
-                margin: 0 !important;
-                padding-top: 32px !important;
-                padding-bottom: 44px !important;
             }
             
             .hero-logo {
@@ -472,28 +454,23 @@
             }
             
             .text-red {
-                font-size: 0.98rem !important;
+                font-size: 0.85rem !important;
                 text-align: center !important;
-                margin-bottom: 6px !important;
+                margin-bottom: 10px !important;
                 line-height: 1.3 !important;
             }
             
-            .text-red:last-of-type {
-                margin-bottom: 0 !important;
-            }
-            
-            /* Bouton en bas de l’écran, centré, avec marge au-dessus (comme l’exemple) */
+            /* Repositionner le bouton en dehors du cadre mais plus haut */
             .boost-button {
-                position: absolute !important;
-                bottom: 36px !important;
+                position: fixed !important;
+                bottom: 80px !important;
                 left: 50% !important;
                 transform: translateX(-50%) !important;
-                margin-top: 0 !important;
-                padding: 0.6rem 1.8rem !important;
-                font-size: 0.95rem !important;
+                z-index: 3 !important;
+                padding: 0.4rem 1.5rem !important;
+                font-size: 0.9rem !important;
                 border-radius: 30px !important;
                 box-shadow: 0 4px 12px rgba(227, 6, 19, 0.5) !important;
-                z-index: 2 !important;
             }
         }
 
