@@ -2620,6 +2620,21 @@ html {
     box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.8);
 }
 
+/* Version mobile : titre \"Nos Options de Reprogrammation\" bien centré et contenu entier visible */
+@media screen and (max-width: 768px) {
+    .tuning-options .section-title {
+        font-size: 1.5rem;
+        padding: 0 12px 1rem;
+        max-width: 100%;
+        word-break: normal;
+        overflow-wrap: normal;
+        hyphens: none;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
 .tuning-options .section-intro {
     text-align: center;
     max-width: 800px;
