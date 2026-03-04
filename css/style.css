@@ -4742,8 +4742,31 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
     
-    .engine-items {
-        grid-template-columns: 1fr;
+    /* Grille choix motorisation : masquer puissance, cylindrée, énergie, code moteur (mobile uniquement) */
+    .selection-items.engine-items .engine-details {
+        display: none !important;
+    }
+    
+    /* Motorisations en liste verticale (pas de grille) sur mobile uniquement */
+    .selection-items.engine-items {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+    }
+    
+    .selection-items.engine-items .selection-item {
+        width: 100%;
+        min-height: auto;
+        /* Suppression du cadre extérieur (carte) sur mobile */
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        padding: 6px 0 !important;
+    }
+    
+    .selection-items.engine-items .engine-type {
+        font-size: 14px !important;
     }
     
     .selected-info {
