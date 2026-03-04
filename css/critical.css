@@ -224,7 +224,7 @@ body {
     
     .hero-content::before {
         width: 95%;
-        height: 280px;
+        height: 80px;
         animation: laser-border 2.5s infinite;
     }
 }
@@ -236,7 +236,7 @@ body {
     
     .hero-content::before {
         width: 95%;
-        height: 250px;
+        height: 80px;
         border-width: 1px;
     }
     

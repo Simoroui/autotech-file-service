@@ -1896,38 +1896,16 @@ function initializeSlideshow() {
 // Fonction pour gérer le retour (bouton "Retour" interne)
 function handleBack() {
     const s = currentSelection;
-
-    // 1) Si la page résultats est affichée : la supprimer et revenir à la sélection motorisation
     const resultsPage = document.getElementById('vehicle-results-page');
-    if (resultsPage) {
-        resultsPage.remove();
-        if (s && s.type && s.brand && s.model && s.version) {
-            handleVersionSelection(s.brand, s.type, s.model, s.version);
-            const detailsSection = document.querySelector('.vehicle-details');
-            if (detailsSection) detailsSection.style.display = 'block';
-            scrollToStepCenter('engine');
+    const hasResultPage = !!resultsPage;
+
+    if (hasResultPage || (s && s.type && s.brand)) {
+        if (window.history && typeof window.history.back === 'function') {
+            window.history.back();
         }
         return;
     }
 
-    // 2) Sinon on est sur une page de sélection : revenir d’une étape
-    if (s && s.type && s.brand && s.model && s.version) {
-        // Étape motorisation -> revenir à l’étape version (liste des versions)
-        handleModelSelection(s.brand, s.type, s.model);
-        return;
-    }
-    if (s && s.type && s.brand && s.model) {
-        // Étape version -> revenir à l’étape modèle (liste des modèles)
-        handleBrandSelection(s.brand, s.type);
-        return;
-    }
-    if (s && s.type && s.brand) {
-        // Étape modèle -> revenir à la liste des marques
-        goToBrandList(s.type);
-        return;
-    }
-
-    // 3) Sinon (étape marque ou rien) : aller à l’accueil
     window.location.href = 'index.html#boost';
 }
 

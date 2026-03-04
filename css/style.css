@@ -6,6 +6,12 @@
     --background-color: #ffffff;
 }
 
+/* Base lisible sur mobile (évite zoom iOS, améliore accessibilité) */
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
 /* Reset et polices */
 * {
     margin: 0;
@@ -19,6 +25,7 @@ body {
     background-color: #000;
     font-family: 'Roboto', sans-serif;
     min-height: 100vh;
+    font-size: 1rem;
 }
 
 .page-wrapper {
@@ -58,6 +65,13 @@ body {
     z-index: 1;
 }
 
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .hero-content {
     position: relative;
     z-index: 2;
@@ -68,9 +82,46 @@ body {
     align-items: center;
     justify-content: center;
     padding-top: 60px;
+    gap: 0;
 }
 
-/* Ajout de la bande noire transparente derrière le contenu */
+/* Bloc titre (logo + texte) — sur PC la grille entoure uniquement ce bloc */
+.hero-title-grid {
+    position: relative;
+    z-index: 1;
+}
+
+/* Sur PC : grille du titre plus large, uniquement autour du logo + texte (bouton en dessous) */
+@media screen and (min-width: 769px) {
+    .hero-content::before {
+        display: none;
+    }
+    .hero-title-grid {
+        width: 90%;
+        max-width: 880px;
+    }
+    .hero-title-grid::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        max-width: 880px;
+        height: 170px;
+        background-color: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        z-index: -1;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        border: 2px solid transparent;
+        animation: laser-border 3s infinite;
+    }
+    .hero-content {
+        gap: 4rem;
+    }
+}
+
+/* Ajout de la bande noire transparente derrière le contenu (mobile : autour de tout) */
 .hero-content::before {
     content: '';
     position: absolute;
@@ -166,6 +217,7 @@ body {
     margin-top: 0;
     position: relative;
     z-index: 3;
+    touch-action: manipulation;
 }
 
 .boost-button:hover {
@@ -440,18 +492,60 @@ body {
     
     .boost-button {
         font-size: 1rem;
-        padding: 10px 20px;
+        padding: 12px 24px;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .hero-content {
         padding-top: 80px;
+        gap: 0;
+        justify-content: flex-start;
+        min-height: 0;
     }
     
-    /* Ajustement de la bande noire pour mobile */
+    /* Mobile : grille et titre au centre de l'écran, bouton en bas */
+    .hero-title-grid {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        width: 92%;
+        max-width: 320px;
+        z-index: 2;
+    }
+    .hero-content h1 {
+        position: static !important;
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+    .hero-content .boost-button {
+        position: absolute !important;
+        bottom: 2rem !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        margin-top: 0 !important;
+        padding-bottom: 0;
+        z-index: 3;
+    }
+    
+    /* Grille (::before) au centre comme le titre */
     .hero-content::before {
-        width: 95%;
-        height: 280px;
+        width: 92% !important;
+        max-width: none !important;
+        height: 100px !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
         animation: laser-border 2.5s infinite;
+    }
+    .hero-title-grid::before {
+        display: none;
     }
     
     .hero {
@@ -472,7 +566,11 @@ body {
     }
     
     .boost-button {
-        margin-top: 20px;
+        min-height: 44px;
+        min-width: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .construction-message {
@@ -484,7 +582,9 @@ body {
     }
     
     .tab-button {
-        padding: 10px;
+        padding: 12px 16px;
+        min-height: 44px;
+        min-width: 44px;
     }
     
     .tab-button span {
@@ -514,29 +614,35 @@ body {
         height: 100vh;
     }
     
-    /* Ajustement de la bande noire pour petit mobile */
+    /* Petit mobile : grille et titre au centre, bouton en bas */
     .hero-content::before {
-        width: 95%;
-        height: 250px;
+        width: 92% !important;
+        height: 100px !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
         border-width: 1px;
     }
     
     .hero-content {
         padding-top: 60px;
+        padding: 1rem;
+        margin-bottom: 0;
+        min-height: 0;
+        justify-content: flex-start;
+    }
+    
+    .hero-content .boost-button {
+        bottom: 1.5rem !important;
     }
     
     .boost-button {
         font-size: 0.9rem;
-        padding: 8px 16px;
-    }
-    
-    .hero-content {
-        padding: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .boost-button {
-        margin-top: 2rem;
+        padding: 12px 20px;
+        min-height: 44px;
+        min-width: 44px;
+        margin-top: 0 !important;
+        padding-bottom: 0;
     }
 
     .vehicle-tabs {
@@ -544,8 +650,10 @@ body {
     }
 
     .tab-button {
-        padding: 0.6rem 1rem;
+        padding: 12px 16px;
         font-size: 0.8rem;
+        min-height: 44px;
+        min-width: 44px;
     }
 }
 

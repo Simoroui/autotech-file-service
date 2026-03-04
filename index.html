@@ -6,19 +6,19 @@
     <meta property="fb:app_id" content="920729097272767">
     <meta property="og:url" content="https://autotech-tunisia.com/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta property="og:title" content="AUTOTECH - Reprogrammation moteur sur banc | Tunisie">
     <meta property="og:description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation.">
     <meta property="og:image" content="https://autotech-tunisia.com/images/logo%20noir4.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="AUTOTECH">
     <meta property="og:locale" content="fr_FR">
-    <title>AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance</title>
-    <meta name="description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation pour voitures, motos, camions et véhicules agricoles.">
+    <title>AUTOTECH - Reprogrammation moteur sur banc | Tunisie</title>
+    <meta name="description" content="Reprogrammation moteur sur banc de puissance en Tunisie. Gain de puissance, optimisation du couple, réduction consommation. AUTOTECH Tunis.">
     
     <!-- Balises Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta name="twitter:title" content="AUTOTECH - Reprogrammation moteur sur banc | Tunisie">
     <meta name="twitter:description" content="AUTOTECH - Reprogrammation moteur sur banc de puissance en Tunisie pour optimiser les performances de votre véhicule.">
     <meta name="twitter:image" content="https://autotech-tunisia.com/images/logo%20noir4.jpg">
 
@@ -70,12 +70,15 @@
       "sameAs": [
         "https://www.facebook.com/autotechreprogrammation",
         "https://www.instagram.com/autotech_reprog/",
-        "https://www.youtube.com/@autotechtunis2888"
+        "https://www.youtube.com/@autotechtunis2888",
+        "https://x.com/autotech_reprog",
+        "https://www.linkedin.com/company/autotech-tunisia"
       ]
     }
     </script>
     
     <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="images-optimized/hero-bg.jpg" as="image">
     <link rel="preload" href="images/logo-min.png" as="image">
     <link rel="preload" href="images/Logo-H.png" as="image">
     <link rel="preload" href="css/style.css" as="style">
@@ -423,30 +426,13 @@
             }
         }
 
-        /* Ajustements pour le bouton dans la section hero */
+        /* Ajustements pour le bouton dans la section hero (mobile : flux normal géré par style.css) */
         @media screen and (max-width: 768px) {
-            .hero-content {
-                position: relative !important;
-            }
-            
             .hero-content::before {
                 position: absolute !important;
-                width: 90% !important;
-                max-width: 320px !important;
-                height: 170px !important;
-            }
-            
-            .hero-content h1 {
-                position: absolute !important;
-                top: 50% !important;
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 85% !important;
-                z-index: 2 !important;
+                width: 92% !important;
+                max-width: none !important;
+                height: 80px !important;
             }
             
             .hero-logo {
@@ -461,14 +447,9 @@
                 line-height: 1.3 !important;
             }
             
-            /* Repositionner le bouton sous le cadre, attaché à la section hero (pas à l'écran) */
             .boost-button {
-                position: absolute !important;
-                bottom: 30px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
                 z-index: 3 !important;
-                padding: 0.4rem 1.5rem !important;
+                padding: 0.5rem 1.5rem !important;
                 font-size: 0.9rem !important;
                 border-radius: 30px !important;
                 box-shadow: 0 4px 12px rgba(227, 6, 19, 0.5) !important;
@@ -505,13 +486,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </noscript>
     
-    <!-- Facebook SDK chargé de façon asynchrone -->
+    <!-- Réseaux sociaux : chargement différé après affichage de la page (meilleure vitesse / INP) -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" 
-            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0" 
-            nonce="your-nonce">
+    <script>
+      window.addEventListener('load', function() {
+        var d = document, s = 'script', id = 'fb-sdk';
+        if (!d.getElementById(id)) {
+          var js = d.createElement(s);
+          js.id = id;
+          js.async = true;
+          js.defer = true;
+          js.src = 'https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0';
+          js.crossOrigin = 'anonymous';
+          d.body.appendChild(js);
+        }
+        if (!window.instgrm) {
+          var ig = d.createElement(s);
+          ig.async = true;
+          ig.src = '//www.instagram.com/embed.js';
+          d.body.appendChild(ig);
+        }
+      });
     </script>
-    
+
     <!-- Cache Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
@@ -520,8 +517,6 @@
             });
         }
     </script>
-
-    <script async src="//www.instagram.com/embed.js"></script>
     <link rel="stylesheet" href="css/results.css">
     <link rel="stylesheet" href="css/no-animations.css">
     <!-- Précharger les ressources critiques -->
@@ -747,6 +742,12 @@
                         <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
                             <i class="fab fa-instagram"></i>
                         </a>
+                        <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter)">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
                         <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
                             <i class="fab fa-youtube"></i>
                         </a>
@@ -760,14 +761,15 @@
             <div class="hero-wrapper">
         <section class="hero">
             <div class="hero-background">
-                <img src="images-optimized/hero-bg.jpg" alt="Background" loading="eager">
+                <img src="images-optimized/hero-bg.jpg" alt="AUTOTECH reprogrammation moteur sur banc de puissance" loading="eager" fetchpriority="high" width="1920" height="1080">
             </div>
             <div class="hero-content">
-                <h1>
+                <div class="hero-title-grid">
+                    <h1>
                             <img src="images/Logo-H.png" alt="AUTOTECH" class="hero-logo">
-                            <span class="text-red">Reprogrammation & Optimisation Moteur</span>
-                            <span class="text-red">sur Banc de puissance</span>
-                </h1>
+                            <span class="text-red">Reprogrammation moteur sur banc de puissance</span>
+                    </h1>
+                </div>
                 <a href="#boost" class="boost-button">Boostez votre véhicule</a>
             </div>
         </section>
@@ -1286,6 +1288,12 @@
                                     <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
                                         <i class="fab fa-instagram"></i>
                                     </a>
+                                    <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter)">
+                                        <i class="fab fa-x-twitter"></i>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
                                     <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
                                         <i class="fab fa-youtube"></i>
                                     </a>
@@ -1363,6 +1371,12 @@
                             </a>
                             <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
                                 <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter)">
+                                <i class="fab fa-x-twitter"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
                             </a>
                             <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
                                 <i class="fab fa-youtube"></i>
