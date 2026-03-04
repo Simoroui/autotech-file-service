@@ -1119,10 +1119,6 @@ BMW,2 Serie GC,2020 ->,220d (2.0D) 190hp,Diesel,190Hp,400Nm,220Hp,440Nm,B47D20A,
 BMW,2 Serie GC,2020 ->,220i (2.0T) 184hp,Petrol,184Hp,300Nm,250Hp,440Nm,B48A20T1,1998 CC,11 0 : 1,Bosch MG1CS201,66Hp,140Nm,Voiture
 BMW,2 Serie GC,2020 ->,M235i 306hp,Petrol,306Hp,450Nm,335Hp,500Nm,B48A20T1,1998 CC,9 5 : 1,Bosch MG1CS201 & Bosch MG1CS024,29Hp,50Nm,Voiture
 BMW,2 Serie GC,2020 ->,M240i 374hp,Petrol,374Hp,500Nm,420Hp,575Nm,B48A20T1,2998 CC,10 2 : 1,,46Hp,75Nm,Voiture
-BMW,3 serie,E36,318 TDS 90hp,Diesel,90Hp,190Nm,115Hp,240Nm,174T1,1665 CC,22 0 : 1,Bosch EDC16C31,25Hp,50Nm,Voiture
-BMW,3 serie,E36,323i 170hp,Petrol,170Hp,245Nm,185Hp,260Nm,M52B25,2494 CC,10 5 : 1,Siemens/Continental MS41,15Hp,15Nm,Voiture
-BMW,3 serie,E36,325 TD 115hp,Diesel,115Hp,245Nm,140Hp,285Nm,256T1,2497 CC,22 0 : 1,Bosch EDC16C31,25Hp,40Nm,Voiture
-BMW,3 serie,E36,325 TDS 143hp,Diesel,143Hp,260Nm,170Hp,330Nm,256T1,2497 CC,22 0 : 1,Bosch EDC16C31,27Hp,70Nm,Voiture
 BMW,3 serie,E46 - 1998 - 2005,316i 115hp,Petrol,115Hp,175Nm,126Hp,192Nm,N42B16,1895 CC,9 7 : 1,Bosch ME9 & Bosch BMS46,11Hp,17Nm,Voiture
 BMW,3 serie,E46 - 1998 - 2005,318D 115hp,Diesel,115Hp,280Nm,145Hp,330Nm,M47TUD20,1951 CC,19 0 : 1,Bosch EDC16C31 & Bosch EDC16C10,30Hp,50Nm,Voiture
 BMW,3 serie,E46 - 1998 - 2005,318i 118hp,Petrol,118Hp,180Nm,131Hp,200Nm,M43B19,1895 CC,9 7 : 1,Bosch ME9.2 & Bosch BMS46 & Bosch M5.2.1,13Hp,20Nm,Voiture
@@ -1348,9 +1344,6 @@ BMW,5 serie,2023 -> ...,530e 299hp,,,,,,,,,,,,Voiture
 BMW,5 serie,2023 -> ...,530i 255hp,,,,,,,,,,,,Voiture
 BMW,5 serie,2023 -> ...,540i 375hp,,,,,,,,,,,,Voiture
 BMW,5 serie,2023 -> ...,550e 313hp,,,,,,,,,,,,Voiture
-BMW,5 serie,E34,524 TD 115hp,Diesel,115Hp,220Nm,140Hp,262Nm,246TB,2443 CC,22 0 : 1,,25Hp,42Nm,Voiture
-BMW,5 serie,E34,525 TD 115hp,Diesel,115Hp,245Nm,140Hp,285Nm,256T1,2498 CC,22 0 : 1,,25Hp,40Nm,Voiture
-BMW,5 serie,E34,525 TDS 143hp,Diesel,143Hp,260Nm,175Hp,330Nm,256T1,2498 CC,22 0 : 1,,32Hp,70Nm,Voiture
 BMW,5 serie,E39 - 1995 - 2003,520D 136hp,Diesel,136Hp,280Nm,168Hp,348Nm,204D1,1951 CC,19 0 : 1,Bosch EDC16C31 & Bosch EDC15,32Hp,68Nm,Voiture
 BMW,5 serie,E39 - 1995 - 2003,520i 150hp,Petrol,150Hp,190Nm,165Hp,208Nm,206S3,1991 CC,11 0 : 1,Siemens/Continental MS41 & Siemens/Continental MS42,15Hp,18Nm,Voiture
 BMW,5 serie,E39 - 1995 - 2003,523i 170hp,Petrol,170Hp,245Nm,187Hp,272Nm,256S3,2495 CC,10 5 : 1,Siemens/Continental MS43 & Siemens/Continental MS41 & Siemens/Continental MS42,17Hp,27Nm,Voiture
