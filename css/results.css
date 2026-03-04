@@ -262,6 +262,17 @@
     align-items: center;
 }
 
+/* Espacement vertical entre les blocs PUISSANCE et COUPLE du tableau */
+.metric-row[data-metric="power"] {
+    margin-bottom: 1.75rem;
+}
+
+/* Trait fin entre PUISSANCE et COUPLE dans le tableau */
+.metric-row[data-metric="torque"] {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 0.9rem;
+}
+
 .metric-label {
     font-size: 0.95rem;
     color: rgba(255, 255, 255, 0.8);
@@ -342,6 +353,12 @@
     .metric-row {
         grid-template-columns: 1fr;
         align-items: stretch;
+    }
+    /* Trait rouge fin entre le titre et le bloc - PUISSANCE - (mobile) */
+    .results-table-title-row {
+        border-bottom: 1px solid rgba(227, 6, 19, 0.6);
+        padding-bottom: 0.6rem;
+        margin-bottom: 0.9rem;
     }
     /* Titres du tableau sur mobile : - PUISSANCE - et - COUPLE - */
     .metric-row[data-metric="power"] .metric-label {
@@ -471,6 +488,17 @@
 
 .performance-row:last-child {
     margin-bottom: 0;
+}
+
+/* Espacement vertical entre PUISSANCE et COUPLE dans le graphique */
+.performance-row[data-metric="power"] {
+    margin-bottom: 1.75rem;
+}
+
+/* Trait fin entre PUISSANCE et COUPLE dans le graphique */
+.performance-row[data-metric="torque"] {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    padding-top: 0.9rem;
 }
 
 .performance-label {
