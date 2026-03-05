@@ -2380,6 +2380,16 @@ function getEngineData(brand, model, version, engineType) {
 }
 
     // Fonction pour gérer les URL avec hash
+function normalizeVersionSlug(s) {
+    if (!s || typeof s !== 'string') return '';
+    try {
+        const decoded = decodeURIComponent(s);
+        return decoded.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+    } catch (_) {
+        return s.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+    }
+}
+
 function handleHashChange() {
     const hash = window.location.hash.substring(1); // Enlever le # du début
     if (!hash) return;
@@ -2391,9 +2401,9 @@ function handleHashChange() {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
         const model = parts[3] ? decodeURIComponent(parts[3].replace(/-/g, ' ')) : null;
-        // On conserve pour la comparaison le slug brut venant de l'URL (déjà en format "f01---2009---2015")
-        const versionSlugFromHash = parts[4] ? parts[4].toLowerCase() : null;
-        const engineSlugFromHash = parts[5] ? parts[5].toLowerCase() : null;
+        // Décoder et normaliser le slug version (ex: e82---2011--%3E et e82---2011---> doivent matcher)
+        const versionSlugFromHash = parts[4] ? normalizeVersionSlug(parts[4]) : null;
+        const engineSlugFromHash = parts[5] ? decodeURIComponent(parts[5]).toLowerCase().replace(/\s+/g, '-') : null;
         
         console.log('URL hash détecté:', { type, brand, model, versionSlugFromHash, engineSlugFromHash });
 
@@ -2421,15 +2431,15 @@ function handleHashChange() {
                                             if (item.dataset.model.toLowerCase() === model.toLowerCase()) {
                                                 item.click();
                                                 
-                                                // Si nous avons une version, simuler sa sélection
+                                                // Si nous avons une version, simuler sa sélection (comparaison normalisée)
                                                 if (versionSlugFromHash) {
                                                     setTimeout(() => {
                                                         const versionItems = document.querySelectorAll('.selection-item[data-version]');
                                                         for (const item of versionItems) {
                                                             const itemVersionSlug = item.dataset.version
-                                                                ? item.dataset.version.toLowerCase().replace(/\s+/g, '-')
+                                                                ? normalizeVersionSlug(item.dataset.version)
                                                                 : '';
-                                                            if (itemVersionSlug === versionSlugFromHash) {
+                                                            if (itemVersionSlug && itemVersionSlug === versionSlugFromHash) {
                                                                 item.click();
 
                                                                 // Si une motorisation est spécifiée dans le hash, la sélectionner aussi
