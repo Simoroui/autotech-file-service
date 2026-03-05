@@ -457,6 +457,8 @@ function goToBrandList(type) {
     if (tabs) {
         tabs.style.display = '';
     }
+    // Changer de marque/type : ne pas garder en mémoire l'ancienne fiche résultat (évite conflits Retour)
+    localStorage.removeItem('vehicleResultData');
     const targetType = type || (currentSelection && currentSelection.type) || 'cars';
     // Un seul onglet actif et une seule grille visible
     document.querySelectorAll('.tab-button').forEach(btn => {
@@ -476,6 +478,8 @@ function goToBrandList(type) {
 
 // Modifier handleBrandSelection pour utiliser la nouvelle fonction
 function handleBrandSelection(brand, type) {
+    // Changement de marque : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     currentSelection = {
         brand: brand,
         model: null,
@@ -659,6 +663,8 @@ function addEventListeners(detailsSection, brand, type, models) {
 
 // Modifier handleModelSelection pour centrer la sélection de version
 function handleModelSelection(brand, type, model) {
+    // Changement de modèle : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     // Mettre à jour la sélection courante
     currentSelection = {
         brand: brand,
@@ -785,6 +791,8 @@ function handleModelSelection(brand, type, model) {
 
 // Modifier handleVersionSelection pour centrer la sélection de motorisation
 function handleVersionSelection(brand, type, model, version) {
+    // Changement de version : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     // Mettre à jour la sélection courante
     currentSelection = {
         brand: brand,
@@ -1296,22 +1304,9 @@ function showResultPage(vehicleData) {
         torqueStage1: torqueStage1 === "00" ? "00" : (parseInt(torqueStage1) || "00")
     };
     
-    // Stocker les données complètes dans localStorage pour les récupérer après actualisation
-    localStorage.setItem('vehicleResultData', JSON.stringify({
-        type: currentSelection.type || 'cars',
-        brand,
-        model,
-        version,
-        engineType,
-        powerOriginal,
-        powerStage1,
-        torqueOriginal,
-        torqueStage1,
-        timestamp: Date.now(), // Pour l'expiration éventuelle des données
-        url: window.location.href // Stocker l'URL associée à ces données
-    }));
+    // Ne plus stocker la fiche résultat en mémoire : évite les conflits avec le bouton Retour quand l'utilisateur change de marque
     
-    // Créer le conteneur "page résultats" (wrapper neutre, sans style visuel)
+    // Créer le conteneur "page résultats"
     const container = document.createElement('div');
     container.className = 'vehicle-results-page';
     container.id = 'vehicle-results-page';
@@ -2626,20 +2621,7 @@ function checkURLParamsAndShowResults() {
                     torqueStage1: engineData.torqueStage1
                 };
                 
-                // Stocker ces données dans localStorage pour une meilleure persistance
-                localStorage.setItem('vehicleResultData', JSON.stringify({
-                    type,
-                    brand,
-                    model,
-                    version,
-                    engineType,
-                    powerOriginal: engineData.powerOriginal,
-                    powerStage1: engineData.powerStage1,
-                    torqueOriginal: engineData.torqueOriginal,
-                    torqueStage1: engineData.torqueStage1,
-                    timestamp: Date.now(),
-                    url: window.location.href // Stocker l'URL associée à ces données
-                }));
+                // Ne plus stocker la fiche en localStorage (évite conflits avec le bouton Retour)
                 
                 // Pour les URL partagées, s'assurer que l'engineType est toujours défini correctement
                 if (!engineData.engineType) {
@@ -2707,111 +2689,7 @@ function checkURLParamsAndShowResults() {
         return false;
     }
     
-    // Si on n'a pas de paramètres dans l'URL actuelle, utiliser le localStorage en dernier recours
-    try {
-        const storedData = localStorage.getItem('vehicleResultData');
-        if (storedData) {
-            const data = JSON.parse(storedData);
-            // Vérifier si les données ne sont pas trop anciennes (24h max)
-            const now = Date.now();
-            const dataAge = now - (data.timestamp || 0);
-            
-            // Vérifier si l'URL actuelle correspond à celle stockée
-            const currentURL = window.location.href;
-            const storedURL = data.url || '';
-            
-            // Si l'URL stockée existe et ne correspond pas à l'URL actuelle, ne pas utiliser les données stockées
-            if (storedURL && storedURL !== currentURL) {
-                console.log('L\'URL actuelle ne correspond pas à l\'URL stockée, suppression des données');
-                localStorage.removeItem('vehicleResultData');
-                return false;
-            }
-            
-            if (dataAge < 24 * 60 * 60 * 1000) {
-                console.log('Utilisation des données stockées pour afficher les résultats');
-                
-                // Vérifier que toutes les données nécessaires sont présentes
-                if (data.brand && data.model && data.version && data.engineType) {
-                    const type = data.type || getVehicleTypeFromURL() || 'cars';
-                    // Construire la pile d'historique pour que le bouton Retour ramène aux bonnes étapes
-                    try {
-                        if (!window.history.state || !window.history.state.step) {
-                            window.history.replaceState({
-                                step: 'list',
-                                type,
-                                brand: null,
-                                model: null,
-                                version: null,
-                                engine: null
-                            }, '', window.location.href);
-                        }
-                        window.history.pushState({
-                            step: 'brand',
-                            type,
-                            brand: data.brand,
-                            model: null,
-                            version: null,
-                            engine: null
-                        }, '', window.location.href);
-                        window.history.pushState({
-                            step: 'model',
-                            type,
-                            brand: data.brand,
-                            model: data.model,
-                            version: null,
-                            engine: null
-                        }, '', window.location.href);
-                        window.history.pushState({
-                            step: 'version',
-                            type,
-                            brand: data.brand,
-                            model: data.model,
-                            version: data.version,
-                            engine: null
-                        }, '', window.location.href);
-                    } catch (e) {
-                        console.error('Erreur lors de la construction de la pile d\'historique:', e);
-                    }
-                    
-                    // Utiliser directement les données stockées
-                    currentSelection = {
-                        brand: data.brand,
-                        model: data.model,
-                        version: data.version,
-                        type,
-                        engine: data.engineType,
-                        powerOriginal: data.powerOriginal || "00",
-                        powerStage1: data.powerStage1 || "00",
-                        torqueOriginal: data.torqueOriginal || "00",
-                        torqueStage1: data.torqueStage1 || "00"
-                    };
-                    
-                    // Simuler la sélection du moteur pour afficher la page de résultats
-                    handleEngineSelection(data.brand, currentSelection.type, data.model, data.version, {
-                        type: data.engineType,
-                        powerOriginal: data.powerOriginal || "00",
-                        powerStage1: data.powerStage1 || "00",
-                        torqueOriginal: data.torqueOriginal || "00",
-                        torqueStage1: data.torqueStage1 || "00",
-                        engineType: data.engineType
-                    });
-                    
-                    return true;
-                } else {
-                    console.error('Données localStorage incomplètes, suppression');
-                    localStorage.removeItem('vehicleResultData');
-                }
-            } else {
-                // Les données sont trop anciennes, les supprimer
-                console.log('Données localStorage expirées, suppression');
-                localStorage.removeItem('vehicleResultData');
-            }
-        }
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données stockées:', error);
-        localStorage.removeItem('vehicleResultData');
-    }
-    
+    // Ne plus restaurer la dernière fiche depuis localStorage : évite conflits avec le bouton Retour
     return false; // Indiquer que nous n'avons pas traité les paramètres d'URL
 }
 
