@@ -1298,6 +1298,7 @@ function showResultPage(vehicleData) {
     
     // Stocker les données complètes dans localStorage pour les récupérer après actualisation
     localStorage.setItem('vehicleResultData', JSON.stringify({
+        type: currentSelection.type || 'cars',
         brand,
         model,
         version,
@@ -2079,6 +2080,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             sessionStorage.removeItem('selectedModel');
             sessionStorage.removeItem('selectedVersion');
         }
+        
+        // Après construction des grilles : traiter l'URL (hash ou paramètres) pour restaurer
+        // la page résultats si besoin, afin que handleHashChange ait les éléments DOM prêts
+        const paramsProcessed = checkURLParamsAndShowResults();
+        if (!paramsProcessed) {
+            setTimeout(handleHashChange, 800);
+        }
     } catch (error) {
         // Gérer l'erreur silencieusement
     }
@@ -2234,18 +2242,9 @@ function updatePerformanceData(isStage2) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM chargé, vérification des paramètres d\'URL...');
+    // Les paramètres d'URL et le hash sont traités après chargement du CSV (voir listener async plus haut)
     
-    // Vérifier d'abord les paramètres d'URL
-    const paramsProcessed = checkURLParamsAndShowResults();
-    
-    // Si les paramètres n'ont pas été traités, vérifier le hash
-    if (!paramsProcessed) {
-        // Attendre que tout soit initialisé
-        setTimeout(handleHashChange, 1000);
-    }
-    
-    // Ajouter des écouteurs d'événements pour tous les liens de navigation
+    // Ajouter des écouteurs pour supprimer vehicleResultData au clic sur les liens
     // afin de supprimer les données de résultats du localStorage
     document.querySelectorAll('a:not([href^="#resultat"])').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -2481,11 +2480,7 @@ function handleHashChange() {
 // Écouter les changements de hash
 window.addEventListener('hashchange', handleHashChange);
 
-// Vérifier le hash au chargement initial
-document.addEventListener('DOMContentLoaded', () => {
-    // Attendre que tout soit initialisé
-    setTimeout(handleHashChange, 1500);
-});
+// Le hash au chargement initial est traité après le CSV (voir listener DOMContentLoaded async plus haut)
 
 // Utiliser IntersectionObserver pour charger les images de marque à la demande
 document.addEventListener('DOMContentLoaded', function() {
@@ -2633,6 +2628,7 @@ function checkURLParamsAndShowResults() {
                 
                 // Stocker ces données dans localStorage pour une meilleure persistance
                 localStorage.setItem('vehicleResultData', JSON.stringify({
+                    type,
                     brand,
                     model,
                     version,
@@ -2650,6 +2646,46 @@ function checkURLParamsAndShowResults() {
                     engineData.engineType = engineType;
                 }
                 
+                // Construire la pile d'historique pour que le bouton Retour ramène aux bonnes étapes
+                try {
+                    if (!window.history.state || !window.history.state.step) {
+                        window.history.replaceState({
+                            step: 'list',
+                            type,
+                            brand: null,
+                            model: null,
+                            version: null,
+                            engine: null
+                        }, '', window.location.href);
+                    }
+                    window.history.pushState({
+                        step: 'brand',
+                        type,
+                        brand,
+                        model: null,
+                        version: null,
+                        engine: null
+                    }, '', window.location.href);
+                    window.history.pushState({
+                        step: 'model',
+                        type,
+                        brand,
+                        model,
+                        version: null,
+                        engine: null
+                    }, '', window.location.href);
+                    window.history.pushState({
+                        step: 'version',
+                        type,
+                        brand,
+                        model,
+                        version,
+                        engine: null
+                    }, '', window.location.href);
+                } catch (e) {
+                    console.error('Erreur lors de la construction de la pile d\'historique (query params):', e);
+                }
+                
                 // Simuler la sélection du moteur pour afficher la page de résultats
                 handleEngineSelection(brand, type, model, version, engineData);
                 
@@ -2662,6 +2698,13 @@ function checkURLParamsAndShowResults() {
         }, 500);
         
         return true; // Indiquer que nous avons traité les paramètres d'URL
+    }
+    
+    // Si l'URL contient déjà un hash résultat complet (#reprogrammation/type/brand/model/version/engine),
+    // ne pas utiliser le localStorage : laisser handleHashChange simuler les clics pour construire
+    // une pile d'historique correcte (sinon Retour ramène à une entrée vide).
+    if (parts.length >= 6 && parts[0] === 'reprogrammation') {
+        return false;
     }
     
     // Si on n'a pas de paramètres dans l'URL actuelle, utiliser le localStorage en dernier recours
@@ -2689,12 +2732,53 @@ function checkURLParamsAndShowResults() {
                 
                 // Vérifier que toutes les données nécessaires sont présentes
                 if (data.brand && data.model && data.version && data.engineType) {
+                    const type = data.type || getVehicleTypeFromURL() || 'cars';
+                    // Construire la pile d'historique pour que le bouton Retour ramène aux bonnes étapes
+                    try {
+                        if (!window.history.state || !window.history.state.step) {
+                            window.history.replaceState({
+                                step: 'list',
+                                type,
+                                brand: null,
+                                model: null,
+                                version: null,
+                                engine: null
+                            }, '', window.location.href);
+                        }
+                        window.history.pushState({
+                            step: 'brand',
+                            type,
+                            brand: data.brand,
+                            model: null,
+                            version: null,
+                            engine: null
+                        }, '', window.location.href);
+                        window.history.pushState({
+                            step: 'model',
+                            type,
+                            brand: data.brand,
+                            model: data.model,
+                            version: null,
+                            engine: null
+                        }, '', window.location.href);
+                        window.history.pushState({
+                            step: 'version',
+                            type,
+                            brand: data.brand,
+                            model: data.model,
+                            version: data.version,
+                            engine: null
+                        }, '', window.location.href);
+                    } catch (e) {
+                        console.error('Erreur lors de la construction de la pile d\'historique:', e);
+                    }
+                    
                     // Utiliser directement les données stockées
                     currentSelection = {
                         brand: data.brand,
                         model: data.model,
                         version: data.version,
-                        type: getVehicleTypeFromURL() || 'cars',
+                        type,
                         engine: data.engineType,
                         powerOriginal: data.powerOriginal || "00",
                         powerStage1: data.powerStage1 || "00",
