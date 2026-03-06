@@ -184,7 +184,11 @@
         window.addEventListener('message', function(e) {
             if (e.data && e.data.type === 'simulator-resize' && e.data.height) {
                 var iframe = document.getElementById('simulateur-iframe');
-                if (iframe) iframe.style.height = e.data.height + 'px';
+                if (iframe) {
+                    var h = Math.max(400, Math.min(2000, Math.round(e.data.height)));
+                    iframe.style.height = h + 'px';
+                    iframe.style.minHeight = h + 'px';
+                }
             }
         });
     </script>
