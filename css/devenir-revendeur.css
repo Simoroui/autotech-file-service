@@ -1,0 +1,428 @@
+/* Page "Devenir revendeur AUTOTECH" */
+
+.reseller-page {
+    padding-top: 5.5rem;
+    background-color: #000;
+    min-height: 100vh;
+}
+
+.reseller-hero {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 20% 0%, rgba(227, 6, 19, 0.35), transparent 55%),
+                radial-gradient(circle at 80% 100%, rgba(227, 6, 19, 0.2), transparent 60%),
+                #000;
+    border-bottom: 1px solid rgba(227, 6, 19, 0.4);
+}
+
+.reseller-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+    padding: 4rem 1.5rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.reseller-hero-copy h1 {
+    font-size: 2.4rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.reseller-hero-copy h1 span {
+    color: var(--primary-color, #E30613);
+}
+
+.reseller-hero-copy p {
+    color: #f5f5f5;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    max-width: 620px;
+}
+
+.reseller-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.reseller-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.reseller-hero-badge i {
+    color: var(--primary-color, #E30613);
+}
+
+.reseller-hero-cta {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.reseller-hero-cta .btn-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E30613, #ff3434);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 0 22px rgba(227, 6, 19, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reseller-hero-cta .btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.9);
+}
+
+.reseller-hero-cta-note {
+    color: #bfbfbf;
+    font-size: 0.85rem;
+}
+
+.reseller-hero-visual {
+    position: relative;
+}
+
+.reseller-hero-card {
+    position: relative;
+    background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.4), transparent 55%),
+                rgba(10, 10, 10, 0.95);
+    border-radius: 18px;
+    padding: 1.8rem 1.6rem;
+    border: 1px solid rgba(227, 6, 19, 0.5);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.4);
+    overflow: hidden;
+    z-index: 0;
+}
+
+.reseller-hero-card::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.05), transparent 55%);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.reseller-hero-image {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 1;
+}
+
+.reseller-hero-image img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 220px;
+}
+
+.reseller-hero-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-top: 0.6rem;
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-hero-stat {
+    color: #fff;
+}
+
+.reseller-hero-stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #b3b3b3;
+}
+
+.reseller-hero-stat-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+}
+
+.reseller-hero-tagline {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.reseller-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.reseller-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.reseller-section-title i {
+    color: var(--primary-color, #E30613);
+    font-size: 1.3rem;
+}
+
+.reseller-section-title h2 {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.reseller-text {
+    color: #f5f5f5;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+}
+
+.reseller-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.reseller-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: #f5f5f5;
+    font-size: 0.93rem;
+    margin-bottom: 0.6rem;
+}
+
+.reseller-list li i {
+    color: var(--primary-color, #E30613);
+    margin-top: 0.2rem;
+}
+
+.reseller-card {
+    background: rgba(6, 6, 6, 0.95);
+    border-radius: 14px;
+    padding: 1.4rem 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.85);
+}
+
+.reseller-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.reseller-card p {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.reseller-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.reseller-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    color: #f5f5f5;
+    background: rgba(227, 6, 19, 0.16);
+}
+
+.reseller-section-block {
+    margin-bottom: 3rem;
+}
+
+.reseller-process {
+    margin-top: 1rem;
+}
+
+.reseller-process-steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.reseller-step {
+    position: relative;
+    background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.35), transparent 70%),
+                rgba(8, 8, 8, 0.98);
+    border-radius: 14px;
+    padding: 1.1rem 0.9rem 1rem;
+    border: 1px solid rgba(227, 6, 19, 0.5);
+    box-shadow: 0 0 18px rgba(227, 6, 19, 0.5);
+}
+
+.reseller-step-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.reseller-step-title {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.reseller-step-text {
+    color: #f3f3f3;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.reseller-cta-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.reseller-cta-section h2 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.reseller-cta-section p {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    margin-bottom: 1.6rem;
+}
+
+.reseller-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.reseller-cta-buttons .btn-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E30613, #ff3434);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 0 22px rgba(227, 6, 19, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reseller-cta-buttons .btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.9);
+}
+
+.reseller-cta-buttons .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.reseller-cta-buttons .btn-secondary i {
+    color: var(--primary-color, #E30613);
+}
+
+@media (max-width: 992px) {
+    .reseller-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 3.3rem;
+    }
+
+    .reseller-hero-card {
+        margin-top: 0.5rem;
+    }
+
+    .reseller-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .reseller-hero-inner {
+        padding: 2.8rem 1.2rem 2.4rem;
+    }
+
+    .reseller-hero-copy h1 {
+        font-size: 1.9rem;
+    }
+
+    .reseller-main {
+        padding: 2.3rem 1.2rem 3rem;
+    }
+
+    .reseller-process-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 520px) {
+    .reseller-process-steps {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
