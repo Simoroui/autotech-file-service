@@ -85,6 +85,50 @@ body {
     gap: 0;
 }
 
+.hero-social {
+    position: absolute;
+    top: 90px;
+    right: 40px;
+    z-index: 3;
+    display: flex;
+    gap: 12px;
+}
+
+.hero-social .social-link {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.hero-social .icon-x {
+    font-weight: 700;
+    font-size: 17px;
+    letter-spacing: -0.5px;
+}
+
+.hero-social .social-link:hover {
+    color: #E30613;
+    background: rgba(0, 0, 0, 0.9);
+    transform: translateY(-2px);
+}
+
+@media screen and (max-width: 768px) {
+    .hero-social {
+        top: 120px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        gap: 8px;
+    }
+}
+
 /* Bloc titre (logo + texte) — sur PC la grille entoure uniquement ce bloc */
 .hero-title-grid {
     position: relative;
