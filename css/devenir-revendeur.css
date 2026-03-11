@@ -185,13 +185,6 @@
     padding: 3rem 1.5rem 4rem;
 }
 
-.reseller-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    gap: 2.5rem;
-    margin-bottom: 3rem;
-}
-
 .reseller-section-title {
     display: flex;
     align-items: center;
@@ -256,6 +249,80 @@
     line-height: 1.6;
 }
 
+/* Fond avec effet pour la carte "Visibilité & image de marque" */
+.reseller-visibility-card {
+    position: relative;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.35), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(227, 6, 19, 0.25), transparent 55%),
+        rgba(6, 6, 6, 0.98);
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    box-shadow:
+        0 0 22px rgba(0, 0, 0, 0.95),
+        0 0 26px rgba(227, 6, 19, 0.45);
+    overflow: hidden;
+}
+
+.reseller-visibility-card::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 20%,
+        transparent 40%,
+        transparent 60%,
+        rgba(255, 255, 255, 0.04) 80%,
+        transparent 100%
+    );
+    opacity: 0.3;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+.reseller-visibility-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-visibility-layout {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 0.7rem;
+}
+
+.reseller-visibility-text {
+    flex: 1.4;
+}
+
+.reseller-visibility-image {
+    flex: 0 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 220px;
+}
+
+.reseller-visibility-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .reseller-visibility-layout {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reseller-visibility-image {
+        width: 60%;
+        max-width: 260px;
+    }
+}
+
 .reseller-pill-row {
     display: flex;
     flex-wrap: wrap;
@@ -276,52 +343,159 @@
     margin-bottom: 3rem;
 }
 
+/* Séparation visuelle claire entre les grandes sections de la page */
+.reseller-main > section {
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reseller-main > section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* Bloc "kit de démarrage" inspiré de la maquette RS Tronic */
+
+.reseller-kit {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+}
+
+.reseller-kit-left-subtitle {
+    color: #bfbfbf;
+    font-size: 0.9rem;
+    margin-bottom: 1.4rem;
+}
+
+.reseller-kit-items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+}
+
+.reseller-kit-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: flex-start;
+}
+
+.reseller-kit-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 20%, #ff6b6b, #E30613);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 14px rgba(227, 6, 19, 0.7);
+}
+
+.reseller-kit-icon i {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.reseller-kit-item-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.reseller-kit-item-text {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.reseller-kit-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.reseller-kit-visual-inner {
+    background: transparent;
+    border-radius: 18px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.reseller-kit-visual-inner img {
+    display: block;
+    max-width: 260px;
+    height: auto;
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
 .reseller-process {
     margin-top: 1rem;
 }
 
-.reseller-process-steps {
+/* Bloc "processus en 5 étapes" en deux colonnes */
+
+.reseller-process-full {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 3rem;
+    align-items: flex-start;
 }
 
-.reseller-step {
+.reseller-process-text-block p {
+    color: #f5f5f5;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+}
+
+.reseller-process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.reseller-process-item {
     position: relative;
-    background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.35), transparent 70%),
-                rgba(8, 8, 8, 0.98);
-    border-radius: 14px;
-    padding: 1.1rem 0.9rem 1rem;
-    border: 1px solid rgba(227, 6, 19, 0.5);
-    box-shadow: 0 0 18px rgba(227, 6, 19, 0.5);
+    padding-left: 1.7rem;
+    padding-bottom: 1.4rem;
 }
 
-.reseller-step-number {
-    width: 28px;
-    height: 28px;
+.reseller-process-item:last-child {
+    padding-bottom: 0;
+}
+
+.reseller-process-dot {
+    position: absolute;
+    left: -7px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    color: #fff;
-    margin-bottom: 0.5rem;
-    background: rgba(0, 0, 0, 0.7);
+    background: #E30613;
+    box-shadow: 0 0 10px rgba(227, 6, 19, 0.9);
 }
 
-.reseller-step-title {
+.reseller-process-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ff4d4d;
+    margin-bottom: 0.2rem;
+}
+
+.reseller-process-title span {
     color: #fff;
-    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 0.4rem;
 }
 
-.reseller-step-text {
+.reseller-process-text {
+    font-size: 0.9rem;
     color: #f3f3f3;
-    font-size: 0.82rem;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
 .reseller-cta-section {
@@ -397,7 +571,8 @@
         margin-top: 0.5rem;
     }
 
-    .reseller-grid {
+    .reseller-kit,
+    .reseller-process-full {
         grid-template-columns: minmax(0, 1fr);
     }
 }
@@ -413,16 +588,6 @@
 
     .reseller-main {
         padding: 2.3rem 1.2rem 3rem;
-    }
-
-    .reseller-process-steps {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 520px) {
-    .reseller-process-steps {
-        grid-template-columns: minmax(0, 1fr);
     }
 }
 
