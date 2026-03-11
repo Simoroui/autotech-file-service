@@ -1170,6 +1170,8 @@ async function createSlideshow(brand, model, version) {
     // Créer l'élément du diaporama seulement si des images existent
     const slideshow = document.createElement('div');
     slideshow.className = 'vehicle-slideshow';
+    const isDesktop = window.innerWidth > 768;
+
     slideshow.innerHTML = `
         <h3 style="
             color: white;
@@ -1234,18 +1236,20 @@ async function createSlideshow(brand, model, version) {
                     font-size: 20px;
                 ">❯</button>
                 
-                <div class="slide-dots">
-                    ${images.map((_, index) => `
-                        <button class="dot" data-index="${index}" style="
-                            width: 12px;
-                            height: 12px;
-                            border-radius: 50%;
-                            background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
-                            border: none;
-                            cursor: pointer;
-                        "></button>
-                    `).join('')}
-            </div>
+                ${isDesktop ? `
+                    <div class="slide-dots">
+                        ${images.map((_, index) => `
+                            <button class="dot" data-index="${index}" style="
+                                width: 12px;
+                                height: 12px;
+                                border-radius: 50%;
+                                background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
+                                border: none;
+                                cursor: pointer;
+                            "></button>
+                        `).join('')}
+                    </div>
+                ` : ''}
             ` : ''}
         </div>
     `;

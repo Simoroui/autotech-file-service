@@ -1433,27 +1433,35 @@
     background: rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Amélioration des boutons de navigation */
+/* Boutons de navigation du slideshow (design racing/glow) */
 .slide-nav {
-    background: rgba(227, 6, 19, 0.8) !important;
-    color: white !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    border: 1px solid rgba(227, 6, 19, 0.9) !important;
     border-radius: 50% !important;
-    width: 40px !important;
-    height: 40px !important;
+    width: 44px !important;
+    height: 44px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 1.5rem !important;
-    transition: all 0.3s ease !important;
+    color: #fff !important;
+    font-size: 1.4rem !important;
+    box-shadow:
+        0 0 8px rgba(0, 0, 0, 0.8),
+        0 0 12px rgba(227, 6, 19, 0.4) !important;
+    backdrop-filter: blur(3px) !important;
+    transition: all 0.25s ease !important;
 }
 
 .slide-nav:hover {
     background: rgba(227, 6, 19, 1) !important;
-    transform: scale(1.1) !important;
+    box-shadow:
+        0 0 14px rgba(227, 6, 19, 0.8),
+        0 0 24px rgba(227, 6, 19, 0.6) !important;
+    transform: translateY(-1px) scale(1.05) !important;
 }
 
-.prev { left: 10px !important; }
-.next { right: 10px !important; }
+.prev { left: 14px !important; }
+.next { right: 14px !important; }
 
 .slide-dots {
     position: absolute !important;
@@ -1475,4 +1483,10 @@
 
 .dot.active {
     background: white !important;
+}
+
+@media screen and (max-width: 768px) {
+    .slide-dots {
+        display: none !important;
+    }
 } 
