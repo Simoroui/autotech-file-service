@@ -165,6 +165,14 @@
     z-index: 1;
 }
 
+.footer-social .social-link .icon-x {
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.5px;
+}
+
 .footer-social .social-link:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(227, 6, 19, 0.3);
