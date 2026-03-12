@@ -150,23 +150,6 @@
             overflow: hidden;
         }
 
-        #splash-screen:before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent 0%, 
-                rgba(227, 6, 19, 0.1) 30%, 
-                rgba(227, 6, 19, 0.2) 40%, 
-                transparent 50%);
-            transform-origin: center;
-            animation: rotateGradient 15s linear infinite;
-            z-index: -2;
-        }
-
         #splash-screen:after {
             content: '';
             position: absolute;
@@ -182,29 +165,11 @@
         }
 
         .tech-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(0deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.5;
-            perspective: 1000px;
-            animation: gridPulse 8s ease-in-out infinite;
-            z-index: -1;
+            display: none;
         }
 
         .tech-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            display: none;
         }
 
         .tech-particle {
@@ -220,14 +185,7 @@
 
         /* Circuits électroniques animés */
         .tech-circuit {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            opacity: 0.2;
-            overflow: hidden;
+            display: none;
         }
 
         .circuit-line {
@@ -255,61 +213,14 @@
             animation: nodeGlow 2s ease-in-out infinite;
         }
 
-        @keyframes rotateGradient {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes gridPulse {
-            0%, 100% {
-                transform: perspective(1000px) rotateX(10deg) scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: perspective(1000px) rotateX(20deg) scale(1.2);
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes floatParticle {
-            0% {
-                transform: translate(var(--startX), var(--startY));
-                opacity: 0;
-            }
-            25% {
-                opacity: var(--opacity);
-            }
-            75% {
-                opacity: var(--opacity);
-            }
-            100% {
-                transform: translate(var(--endX), var(--endY));
-                opacity: 0;
-            }
-        }
-
-        @keyframes circuitGlow {
-            0%, 100% {
-                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
-            }
-            50% {
-                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
-            }
-        }
-
-        @keyframes nodeGlow {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
-            }
-            50% {
-                transform: scale(1.5);
-                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
-            }
+        /* Canvas pour l'effet matrix rouge */
+        .splash-matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         #splash-screen.hidden {
@@ -706,9 +617,7 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <div class="tech-grid"></div>
-        <div class="tech-particles" id="techParticles"></div>
-        <div class="tech-circuit" id="techCircuit"></div>
+        <canvas id="splash-matrix" class="splash-matrix-canvas" aria-hidden="true"></canvas>
         <div class="splash-content">
             <img src="images/Logo-H.png" alt="AUTOTECH" class="splash-logo">
             <div class="loading-bar-container">
@@ -1426,6 +1335,62 @@
     <script src="js/form-validation.js" defer></script>
     <script src="js/scroll-to-top.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Effet Matrix rouge sur le splash screen -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('splash-matrix');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const chars = '01';
+            let fontSize = 18;
+            let columns = [];
+
+            function resize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                const count = Math.floor(rect.width / fontSize);
+                columns = [];
+                for (let i = 0; i < count; i++) {
+                    columns[i] = Math.random() * rect.height;
+                }
+            }
+
+            function draw() {
+                if (!canvas.width || !canvas.height) return;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < columns.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * fontSize;
+                    const y = columns[i];
+                    const alpha = 0.2 + Math.random() * 0.6;
+                    ctx.fillStyle = 'rgba(227, 6, 19, ' + alpha + ')';
+                    ctx.fillText(char, x, y);
+
+                    if (y > canvas.height && Math.random() > 0.975) {
+                        columns[i] = 0;
+                    } else {
+                        columns[i] = y + fontSize;
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+            requestAnimationFrame(draw);
+        })();
+    </script>
     
     <!-- Service Worker pour la mise en cache et l'expérience hors ligne -->
     <script>
