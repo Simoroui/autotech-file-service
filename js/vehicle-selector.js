@@ -1541,36 +1541,16 @@ function showResultPage(vehicleData) {
 
             <!-- Autres sections de la page de résultats -->
             <div class="advantages-list">
-                <div class="advantage-item no-check">
-                    Reprog sur banc de puissance (dyno)
-                    </div>
-                <div class="advantage-item no-check">
-                    Reprog sur fichier d'origine
-                    </div>
-                <div class="advantage-item no-check">
-                    Log des valeurs (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Diagnostic détaillé (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Garantie Logiciel 5ans
-                </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation en respectant les tolérances du constructeur
-                </div>
-                <div class="advantage-item no-check">
-                    Normes Antipollution respectées
-                </div>
-                <div class="advantage-item no-check">
-                    Possibilité de réinstaller le programme d'origine à tout moment
-            </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation par la prise OBD, sans ouverture du calculateur
-                    </div>
-                <div class="advantage-item no-check">
-                    Aucun code défaut ni témoins allumés
-                </div>
+                <div class="advantage-item no-check"><span class="advantage-num">01</span><span class="advantage-text">Reprog sur banc de puissance (dyno)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">02</span><span class="advantage-text">Reprog sur fichier d'origine</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">03</span><span class="advantage-text">Log des valeurs (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">04</span><span class="advantage-text">Diagnostic détaillé (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">05</span><span class="advantage-text">Garantie Logiciel 5ans</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">06</span><span class="advantage-text">Reprogrammation en respectant les tolérances du constructeur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">07</span><span class="advantage-text">Normes Antipollution respectées</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">08</span><span class="advantage-text">Possibilité de réinstaller le programme d'origine à tout moment</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">09</span><span class="advantage-text">Reprogrammation par la prise OBD, sans ouverture du calculateur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">10</span><span class="advantage-text">Aucun code défaut ni témoins allumés</span></div>
             </div>
 
             <div class="pricing-grid">
