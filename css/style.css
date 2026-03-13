@@ -4949,13 +4949,14 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 .equipe-dediee-section {
     position: relative;
     width: 100%;
-    padding: 3.5rem 2rem 0;
+    padding: 3.5rem 0 0 2rem; /* pas de padding à droite ni en bas : images collées aux limites */
     background:
         linear-gradient(135deg, rgba(227, 6, 19, 0.22) 0%, transparent 35%, transparent 65%, rgba(227, 6, 19, 0.18) 100%),
         radial-gradient(circle at 0% 0%, rgba(0, 0, 0, 0.7) 0, transparent 55%),
         radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.9) 0, transparent 60%),
         linear-gradient(180deg, #050505 0%, #020202 50%, #050505 100%);
-    overflow: hidden;
+    overflow-x: visible;
+    overflow-y: hidden;
 }
 
 .equipe-dediee-section::before {
@@ -4985,12 +4986,12 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    align-items: stretch;
+    align-items: end; /* bas des images collé à la limite de la section */
 }
 
 .equipe-dediee-content {
     padding-right: 1rem;
-    padding-bottom: 0;
+    padding-bottom: 6rem; /* espace entre le texte et la limite basse (images restent collées en bas) */
 }
 
 .equipe-dediee-title {
@@ -5049,20 +5050,129 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 
 .equipe-dediee-visual {
     display: flex;
-    align-items: stretch;
+    align-items: flex-end;
     justify-content: flex-end;
     min-height: 320px;
     position: relative;
+    /* coller les images au bord droit et au bas de la section */
+    margin-right: min(0, calc((1200px - 100vw) / 2));
 }
 
-.equipe-dediee-tuner-name {
+/* Diaporama équipe : 4 tuners – défilement par translation (pas de fondu) */
+.equipe-dediee-slideshow {
+    position: relative;
+    width: 336px;   /* +20 % vs 280px (PC uniquement) */
+    height: 456px;  /* +20 % vs 380px (PC uniquement) */
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.equipe-dediee-track {
+    display: flex;
+    width: 400%;
+    height: 100%;
+    animation: equipe-slide-scroll 20s ease-in-out infinite;
+    will-change: transform;
+}
+
+@keyframes equipe-slide-scroll {
+    0%, 22% { transform: translateX(0); }
+    25%, 47% { transform: translateX(-25%); }
+    50%, 72% { transform: translateX(-50%); }
+    75%, 97% { transform: translateX(-75%); }
+    100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .equipe-dediee-track {
+        animation: none;
+        transform: translateX(0);
+    }
+}
+
+.equipe-dediee-slide {
+    flex: 0 0 25%;
+    width: 25%;
+    height: 100%;
+    min-width: 0;
+}
+
+.equipe-dediee-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.equipe-dediee-tuner-block {
     position: absolute;
     right: -2.5rem;
     bottom: 1rem;
+    text-align: right;
+    animation-duration: 20s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+}
+
+.equipe-dediee-tuner-name-1 {
+    animation-name: equipe-name-1;
+}
+
+.equipe-dediee-tuner-name-2 {
+    animation-name: equipe-name-2;
+    opacity: 0;
+}
+
+.equipe-dediee-tuner-name-3 {
+    animation-name: equipe-name-3;
+    opacity: 0;
+}
+
+.equipe-dediee-tuner-name-4 {
+    animation-name: equipe-name-4;
+    opacity: 0;
+}
+
+.equipe-dediee-tuner-name {
+    display: block;
     font-size: 0.75rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.85);
     letter-spacing: 0.05em;
+}
+
+.equipe-dediee-tuner-title {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 0.03em;
+    margin-top: 0.15rem;
+}
+
+@keyframes equipe-name-1 {
+    0%, 22% { opacity: 1; }
+    25%, 97% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes equipe-name-2 {
+    0%, 22% { opacity: 0; }
+    25%, 47% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@keyframes equipe-name-3 {
+    0%, 47% { opacity: 0; }
+    50%, 72% { opacity: 1; }
+    75%, 100% { opacity: 0; }
+}
+
+@keyframes equipe-name-4 {
+    0%, 72% { opacity: 0; }
+    75%, 97% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 .equipe-dediee-img {
@@ -5074,6 +5184,12 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     object-position: center;
     border-radius: 0;
     box-shadow: none;
+}
+
+/* slide img hérite des dimensions du slide */
+.equipe-dediee-slide .equipe-dediee-img {
+    max-width: none;
+    max-height: none;
 }
 
 .equipe-thin-separator {
@@ -5208,25 +5324,60 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         gap: 2rem;
         text-align: center;
     }
+    .equipe-dediee-left {
+        display: contents; /* titre et texte deviennent des enfants directs du grid */
+    }
+    .equipe-dediee-title-wrap {
+        order: -1; /* 1. Titre en premier */
+    }
     .equipe-dediee-content {
         padding-right: 0;
+        order: 1; /* 3. Texte après les images */
     }
     .equipe-dediee-visual {
         justify-content: center;
-        order: -1;
+        order: 0; /* 2. Images au milieu */
         flex-direction: column;
         align-items: center;
     }
-    .equipe-dediee-tuner-name {
+    .equipe-dediee-slideshow {
+        width: 60%;
+        max-width: 280px;
+        height: auto;
+        aspect-ratio: 400 / 500;
+    }
+    .equipe-dediee-names {
         position: static;
         display: block;
         margin-top: 0.5rem;
         text-align: center;
+        position: relative;
+        min-height: 2.5em;
     }
+    .equipe-dediee-tuner-block {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        right: auto;
+        bottom: auto;
+        top: 0;
+        text-align: center;
+    }
+    .equipe-dediee-tuner-name {
+        white-space: nowrap;
+    }
+    .equipe-dediee-slide img,
     .equipe-dediee-img {
-        object-position: center;
-        max-width: 60%;
-        height: auto;
+        object-position: top center;
+        max-width: none;
+        max-height: none;
+    }
+    /* Texte section équipe plus fin sur mobile */
+    .equipe-dediee-title,
+    .equipe-dediee-subtitle,
+    .equipe-dediee-quote,
+    .equipe-dediee-attribution {
+        font-weight: 300;
     }
 }
 
