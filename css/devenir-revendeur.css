@@ -1,0 +1,642 @@
+/* Page "Devenir revendeur AUTOTECH" */
+
+.reseller-page {
+    padding-top: 5.5rem;
+    background-color: #000;
+    min-height: 100vh;
+}
+
+.reseller-hero {
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 20% 0%, rgba(227, 6, 19, 0.35), transparent 55%),
+                radial-gradient(circle at 80% 100%, rgba(227, 6, 19, 0.2), transparent 60%),
+                #000;
+    border-bottom: 1px solid rgba(227, 6, 19, 0.4);
+}
+
+.reseller-hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+    padding: 4rem 1.5rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.reseller-hero-copy h1 {
+    font-size: 2.4rem;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.reseller-hero-copy h1 span {
+    color: var(--primary-color, #E30613);
+}
+
+.reseller-hero-copy p {
+    color: #f5f5f5;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+    max-width: 620px;
+}
+
+.reseller-hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.reseller-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.reseller-hero-badge i {
+    color: var(--primary-color, #E30613);
+}
+
+.reseller-hero-cta {
+    margin-top: 1.8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.reseller-hero-cta .btn-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E30613, #ff3434);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 0 22px rgba(227, 6, 19, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reseller-hero-cta .btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.9);
+}
+
+.reseller-hero-cta-note {
+    color: #bfbfbf;
+    font-size: 0.85rem;
+}
+
+.reseller-hero-visual {
+    position: relative;
+}
+
+.reseller-hero-card {
+    position: relative;
+    background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.4), transparent 55%),
+                rgba(10, 10, 10, 0.95);
+    border-radius: 18px;
+    padding: 1.8rem 1.6rem;
+    border: 1px solid rgba(227, 6, 19, 0.5);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.4);
+    overflow: hidden;
+    z-index: 0;
+}
+
+.reseller-hero-card::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.05), transparent 55%);
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.reseller-hero-image {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    z-index: 1;
+}
+
+.reseller-hero-image img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    max-height: 220px;
+}
+
+.reseller-hero-stats {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.2rem;
+    margin-top: 0.6rem;
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-hero-stat {
+    color: #fff;
+}
+
+.reseller-hero-stat-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #b3b3b3;
+}
+
+.reseller-hero-stat-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 0.2rem;
+}
+
+.reseller-hero-tagline {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+    color: #e0e0e0;
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+
+.reseller-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.reseller-section-title i {
+    color: var(--primary-color, #E30613);
+    font-size: 1.3rem;
+}
+
+.reseller-section-title h2 {
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.reseller-text {
+    color: #f5f5f5;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+}
+
+.reseller-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.reseller-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    color: #f5f5f5;
+    font-size: 0.93rem;
+    margin-bottom: 0.6rem;
+}
+
+.reseller-list li i {
+    color: var(--primary-color, #E30613);
+    margin-top: 0.2rem;
+}
+
+.reseller-card {
+    background: rgba(6, 6, 6, 0.95);
+    border-radius: 14px;
+    padding: 1.4rem 1.3rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.85);
+}
+
+.reseller-card h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+}
+
+.reseller-card p {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* Fond avec effet pour la carte "Visibilité & image de marque" */
+.reseller-visibility-card {
+    position: relative;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.35), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(227, 6, 19, 0.25), transparent 55%),
+        rgba(6, 6, 6, 0.98);
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    box-shadow:
+        0 0 22px rgba(0, 0, 0, 0.95),
+        0 0 26px rgba(227, 6, 19, 0.45);
+    overflow: hidden;
+}
+
+.reseller-visibility-card::before {
+    content: '';
+    position: absolute;
+    inset: -40%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 20%,
+        transparent 40%,
+        transparent 60%,
+        rgba(255, 255, 255, 0.04) 80%,
+        transparent 100%
+    );
+    opacity: 0.3;
+    mix-blend-mode: screen;
+    pointer-events: none;
+}
+
+.reseller-visibility-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+.reseller-visibility-layout {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-top: 0.7rem;
+}
+
+.reseller-visibility-text {
+    flex: 1.4;
+}
+
+.reseller-visibility-image {
+    flex: 0 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    max-width: 220px;
+}
+
+.reseller-visibility-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .reseller-visibility-layout {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .reseller-visibility-image {
+        width: 60%;
+        max-width: 260px;
+    }
+}
+
+.reseller-pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.8rem;
+}
+
+.reseller-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(227, 6, 19, 0.6);
+    padding: 0.25rem 0.7rem;
+    font-size: 0.8rem;
+    color: #f5f5f5;
+    background: rgba(227, 6, 19, 0.16);
+}
+
+.reseller-section-block {
+    margin-bottom: 3rem;
+}
+
+/* Séparation visuelle claire entre les grandes sections de la page */
+.reseller-main > section {
+    padding: 2.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.reseller-main > section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+}
+
+/* Bloc "kit de démarrage" inspiré de la maquette RS Tronic */
+
+.reseller-kit {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 3rem;
+    align-items: center;
+}
+
+.reseller-kit-left-subtitle {
+    color: #bfbfbf;
+    font-size: 0.9rem;
+    margin-bottom: 1.4rem;
+}
+
+.reseller-kit-items {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.4rem;
+}
+
+.reseller-kit-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.9rem;
+    align-items: flex-start;
+}
+
+.reseller-kit-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 20%, #ff6b6b, #E30613);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 14px rgba(227, 6, 19, 0.7);
+}
+
+.reseller-kit-icon i {
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.reseller-kit-item-title {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.reseller-kit-item-text {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.reseller-kit-visual {
+    display: flex;
+    justify-content: center;
+}
+
+.reseller-kit-visual-inner {
+    background: transparent;
+    border-radius: 18px;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.reseller-kit-visual-inner img {
+    display: block;
+    max-width: 260px;
+    height: auto;
+    border-radius: 12px;
+    margin: 0 auto;
+}
+
+.reseller-process {
+    margin-top: 1rem;
+}
+
+/* Bloc "processus en 5 étapes" en deux colonnes */
+
+.reseller-process-full {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+.reseller-process-text-block p {
+    color: #f5f5f5;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+}
+
+.reseller-process-image-wrapper {
+    margin-top: 3.2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.reseller-process-image-wrapper img {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+}
+
+.reseller-process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+}
+
+.reseller-process-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    align-items: flex-start;
+    column-gap: 1.1rem;
+    padding-bottom: 1.4rem;
+}
+
+.reseller-process-item:last-child {
+    padding-bottom: 0;
+}
+
+.reseller-process-line {
+    position: relative;
+    padding: 0 0.9rem;
+}
+
+.reseller-process-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.reseller-process-dot {
+    position: relative;
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin: 4px auto 0;
+    border-radius: 999px;
+    background: #E30613;
+    box-shadow: 0 0 10px rgba(227, 6, 19, 0.9);
+}
+
+.reseller-process-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #ff4d4d;
+    margin-bottom: 0.2rem;
+}
+
+.reseller-process-title span {
+    color: #fff;
+    font-weight: 600;
+}
+
+.reseller-process-text {
+    font-size: 0.9rem;
+    color: #f3f3f3;
+    line-height: 1.6;
+}
+
+.reseller-process-icon {
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+}
+
+.reseller-process-icon img {
+    display: block;
+    width: 110px;
+    height: auto;
+}
+
+.reseller-process-content {
+    flex: 1 1 auto;
+}
+
+.reseller-cta-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.reseller-cta-section h2 {
+    color: #fff;
+    font-size: 1.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.reseller-cta-section p {
+    color: #e0e0e0;
+    font-size: 0.95rem;
+    margin-bottom: 1.6rem;
+}
+
+.reseller-cta-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.reseller-cta-buttons .btn-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(135deg, #E30613, #ff3434);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 0 22px rgba(227, 6, 19, 0.6);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.reseller-cta-buttons .btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(227, 6, 19, 0.9);
+}
+
+.reseller-cta-buttons .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.4rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.reseller-cta-buttons .btn-secondary i {
+    color: var(--primary-color, #E30613);
+}
+
+@media (max-width: 992px) {
+    .reseller-hero-inner {
+        grid-template-columns: minmax(0, 1fr);
+        padding-top: 3.3rem;
+    }
+
+    .reseller-hero-card {
+        margin-top: 0.5rem;
+    }
+
+    .reseller-kit,
+    .reseller-process-full {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .reseller-hero-inner {
+        padding: 2.8rem 1.2rem 2.4rem;
+    }
+
+    .reseller-hero-copy h1 {
+        font-size: 1.9rem;
+    }
+
+    .reseller-main {
+        padding: 2.3rem 1.2rem 3rem;
+    }
+}
+

@@ -1170,6 +1170,8 @@ async function createSlideshow(brand, model, version) {
     // Créer l'élément du diaporama seulement si des images existent
     const slideshow = document.createElement('div');
     slideshow.className = 'vehicle-slideshow';
+    const isDesktop = window.innerWidth > 768;
+
     slideshow.innerHTML = `
         <h3 style="
             color: white;
@@ -1234,18 +1236,20 @@ async function createSlideshow(brand, model, version) {
                     font-size: 20px;
                 ">❯</button>
                 
-                <div class="slide-dots">
-                    ${images.map((_, index) => `
-                        <button class="dot" data-index="${index}" style="
-                            width: 12px;
-                            height: 12px;
-                            border-radius: 50%;
-                            background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
-                            border: none;
-                            cursor: pointer;
-                        "></button>
-                    `).join('')}
-            </div>
+                ${isDesktop ? `
+                    <div class="slide-dots">
+                        ${images.map((_, index) => `
+                            <button class="dot" data-index="${index}" style="
+                                width: 12px;
+                                height: 12px;
+                                border-radius: 50%;
+                                background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
+                                border: none;
+                                cursor: pointer;
+                            "></button>
+                        `).join('')}
+                    </div>
+                ` : ''}
             ` : ''}
         </div>
     `;
@@ -1622,7 +1626,9 @@ function showResultPage(vehicleData) {
 
     // Initialiser le graphique CSS (barres) uniquement si données disponibles
     if (!enCoursDeDeveloppement) {
-        setTimeout(() => {
+        const graphBox = container.querySelector('.graph-chart-box');
+
+        const runBarAnimation = () => {
             // Convertir les valeurs "00" en nombres pour calculer les largeurs
             const powerOriginalValue = initialValues.powerOriginal === "00" ? 0 : parseInt(initialValues.powerOriginal, 10);
             const powerStage1Value = initialValues.powerStage1 === "00" ? 0 : parseInt(initialValues.powerStage1, 10);
@@ -1643,6 +1649,25 @@ function showResultPage(vehicleData) {
             const torqueStage1Bar = document.querySelector('.performance-bar.stage1[data-metric="torque-stage1"]');
             const torqueStage2Bar = document.querySelector('.performance-bar.stage2[data-metric="torque-stage2"]');
 
+            // Fonction d'animation inspirée du simulateur (remplissage progressif)
+            const animateBar = (bar, widthPercent, delayMs) => {
+                if (!bar) return;
+                const target = Math.max(0, Math.min(100, widthPercent));
+                bar.style.width = '0%';
+                // Forcer un reflow pour bien déclencher la transition
+                void bar.offsetWidth;
+                const start = () => {
+                    requestAnimationFrame(() => {
+                        bar.style.width = `${target}%`;
+                    });
+                };
+                if (delayMs && delayMs > 0) {
+                    setTimeout(start, delayMs);
+                } else {
+                    start();
+                }
+            };
+
             const powerOriginText = document.querySelector('.performance-value[data-metric="power-origin-value"]');
             const powerStage1Text = document.querySelector('.performance-value[data-metric="power-stage1-value"]');
             const powerStage2Text = document.querySelector('.performance-value[data-metric="power-stage2-value"]');
@@ -1650,30 +1675,14 @@ function showResultPage(vehicleData) {
             const torqueStage1Text = document.querySelector('.performance-value[data-metric="torque-stage1-value"]');
             const torqueStage2Text = document.querySelector('.performance-value[data-metric="torque-stage2-value"]');
 
-            if (powerOriginBar) {
-                const width = (powerOriginalValue / maxPower) * 100;
-                powerOriginBar.style.width = `${width}%`;
-            }
-            if (powerStage1Bar) {
-                const width = (powerStage1Value / maxPower) * 100;
-                powerStage1Bar.style.width = `${width}%`;
-            }
-            if (powerStage2Bar) {
-                const width = (powerStage2Value / maxPower) * 100;
-                powerStage2Bar.style.width = `${width}%`;
-            }
-            if (torqueOriginBar) {
-                const width = (torqueOriginalValue / maxTorque) * 100;
-                torqueOriginBar.style.width = `${width}%`;
-            }
-            if (torqueStage1Bar) {
-                const width = (torqueStage1Value / maxTorque) * 100;
-                torqueStage1Bar.style.width = `${width}%`;
-            }
-            if (torqueStage2Bar) {
-                const width = (torqueStage2Value / maxTorque) * 100;
-                torqueStage2Bar.style.width = `${width}%`;
-            }
+            // Lancer les animations de remplissage (cascade légère)
+            animateBar(powerOriginBar,  (powerOriginalValue / maxPower) * 100, 0);
+            animateBar(powerStage1Bar, (powerStage1Value  / maxPower) * 100, 250);
+            animateBar(powerStage2Bar, (powerStage2Value  / maxPower) * 100, 500);
+
+            animateBar(torqueOriginBar,  (torqueOriginalValue / maxTorque) * 100, 900);
+            animateBar(torqueStage1Bar, (torqueStage1Value  / maxTorque) * 100, 1150);
+            animateBar(torqueStage2Bar, (torqueStage2Value  / maxTorque) * 100, 1400);
 
             // Texte des valeurs (6 valeurs affichées)
             if (powerOriginText) {
@@ -1726,7 +1735,29 @@ function showResultPage(vehicleData) {
                     : 0;
                 torqueDiffPctStage2El.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
             }
-        }, 100);
+
+            // Déclencher l'animation CSS (transform: scaleX)
+            if (graphBox) {
+                graphBox.classList.add('animate-bars');
+            }
+        };
+
+        // Lancer l'animation seulement quand la zone graphique est visible (scroll)
+        if (graphBox && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Petit délai pour laisser le layout se stabiliser
+                        setTimeout(runBarAnimation, 100);
+                        obs.disconnect();
+                    }
+                });
+            }, { threshold: 0.4 });
+            observer.observe(graphBox);
+        } else {
+            // Fallback si IntersectionObserver n'est pas dispo
+            setTimeout(runBarAnimation, 150);
+        }
 
     // Centrer le tableau des résultats
     setTimeout(() => {
