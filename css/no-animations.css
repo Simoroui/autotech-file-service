@@ -195,3 +195,7 @@
 .testimonials-section .testimonial-quote::before {
     opacity: 1 !important;
 }
+
+.testimonials-section .testimonials-fb-card {
+    opacity: 1 !important;
+}
