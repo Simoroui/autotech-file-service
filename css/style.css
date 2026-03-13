@@ -4660,7 +4660,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .about-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
     display: flex;
@@ -4670,12 +4670,12 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .about-image-container {
-    flex: 0 0 50%;
+    flex: 0 0 58%;
     padding: 0 20px;
     position: relative;
     overflow: hidden;
     border-radius: 12px;
-    height: 450px;
+    height: 520px;
     box-shadow: 0 8px 25px rgba(227, 6, 19, 0.3), 0 0 5px rgba(227, 6, 19, 0.2);
     border: 2px solid rgba(227, 6, 19, 0.5);
     animation: diaporama-glow 4s infinite alternate;
@@ -4707,7 +4707,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .about-text-container {
-    flex: 0 0 50%;
+    flex: 0 0 40%;
     padding: 20px;
     color: #fff;
 }
