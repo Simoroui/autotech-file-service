@@ -2374,8 +2374,88 @@ html {
 }
 
 @media screen and (max-width: 768px) {
-.contact-section {
+    .contact-section {
         padding: 60px 0;
+    }
+    
+    .contact-section .section-intro {
+        text-align: center;
+    }
+    
+    .contact-section .section-title {
+        display: block;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .contact-section .section-title::after {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+    }
+    
+    .contact-section .contact-container {
+        padding: 0 1rem;
+        justify-items: center;
+    }
+    
+    .contact-section .contact-info {
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .contact-section .google-rating {
+        align-self: center;
+    }
+    
+    .contact-section .contact-item {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+    }
+    
+    .contact-section .contact-item i {
+        margin-top: 0.3rem;
+    }
+    
+    .contact-section .google-rating {
+        width: 100%;
+    }
+    
+    .contact-section .contact-details {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .contact-section .map-container {
+        width: 100%;
+    }
+    
+    .contact-section .business-hours {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .contact-section .footer-social {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .contact-section .business-hours ul {
+        list-style: none;
+        padding-left: 0;
     }
     
     .info-card,
