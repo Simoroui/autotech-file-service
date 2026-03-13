@@ -1173,70 +1173,33 @@ async function createSlideshow(brand, model, version) {
     const isDesktop = window.innerWidth > 768;
 
     slideshow.innerHTML = `
-        <h3 style="
-            color: white;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        ">Photos prises dans notre atelier</h3>
-        <div class="slideshow-container" style="
-            position: relative;
-            width: 100%;
-            height: 400px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 20px 0;
-        ">
-            ${images.map((imageUrl, index) => `
-                <div class="slide" style="
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    opacity: ${index === 0 ? '1' : '0'};
-                ">
-                    <img src="${imageUrl}" alt="${brand} ${model}" style="
+        <h3 class="slideshow-title">Photos prises dans notre atelier</h3>
+        <div class="slideshow-wrapper">
+            <div class="slideshow-container" style="
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                overflow: hidden;
+            ">
+                ${images.map((imageUrl, index) => `
+                    <div class="slide" style="
+                        position: absolute;
                         width: 100%;
                         height: 100%;
-                        object-fit: contain;
-                        background: rgba(0, 0, 0, 0.5);
+                        opacity: ${index === 0 ? '1' : '0'};
                     ">
-                </div>
-            `).join('')}
+                        <img src="${imageUrl}" alt="${brand} ${model}" style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                            background: rgba(0, 0, 0, 0.5);
+                        ">
+                    </div>
+                `).join('')}
 
-            ${images.length > 1 ? `
-                <button class="slide-nav prev" style="
-                    position: absolute;
-                    left: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❮</button>
-                <button class="slide-nav next" style="
-                    position: absolute;
-                    right: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❯</button>
-                
-                ${isDesktop ? `
+                ${images.length > 1 && isDesktop ? `
                     <div class="slide-dots">
                         ${images.map((_, index) => `
                             <button class="dot" data-index="${index}" style="
@@ -1250,6 +1213,12 @@ async function createSlideshow(brand, model, version) {
                         `).join('')}
                     </div>
                 ` : ''}
+            </div>
+            ${images.length > 1 ? `
+                <div class="slideshow-nav-row">
+                    <button class="slide-nav prev" type="button" aria-label="Photo précédente">❮</button>
+                    <button class="slide-nav next" type="button" aria-label="Photo suivante">❯</button>
+                </div>
             ` : ''}
         </div>
     `;
@@ -1572,36 +1541,16 @@ function showResultPage(vehicleData) {
 
             <!-- Autres sections de la page de résultats -->
             <div class="advantages-list">
-                <div class="advantage-item no-check">
-                    Reprog sur banc de puissance (dyno)
-                    </div>
-                <div class="advantage-item no-check">
-                    Reprog sur fichier d'origine
-                    </div>
-                <div class="advantage-item no-check">
-                    Log des valeurs (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Diagnostic détaillé (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Garantie Logiciel 5ans
-                </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation en respectant les tolérances du constructeur
-                </div>
-                <div class="advantage-item no-check">
-                    Normes Antipollution respectées
-                </div>
-                <div class="advantage-item no-check">
-                    Possibilité de réinstaller le programme d'origine à tout moment
-            </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation par la prise OBD, sans ouverture du calculateur
-                    </div>
-                <div class="advantage-item no-check">
-                    Aucun code défaut ni témoins allumés
-                </div>
+                <div class="advantage-item no-check"><span class="advantage-num">01</span><span class="advantage-text">Reprog sur banc de puissance (dyno)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">02</span><span class="advantage-text">Reprog sur fichier d'origine</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">03</span><span class="advantage-text">Log des valeurs (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">04</span><span class="advantage-text">Diagnostic détaillé (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">05</span><span class="advantage-text">Garantie Logiciel 5ans</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">06</span><span class="advantage-text">Reprogrammation en respectant les tolérances du constructeur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">07</span><span class="advantage-text">Normes Antipollution respectées</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">08</span><span class="advantage-text">Possibilité de réinstaller le programme d'origine à tout moment</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">09</span><span class="advantage-text">Reprogrammation par la prise OBD, sans ouverture du calculateur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">10</span><span class="advantage-text">Aucun code défaut ni témoins allumés</span></div>
             </div>
 
             <div class="pricing-grid">

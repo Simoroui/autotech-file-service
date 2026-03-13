@@ -1292,43 +1292,117 @@
     }
 }
 
-/* Style flottant pour la liste des avantages (PC et Mobile) */
+/* Liste des avantages – design élégant techno */
 .advantages-list {
     width: calc(100% - 40px) !important;
-    margin: 20px auto !important;
-    padding: 20px !important;
-    background: rgba(0, 0, 0, 0.85) !important;
-    backdrop-filter: blur(10px) !important;
-    border-radius: 15px !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin: 24px auto !important;
+    padding: 24px !important;
+    background: linear-gradient(180deg, rgba(12, 12, 12, 0.98) 0%, rgba(8, 8, 8, 0.98) 100%) !important;
+    backdrop-filter: blur(12px) !important;
+    border-radius: 12px !important;
+    border: 1px solid rgba(227, 6, 19, 0.2) !important;
+    box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.04),
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.advantages-list::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(227, 6, 19, 0.4), transparent) !important;
+    opacity: 0.8 !important;
 }
 
 .advantage-item {
-    margin: 10px 0 !important;
-    padding: 15px !important;
-    background: rgba(255, 255, 255, 0.03) !important;
-    border-radius: 10px !important;
-    border-left: 3px solid var(--primary-color) !important;
-    transition: transform 0.3s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    margin: 0 0 10px 0 !important;
+    padding: 14px 16px !important;
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-radius: 8px !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-left: 3px solid transparent !important;
+    box-shadow: 0 0 0 0 rgba(227, 6, 19, 0) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+}
+
+.advantage-item:last-child {
+    margin-bottom: 0 !important;
+}
+
+.advantage-item::before {
+    display: none !important;
 }
 
 .advantage-item:hover {
-    transform: translateX(5px) !important;
-    background: rgba(255, 255, 255, 0.05) !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-left-color: rgba(227, 6, 19, 0.9) !important;
+    box-shadow:
+        0 0 20px rgba(227, 6, 19, 0.12),
+        inset 0 0 24px rgba(227, 6, 19, 0.03) !important;
+    transform: translateX(4px) !important;
 }
 
-/* Ajustements spécifiques pour mobile */
+.advantage-num {
+    flex-shrink: 0 !important;
+    width: 32px !important;
+    height: 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    color: rgba(227, 6, 19, 0.95) !important;
+    background: rgba(227, 6, 19, 0.12) !important;
+    border: 1px solid rgba(227, 6, 19, 0.35) !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 12px rgba(227, 6, 19, 0.15) !important;
+}
+
+.advantage-item:hover .advantage-num {
+    background: rgba(227, 6, 19, 0.2) !important;
+    box-shadow: 0 0 16px rgba(227, 6, 19, 0.25) !important;
+}
+
+.advantage-text {
+    color: rgba(255, 255, 255, 0.92) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4 !important;
+    letter-spacing: 0.02em !important;
+    font-weight: 400 !important;
+}
+
+/* Mobile */
 @media screen and (max-width: 768px) {
     .advantages-list {
         width: calc(100% - 20px) !important;
-        margin: 10px auto !important;
-        padding: 15px !important;
+        margin: 16px auto !important;
+        padding: 16px !important;
     }
 
     .advantage-item {
-        padding: 12px !important;
-        font-size: 0.9rem !important;
+        padding: 12px 14px !important;
+        gap: 12px !important;
+    }
+
+    .advantage-num {
+        width: 28px !important;
+        height: 28px !important;
+        font-size: 0.7rem !important;
+    }
+
+    .advantage-text {
+        font-size: 0.88rem !important;
     }
 }
 
@@ -1417,6 +1491,34 @@
     margin: 0 auto !important;
 }
 
+.vehicle-slideshow .slideshow-title {
+    color: white !important;
+    text-align: center !important;
+    font-size: 1.2rem !important;
+    margin: 0 0 15px 0 !important;
+}
+
+.slideshow-wrapper {
+    position: relative !important;
+}
+
+/* Desktop : barre de nav en overlay sur la photo */
+.slideshow-nav-row {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 14px !important;
+    pointer-events: none !important;
+}
+.slideshow-nav-row .slide-nav {
+    pointer-events: auto !important;
+}
+
 .slideshow-container {
     position: relative !important;
     aspect-ratio: 16/9 !important;
@@ -1433,35 +1535,43 @@
     background: rgba(0, 0, 0, 0.5) !important;
 }
 
-/* Boutons de navigation du slideshow (design racing/glow) */
+/* Boutons de navigation du slideshow – noir transparent + lueur rouge */
 .slide-nav {
-    background: rgba(0, 0, 0, 0.75) !important;
-    border: 1px solid rgba(227, 6, 19, 0.9) !important;
+    position: absolute !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 10 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    border: 1px solid rgba(227, 6, 19, 0.6) !important;
     border-radius: 50% !important;
-    width: 44px !important;
-    height: 44px !important;
+    width: 30px !important;
+    height: 30px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     color: #fff !important;
     font-size: 1.4rem !important;
     box-shadow:
-        0 0 8px rgba(0, 0, 0, 0.8),
-        0 0 12px rgba(227, 6, 19, 0.4) !important;
-    backdrop-filter: blur(3px) !important;
+        0 0 12px rgba(227, 6, 19, 0.4),
+        0 0 20px rgba(227, 6, 19, 0.2),
+        inset 0 0 20px rgba(227, 6, 19, 0.08) !important;
+    backdrop-filter: blur(4px) !important;
     transition: all 0.25s ease !important;
+    cursor: pointer !important;
 }
 
 .slide-nav:hover {
-    background: rgba(227, 6, 19, 1) !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    border-color: rgba(227, 6, 19, 0.9) !important;
     box-shadow:
-        0 0 14px rgba(227, 6, 19, 0.8),
-        0 0 24px rgba(227, 6, 19, 0.6) !important;
-    transform: translateY(-1px) scale(1.05) !important;
+        0 0 16px rgba(227, 6, 19, 0.6),
+        0 0 28px rgba(227, 6, 19, 0.35),
+        inset 0 0 24px rgba(227, 6, 19, 0.12) !important;
+    transform: translateY(-50%) translateY(-1px) scale(1.05) !important;
 }
 
-.prev { left: 14px !important; }
-.next { right: 14px !important; }
+.slideshow-wrapper .slide-nav.prev { left: 14px !important; right: auto !important; }
+.slideshow-wrapper .slide-nav.next { right: 14px !important; left: auto !important; }
 
 .slide-dots {
     position: absolute !important;
@@ -1488,5 +1598,74 @@
 @media screen and (max-width: 768px) {
     .slide-dots {
         display: none !important;
+    }
+
+    /* Mobile : flèches en bas de la photo, rectangle fin large, espacements réduits */
+    .vehicle-slideshow .slideshow-title {
+        margin-bottom: 6px !important;
+    }
+
+    .slideshow-wrapper {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .slideshow-container {
+        margin: 8px 0 0 !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+        aspect-ratio: 16/9 !important;
+        height: auto !important;
+    }
+
+    .slideshow-nav-row {
+        position: static !important;
+        pointer-events: auto !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        padding: 0 0 20px !important;
+        margin: -12px 0 0 0 !important;
+    }
+
+    .slideshow-nav-row .slide-nav {
+        position: static !important;
+        transform: none !important;
+        flex: 1 1 auto !important;
+        max-width: 160px !important;
+        height: 27px !important;
+        width: auto !important;
+        min-width: 80px !important;
+        border-radius: 4px !important;
+        font-size: 1.2rem !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        border: 1px solid rgba(227, 6, 19, 0.6) !important;
+        box-shadow:
+            0 0 12px rgba(227, 6, 19, 0.4),
+            0 0 20px rgba(227, 6, 19, 0.2),
+            inset 0 0 20px rgba(227, 6, 19, 0.08) !important;
+        color: #fff !important;
+    }
+
+    .slideshow-nav-row .slide-nav:hover {
+        transform: none !important;
+        background: rgba(0, 0, 0, 0.65) !important;
+        border-color: rgba(227, 6, 19, 0.9) !important;
+        box-shadow:
+            0 0 16px rgba(227, 6, 19, 0.6),
+            0 0 28px rgba(227, 6, 19, 0.35),
+            inset 0 0 24px rgba(227, 6, 19, 0.12) !important;
+    }
+
+    .slideshow-nav-row .slide-nav.prev {
+        left: auto !important;
+        right: auto !important;
+    }
+
+    .slideshow-nav-row .slide-nav.next {
+        left: auto !important;
+        right: auto !important;
     }
 } 
