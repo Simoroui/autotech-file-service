@@ -187,3 +187,11 @@
 .selection-title {
     animation: selection-title-blink 2s ease-in-out infinite !important;
 }
+
+/* Exception : section Avis clients – garder les cartes visibles (animation désactivée = opacity 1) */
+.testimonials-section .testimonial-card {
+    opacity: 1 !important;
+}
+.testimonials-section .testimonial-quote::before {
+    opacity: 1 !important;
+}
