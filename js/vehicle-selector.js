@@ -1173,70 +1173,33 @@ async function createSlideshow(brand, model, version) {
     const isDesktop = window.innerWidth > 768;
 
     slideshow.innerHTML = `
-        <h3 style="
-            color: white;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        ">Photos prises dans notre atelier</h3>
-        <div class="slideshow-container" style="
-            position: relative;
-            width: 100%;
-            height: 400px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 20px 0;
-        ">
-            ${images.map((imageUrl, index) => `
-                <div class="slide" style="
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    opacity: ${index === 0 ? '1' : '0'};
-                ">
-                    <img src="${imageUrl}" alt="${brand} ${model}" style="
+        <h3 class="slideshow-title">Photos prises dans notre atelier</h3>
+        <div class="slideshow-wrapper">
+            <div class="slideshow-container" style="
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                overflow: hidden;
+            ">
+                ${images.map((imageUrl, index) => `
+                    <div class="slide" style="
+                        position: absolute;
                         width: 100%;
                         height: 100%;
-                        object-fit: contain;
-                        background: rgba(0, 0, 0, 0.5);
+                        opacity: ${index === 0 ? '1' : '0'};
                     ">
-                </div>
-            `).join('')}
+                        <img src="${imageUrl}" alt="${brand} ${model}" style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                            background: rgba(0, 0, 0, 0.5);
+                        ">
+                    </div>
+                `).join('')}
 
-            ${images.length > 1 ? `
-                <button class="slide-nav prev" style="
-                    position: absolute;
-                    left: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❮</button>
-                <button class="slide-nav next" style="
-                    position: absolute;
-                    right: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❯</button>
-                
-                ${isDesktop ? `
+                ${images.length > 1 && isDesktop ? `
                     <div class="slide-dots">
                         ${images.map((_, index) => `
                             <button class="dot" data-index="${index}" style="
@@ -1250,6 +1213,12 @@ async function createSlideshow(brand, model, version) {
                         `).join('')}
                     </div>
                 ` : ''}
+            </div>
+            ${images.length > 1 ? `
+                <div class="slideshow-nav-row">
+                    <button class="slide-nav prev" type="button" aria-label="Photo précédente">❮</button>
+                    <button class="slide-nav next" type="button" aria-label="Photo suivante">❯</button>
+                </div>
             ` : ''}
         </div>
     `;
