@@ -6,21 +6,30 @@
     <meta property="fb:app_id" content="920729097272767">
     <meta property="og:url" content="https://autotech-tunisia.com/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta property="og:title" content="AUTOTECH - Reprogrammation moteur sur banc | Tunisie">
     <meta property="og:description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation.">
     <meta property="og:image" content="https://autotech-tunisia.com/images/logo%20noir4.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="AUTOTECH">
     <meta property="og:locale" content="fr_FR">
-    <title>AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance</title>
-    <meta name="description" content="AUTOTECH - Spécialiste en reprogrammation moteur sur banc de puissance en Tunisie : gain de puissance, optimisation du couple et réduction de consommation pour voitures, motos, camions et véhicules agricoles.">
+    <title>AUTOTECH - Reprogrammation moteur sur banc | Tunisie</title>
+    <meta name="description" content="Reprogrammation moteur sur banc de puissance en Tunisie. Gain de puissance, optimisation du couple, réduction consommation. AUTOTECH Tunis.">
     
     <!-- Balises Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="AUTOTECH - Reprogrammation & Optimisation Moteur sur Banc de puissance">
+    <meta name="twitter:title" content="AUTOTECH - Reprogrammation moteur sur banc | Tunisie">
     <meta name="twitter:description" content="AUTOTECH - Reprogrammation moteur sur banc de puissance en Tunisie pour optimiser les performances de votre véhicule.">
     <meta name="twitter:image" content="https://autotech-tunisia.com/images/logo%20noir4.jpg">
+
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7GR797110"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-V7GR797110');
+    </script>
 
     <!-- Canonical -->
     <link rel="canonical" href="https://autotech-tunisia.com/">
@@ -70,15 +79,18 @@
       "sameAs": [
         "https://www.facebook.com/autotechreprogrammation",
         "https://www.instagram.com/autotech_reprog/",
-        "https://www.youtube.com/@autotechtunis2888"
+        "https://www.youtube.com/@autotechtunis2888",
+        "https://x.com/autotech_reprog",
+        "https://www.linkedin.com/company/autotech-tunisia"
       ]
     }
     </script>
     
     <!-- Préchargement des ressources critiques -->
+    <link rel="preload" href="images-optimized/hero-bg.jpg" as="image">
     <link rel="preload" href="images/logo-min.png" as="image">
     <link rel="preload" href="images/Logo-H.png" as="image">
-    <link rel="preload" href="css/style.css" as="style">
+    <link rel="preload" href="css/style.css?v=2" as="style">
     <link rel="preload" href="css/header.css" as="style">
     <link rel="preload" href="css/footer.css" as="style">
     <link rel="preload" href="js/script.js" as="script">
@@ -138,23 +150,6 @@
             overflow: hidden;
         }
 
-        #splash-screen:before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent 0%, 
-                rgba(227, 6, 19, 0.1) 30%, 
-                rgba(227, 6, 19, 0.2) 40%, 
-                transparent 50%);
-            transform-origin: center;
-            animation: rotateGradient 15s linear infinite;
-            z-index: -2;
-        }
-
         #splash-screen:after {
             content: '';
             position: absolute;
@@ -170,29 +165,11 @@
         }
 
         .tech-grid {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(0deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(227, 6, 19, 0.1) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.5;
-            perspective: 1000px;
-            animation: gridPulse 8s ease-in-out infinite;
-            z-index: -1;
+            display: none;
         }
 
         .tech-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
+            display: none;
         }
 
         .tech-particle {
@@ -208,14 +185,7 @@
 
         /* Circuits électroniques animés */
         .tech-circuit {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: -1;
-            opacity: 0.2;
-            overflow: hidden;
+            display: none;
         }
 
         .circuit-line {
@@ -243,61 +213,14 @@
             animation: nodeGlow 2s ease-in-out infinite;
         }
 
-        @keyframes rotateGradient {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes gridPulse {
-            0%, 100% {
-                transform: perspective(1000px) rotateX(10deg) scale(1);
-                opacity: 0.5;
-            }
-            50% {
-                transform: perspective(1000px) rotateX(20deg) scale(1.2);
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes floatParticle {
-            0% {
-                transform: translate(var(--startX), var(--startY));
-                opacity: 0;
-            }
-            25% {
-                opacity: var(--opacity);
-            }
-            75% {
-                opacity: var(--opacity);
-            }
-            100% {
-                transform: translate(var(--endX), var(--endY));
-                opacity: 0;
-            }
-        }
-
-        @keyframes circuitGlow {
-            0%, 100% {
-                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
-            }
-            50% {
-                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
-            }
-        }
-
-        @keyframes nodeGlow {
-            0%, 100% {
-                transform: scale(1);
-                box-shadow: 0 0 5px rgba(227, 6, 19, 0.8);
-            }
-            50% {
-                transform: scale(1.5);
-                box-shadow: 0 0 12px rgba(227, 6, 19, 1);
-            }
+        /* Canvas pour l'effet matrix rouge */
+        .splash-matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
         #splash-screen.hidden {
@@ -423,30 +346,13 @@
             }
         }
 
-        /* Ajustements pour le bouton dans la section hero */
+        /* Ajustements pour le bouton dans la section hero (mobile : flux normal géré par style.css) */
         @media screen and (max-width: 768px) {
-            .hero-content {
-                position: relative !important;
-            }
-            
             .hero-content::before {
                 position: absolute !important;
-                width: 90% !important;
-                max-width: 320px !important;
-                height: 170px !important;
-            }
-            
-            .hero-content h1 {
-                position: absolute !important;
-                top: 50% !important;
-                left: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                display: flex !important;
-                flex-direction: column !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: 85% !important;
-                z-index: 2 !important;
+                width: 92% !important;
+                max-width: none !important;
+                height: 80px !important;
             }
             
             .hero-logo {
@@ -461,14 +367,9 @@
                 line-height: 1.3 !important;
             }
             
-            /* Repositionner le bouton sous le cadre, attaché à la section hero (pas à l'écran) */
             .boost-button {
-                position: absolute !important;
-                bottom: 30px !important;
-                left: 50% !important;
-                transform: translateX(-50%) !important;
                 z-index: 3 !important;
-                padding: 0.4rem 1.5rem !important;
+                padding: 0.5rem 1.5rem !important;
                 font-size: 0.9rem !important;
                 border-radius: 30px !important;
                 box-shadow: 0 4px 12px rgba(227, 6, 19, 0.5) !important;
@@ -492,26 +393,42 @@
     </style>
 
     <!-- Chargement différé des CSS non critiques -->
-    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/style.css?v=2" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/header.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="css/footer.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     
     <!-- Fallback pour les navigateurs qui ne supportent pas le onload -->
     <noscript>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </noscript>
     
-    <!-- Facebook SDK chargé de façon asynchrone -->
+    <!-- Réseaux sociaux : chargement différé après affichage de la page (meilleure vitesse / INP) -->
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" 
-            src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0" 
-            nonce="your-nonce">
+    <script>
+      window.addEventListener('load', function() {
+        var d = document, s = 'script', id = 'fb-sdk';
+        if (!d.getElementById(id)) {
+          var js = d.createElement(s);
+          js.id = id;
+          js.async = true;
+          js.defer = true;
+          js.src = 'https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0';
+          js.crossOrigin = 'anonymous';
+          d.body.appendChild(js);
+        }
+        if (!window.instgrm) {
+          var ig = d.createElement(s);
+          ig.async = true;
+          ig.src = '//www.instagram.com/embed.js';
+          d.body.appendChild(ig);
+        }
+      });
     </script>
-    
+
     <!-- Cache Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
@@ -520,8 +437,6 @@
             });
         }
     </script>
-
-    <script async src="//www.instagram.com/embed.js"></script>
     <link rel="stylesheet" href="css/results.css">
     <link rel="stylesheet" href="css/no-animations.css">
     <!-- Précharger les ressources critiques -->
@@ -702,9 +617,7 @@
 <body>
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <div class="tech-grid"></div>
-        <div class="tech-particles" id="techParticles"></div>
-        <div class="tech-circuit" id="techCircuit"></div>
+        <canvas id="splash-matrix" class="splash-matrix-canvas" aria-hidden="true"></canvas>
         <div class="splash-content">
             <img src="images/Logo-H.png" alt="AUTOTECH" class="splash-logo">
             <div class="loading-bar-container">
@@ -733,24 +646,24 @@
                         <li><a href="index.html#about">À propos</a></li>
                         <li><a href="index.html#boost">Reprogrammation</a></li>
                         <li><a href="dyno.html">Dyno</a></li>
-                        <li><a href="options-reprog.html">Options de reprog.</a></li>
+                        <li class="has-submenu">
+                                    <a href="#" class="nav-submenu-trigger">Options de reprog.</a>
+                                    <ul class="submenu">
+<li><a href="options-reprog.html">Toutes les options</a></li>
+                                    <li><a href="suppression-fap.html">Suppression du FAP</a></li>
+                                    <li><a href="suppression-adblue.html">Suppression AdBlue</a></li>
+                                    <li><a href="suppression-egr.html">Désactivation EGR</a></li>
+                                    <li><a href="suppression-catalyseur.html">Suppression catalyseur (décata)</a></li>
+                                    <li><a href="pop-bang.html">POP&amp;BANG</a></li>
+                                            </ul>
+                                </li>
                         <li><a href="echapp.html">Échappement & Downpipe</a></li>
                         <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
                         <li><a href="index.html#news">News</a></li>
                         <li><a href="ensavoirplus.html">En savoir +</a></li>
+                        <li><a href="devenir-revendeur.html">Devenir revendeur</a></li>
                         <li><a href="index.html#contact">Contact</a></li>
                 </ul>
-                    <div class="header-social">
-                        <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
-                            <i class="fab fa-youtube"></i>
-                        </a>
-                    </div>
             </div>
         </nav>
             </div>
@@ -760,14 +673,35 @@
             <div class="hero-wrapper">
         <section class="hero">
             <div class="hero-background">
-                <img src="images-optimized/hero-bg.jpg" alt="Background" loading="eager">
+                <img src="images-optimized/hero-bg.jpg" alt="AUTOTECH reprogrammation moteur sur banc de puissance" loading="eager" fetchpriority="high" width="1920" height="1080">
+            </div>
+            <div class="hero-social">
+                <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH">
+                    <span class="icon-x">X</span>
+                </a>
+                <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+                <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH">
+                    <i class="fab fa-youtube"></i>
+                </a>
             </div>
             <div class="hero-content">
-                <h1>
+                <div class="hero-title-grid">
+                    <h1>
                             <img src="images/Logo-H.png" alt="AUTOTECH" class="hero-logo">
-                            <span class="text-red">Reprogrammation & Optimisation Moteur</span>
-                            <span class="text-red">sur Banc de puissance</span>
-                </h1>
+                            <span class="text-red">Reprogrammation moteur sur banc de puissance</span>
+                    </h1>
+                </div>
                 <a href="#boost" class="boost-button">Boostez votre véhicule</a>
             </div>
         </section>
@@ -939,13 +873,13 @@
                             <div class="option-content">
                                 <div class="option-front">
                                     <div class="decata-icon">
-                                        <div class="exhaust-line">
-                                            <div class="pipe-front"></div>
-                                            <div class="catalyst"></div>
-                                            <div class="pipe-middle"></div>
-                                            <div class="muffler"></div>
-                                            <div class="pipe-tip"></div>
+                                        <div class="decata-end decata-end-left"></div>
+                                        <div class="decata-body">
+                                            <div class="decata-slot"></div>
+                                            <div class="decata-slot"></div>
+                                            <div class="decata-slot"></div>
                                         </div>
+                                        <div class="decata-end decata-end-right"></div>
                                     </div>
                                     <h3>Decata</h3>
                                 </div>
@@ -985,22 +919,8 @@
                             <div class="option-content">
                                 <div class="option-front">
                                     <div class="popbang-icon">
-                                        <div class="exhaust">
-                                            <div class="exhaust-pipe"></div>
-                                            <div class="exhaust-tip"></div>
-                                        </div>
-                                        <div class="explosion">
-                                            <div class="explosion-center"></div>
-                                            <div class="explosion-rays">
-                                                <div class="ray ray1"></div>
-                                                <div class="ray ray2"></div>
-                                                <div class="ray ray3"></div>
-                                                <div class="ray ray4"></div>
-                                                <div class="ray ray5"></div>
-                                                <div class="ray ray6"></div>
-                                                <div class="ray ray7"></div>
-                                                <div class="ray ray8"></div>
-                                            </div>
+                                        <div class="bang-star">
+                                            <span class="bang-text">BANG</span>
                                         </div>
                                     </div>
                                     <h3>Pop & Bang</h3>
@@ -1204,6 +1124,133 @@
             <!-- Séparateur -->
             <div class="section-separator"></div>
 
+            <!-- Section Avis clients / Témoignages (avis Facebook réels) -->
+            <section class="testimonials-section" id="testimonials" aria-labelledby="testimonials-title">
+                <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title" id="testimonials-title">Avis clients</h2>
+                        <p class="section-subtitle">Ce que disent nos clients sur AUTOTECH</p>
+                    </div>
+                    <div class="testimonials-reviews-wrap">
+                        <div class="testimonials-fb-card">
+                            <div class="testimonials-fb-card-icon" aria-hidden="true">
+                                <i class="fab fa-facebook"></i>
+                            </div>
+                            <div class="testimonials-fb-rating" aria-label="Note : 4,7 sur 5">
+                                <span class="testimonials-fb-stars" aria-hidden="true">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="testimonials-fb-score">4,7</span>
+                                <span class="testimonials-fb-score-label">/ 5</span>
+                            </div>
+                            <p class="testimonials-review-count">127 avis</p>
+                            <p class="testimonials-fb-card-text">Les avis de nos clients sont sur notre page Facebook. Consultez leurs retours et recommandations en un clic.</p>
+                            <a href="https://www.facebook.com/autotechreprogrammation/reviews" target="_blank" rel="noopener" class="testimonials-fb-cta testimonials-fb-cta-large">
+                                <i class="fab fa-facebook" aria-hidden="true"></i>
+                                Voir les avis sur Facebook
+                            </a>
+                        </div>
+                        <div class="testimonials-fb-card testimonials-google-card">
+                            <div class="testimonials-fb-card-icon testimonials-google-icon" aria-hidden="true">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="testimonials-fb-rating" aria-label="Note Google : 4,8 sur 5">
+                                <span class="testimonials-fb-stars" aria-hidden="true">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                                </span>
+                                <span class="testimonials-fb-score">4,8</span>
+                                <span class="testimonials-fb-score-label">/ 5</span>
+                            </div>
+                            <p class="testimonials-review-count">135 avis</p>
+                            <p class="testimonials-fb-card-text">Les avis de nos clients sont sur notre fiche Google. Consultez leurs retours et la fiche de notre atelier sur Google Maps en un clic.</p>
+                            <a href="https://www.google.com/maps/place/AutoTech+Reprogrammation+Moteur/@36.8799982,10.2991194,17z/data=!3m1!4b1!4m6!3m5!1s0x12fd34dd56e7b8bb:0x8e7d0ae9fd9aad0d!8m2!3d36.8799982!4d10.2991194!16s%2Fg%2F11cnm2y792?entry=ttu" target="_blank" rel="noopener" class="testimonials-fb-cta testimonials-fb-cta-large testimonials-google-cta">
+                                <i class="fab fa-google" aria-hidden="true"></i>
+                                Voir les avis sur Google
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="equipe-thin-separator"></div>
+
+            <!-- Section Une équipe dédiée -->
+            <section class="equipe-dediee-section" id="equipe" aria-labelledby="equipe-title">
+                <div class="equipe-dediee-container">
+                    <div class="equipe-dediee-left">
+                        <div class="equipe-dediee-title-wrap">
+                            <h2 class="section-title equipe-dediee-title" id="equipe-title">Des <span class="equipe-dediee-accent">experts passionnés</span> à votre service</h2>
+                        </div>
+                        <div class="equipe-dediee-content">
+                            <p class="equipe-dediee-subtitle">Passion, précision et performance</p>
+                        <p class="equipe-dediee-quote">Chez AUTOTECH, nous analysons chaque courbe de couple, calibrons votre ECU et optimisons le moteur pour révéler toute sa puissance et sa réactivité. Chaque reprogrammation est sur mesure, adaptée au carburant, aux composants et à votre style de conduite.</p>
+                        <p class="equipe-dediee-quote">Résultat&nbsp;: plus de frissons à l’accélération, un contrôle parfait dans chaque virage et la satisfaction de découvrir les performances cachées de votre voiture.</p>
+                        <p class="equipe-dediee-attribution">AUTOTECH — Premier atelier tunisien de reprogrammation sur banc de puissance, où passion et expertise transforment votre véhicule.</p>
+                        </div>
+                    </div>
+                    <div class="equipe-dediee-visual">
+                        <div class="equipe-dediee-slideshow" aria-label="Diaporama des tuners AUTOTECH">
+                            <div class="equipe-dediee-track">
+                                <div class="equipe-dediee-slide equipe-dediee-slide-1">
+                                    <img src="images/tuner-autotech.png" alt="Tuner AUTOTECH Moncer ROUISSI" class="equipe-dediee-img" loading="eager" width="400" height="500">
+                                </div>
+                                <div class="equipe-dediee-slide equipe-dediee-slide-2">
+                                    <img src="images/tuner-autotech%202.png" alt="Tuner AUTOTECH Mustapha Djellouli" class="equipe-dediee-img" loading="lazy" width="400" height="500">
+                                </div>
+                                <div class="equipe-dediee-slide equipe-dediee-slide-3">
+                                    <img src="images/tuner-autotech%203.png" alt="Tuner AUTOTECH Mohamed Oueslati" class="equipe-dediee-img" loading="lazy" width="400" height="500">
+                                </div>
+                                <div class="equipe-dediee-slide equipe-dediee-slide-4">
+                                    <img src="images/tuner-autotech%204.png" alt="Tuner AUTOTECH Yassine LeGall" class="equipe-dediee-img" loading="lazy" width="400" height="500">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="equipe-dediee-names">
+                            <div class="equipe-dediee-tuner-block equipe-dediee-tuner-name-1">
+                                <span class="equipe-dediee-tuner-name">Moncer ROUISSI</span>
+                                <span class="equipe-dediee-tuner-title">Fondateur & Tuner</span>
+                            </div>
+                            <div class="equipe-dediee-tuner-block equipe-dediee-tuner-name-2">
+                                <span class="equipe-dediee-tuner-name">Mustapha Djellouli</span>
+                                <span class="equipe-dediee-tuner-title">Tuner</span>
+                            </div>
+                            <div class="equipe-dediee-tuner-block equipe-dediee-tuner-name-3">
+                                <span class="equipe-dediee-tuner-name">Mohamed Oueslati</span>
+                                <span class="equipe-dediee-tuner-title">Technicien</span>
+                            </div>
+                            <div class="equipe-dediee-tuner-block equipe-dediee-tuner-name-4">
+                                <span class="equipe-dediee-tuner-name">Yassine LeGall</span>
+                                <span class="equipe-dediee-tuner-title">Pilote champion de Tunisie & technicien</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="equipe-thin-separator"></div>
+
+            <!-- Section Équipements -->
+            <section class="equipment-section" id="equipements" style="background-image: url('images/equipement.jpg');">
+                <div class="section-container">
+                    <div class="section-intro">
+                        <h2 class="section-title">Nos équipements de pointe</h2>
+                        <p class="section-subtitle equipment-subtitle">Des outils professionnels pour une reprogrammation précise et fiable</p>
+                    </div>
+                    <div class="equipment-logos">
+                        <div class="equipment-logo">Bapro</div>
+                        <div class="equipment-logo">Autotuner</div>
+                        <div class="equipment-logo">Alientech</div>
+                        <div class="equipment-logo">Dimosport</div>
+                        <div class="equipment-logo">EVC WinOLS</div>
+                        <div class="equipment-logo">Bosch</div>
+                        <div class="equipment-logo">Siemens</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Séparateur -->
+            <div class="section-separator"></div>
+
             <!-- Section Contact -->
             <section class="contact-section" id="contact">
                 <div class="section-container">
@@ -1222,9 +1269,9 @@
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                     </div>
-                                    <span class="rating-score">4.9</span>
+                                    <span class="rating-score">4,8</span>
                                     <span class="rating-text">Note Google</span>
-                                    <span class="rating-count">(127 avis)</span>
+                                    <span class="rating-count">(135 avis)</span>
                                 </div>
 
                                 <div class="contact-details">
@@ -1280,16 +1327,25 @@
                                 </div>
 
                                 <div class="footer-social">
-                                    <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                                    <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH">
                                         <i class="fab fa-facebook-f"></i>
                                     </a>
-                                    <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                                    <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH">
                                         <i class="fab fa-instagram"></i>
                                     </a>
-                                    <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                                    <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH">
+                                        <span class="icon-x">X</span>
+                                    </a>
+                                    <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH">
+                                        <i class="fab fa-linkedin-in"></i>
+                                    </a>
+                                    <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH">
+                                        <i class="fab fa-tiktok"></i>
+                                    </a>
+                                    <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH">
                                         <i class="fab fa-youtube"></i>
                                     </a>
-                            </div>
+                                </div>
                         </div>
 
                         <!-- Formulaire de contact -->
@@ -1322,6 +1378,10 @@
                                         <option value="">Sélectionnez un sujet</option>
                                         <option value="reprog">Reprogrammation</option>
                                         <option value="dyno">Passage au banc</option>
+                                        <option value="diagnostic-achat">Diagnostic d'achat</option>
+                                        <option value="echappement-downpipe">Échappement sur mesure / DownPipe</option>
+                                        <option value="preparation-poussee">Préparation poussée</option>
+                                        <option value="devenir-revendeur">Devenir revendeur</option>
                                         <option value="other">Autre demande</option>
                                     </select>
                                     <div class="form-border"></div>
@@ -1349,7 +1409,7 @@
         <footer class="footer">
             <div class="section-container">
                 <div class="footer-content">
-                    <div class="footer-brand">
+                        <div class="footer-brand">
                         <img src="images/Logo-H.png" 
                              alt="AutoTech Logo" 
                              class="footer-logo"
@@ -1358,13 +1418,22 @@
                              height="80">
                         <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
                         <div class="footer-social">
-                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link">
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link">
+                            <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH">
+                                <span class="icon-x">X</span>
+                            </a>
+                            <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH">
+                                <i class="fab fa-tiktok"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH">
                                 <i class="fab fa-youtube"></i>
                             </a>
                         </div>
@@ -1412,6 +1481,62 @@
     <script src="js/form-validation.js" defer></script>
     <script src="js/scroll-to-top.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+    <!-- Effet Matrix rouge sur le splash screen -->
+    <script>
+        (function() {
+            const canvas = document.getElementById('splash-matrix');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            const chars = '01';
+            let fontSize = 18;
+            let columns = [];
+
+            function resize() {
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+                const count = Math.floor(rect.width / fontSize);
+                columns = [];
+                for (let i = 0; i < count; i++) {
+                    columns[i] = Math.random() * rect.height;
+                }
+            }
+
+            function draw() {
+                if (!canvas.width || !canvas.height) return;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.font = fontSize + 'px monospace';
+
+                for (let i = 0; i < columns.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * fontSize;
+                    const y = columns[i];
+                    const alpha = 0.2 + Math.random() * 0.6;
+                    ctx.fillStyle = 'rgba(227, 6, 19, ' + alpha + ')';
+                    ctx.fillText(char, x, y);
+
+                    if (y > canvas.height && Math.random() > 0.975) {
+                        columns[i] = 0;
+                    } else {
+                        columns[i] = y + fontSize;
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+            requestAnimationFrame(draw);
+        })();
+    </script>
     
     <!-- Service Worker pour la mise en cache et l'expérience hors ligne -->
     <script>

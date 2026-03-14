@@ -29,7 +29,9 @@
     grid-template-columns: 1fr 2fr;
     gap: 4rem;
     position: relative;
+    width: 100%;
 }
+
 
 .footer-brand {
     display: flex;
@@ -163,6 +165,14 @@
 .footer-social .social-link i {
     position: relative;
     z-index: 1;
+}
+
+.footer-social .social-link .icon-x {
+    position: relative;
+    z-index: 1;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.5px;
 }
 
 .footer-social .social-link:hover {

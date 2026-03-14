@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V7GR797110"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-V7GR797110');
+    </script>
     <meta name="description" content="Découvrez notre banc de puissance haute précision chez AUTOTECH à Tunis. Mesurez les performances réelles de votre véhicule et optimisez sa puissance, son couple et sa consommation.">
     <title>Banc de puissance à Tunis - AUTOTECH</title>
     
@@ -470,7 +478,17 @@
                             <li><a href="index.html#about">À propos</a></li>
                             <li><a href="index.html#boost">Reprogrammation</a></li>
                             <li><a href="dyno.html">Dyno</a></li>
-                            <li><a href="options-reprog.html">Options de reprog.</a></li>
+                            <li class="has-submenu">
+                                            <a href="#" class="nav-submenu-trigger">Options de reprog.</a>
+                                            <ul class="submenu">
+                                                <li><a href="options-reprog.html">Toutes les options</a></li>
+                                                <li><a href="suppression-fap.html">Suppression du FAP</a></li>
+                                                <li><a href="suppression-adblue.html">Suppression AdBlue</a></li>
+                                                <li><a href="suppression-egr.html">Désactivation EGR</a></li>
+                                                <li><a href="suppression-catalyseur.html">Suppression catalyseur (décata)</a></li>
+                                                <li><a href="pop-bang.html">POP&amp;BANG</a></li>
+                                            </ul>
+                                        </li>
                             <li><a href="echapp.html">Échappement & Downpipe</a></li>
                             <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
                             <li><a href="index.html#news">News</a></li>

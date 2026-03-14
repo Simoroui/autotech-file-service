@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AUTOTECH Tunisie : reprogrammation POP&amp;BANG, crackles et pops à la décélération. Toujours avec suppression catalyseur (décata) pour la fiabilité. Essence turbo, garantie. Tunisie.">
+    <title>POP&amp;BANG | AUTOTECH Tunisie</title>
+    <meta property="og:title" content="POP&amp;BANG | AUTOTECH Tunisie">
+    <meta property="og:description" content="Reprogrammation POP&amp;BANG avec décata obligatoire pour la fiabilité. Crackles et pops à la décélération. Garantie à vie, Tunisie.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://autotech-tunisia.com/pop-bang.html">
+    <link rel="icon" href="images/logoicon.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --popbang-bg: #050508;
+            --popbang-panel: #0a0a0f;
+            --popbang-line: rgba(255,255,255,0.06);
+            --popbang-red: #E30613;
+            --popbang-red-glow: rgba(227, 6, 19, 0.12);
+            --popbang-text: rgba(255,255,255,0.9);
+            --popbang-muted: rgba(255,255,255,0.45);
+            --popbang-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        }
+        body { background: var(--popbang-bg); }
+        .main-content {
+            background: var(--popbang-bg);
+            min-height: 60vh;
+            position: relative;
+        }
+        .main-content::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(var(--popbang-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--popbang-line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .popbang-page-hero {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem 5rem;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .popbang-page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d9?w=1920&q=75') center/cover no-repeat;
+            filter: brightness(0.2) contrast(1.05);
+        }
+        .popbang-page-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--popbang-bg) 95%);
+            pointer-events: none;
+        }
+        .popbang-page-hero .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            text-align: center;
+        }
+        .popbang-page-hero .hero-index {
+            font-family: var(--popbang-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--popbang-red);
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .popbang-page-hero h1 {
+            color: #fff;
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin: 0 0 1.25rem;
+        }
+        .popbang-page-hero h1 span {
+            color: var(--popbang-red);
+            font-weight: 500;
+            position: relative;
+        }
+        .popbang-page-hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--popbang-red), transparent 70%);
+            opacity: 0.7;
+        }
+        .popbang-page-hero .hero-meta {
+            color: var(--popbang-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            line-height: 1.65;
+            font-weight: 300;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .popbang-section {
+            max-width: 1120px;
+            margin: 0 auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .popbang-section-inner {
+            background: var(--popbang-panel);
+            border: 1px solid var(--popbang-line);
+            border-radius: 2px;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .popbang-section-inner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--popbang-red), transparent 60%);
+            opacity: 0.6;
+        }
+        .popbang-section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: 280px;
+        }
+        @media (max-width: 768px) {
+            .popbang-section-content { grid-template-columns: 1fr; min-height: auto; }
+        }
+        .popbang-section-content.reverse .popbang-section-text { order: 2; }
+        .popbang-section-content.reverse .popbang-section-img { order: 1; }
+        .popbang-section-title {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            margin: 0;
+            padding: 1.75rem 1.75rem 0.75rem;
+            border-bottom: 1px solid var(--popbang-line);
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .popbang-section-num {
+            font-family: var(--popbang-mono);
+            font-size: 0.7rem;
+            color: var(--popbang-red);
+            opacity: 0.9;
+        }
+        .popbang-section-text {
+            color: var(--popbang-text);
+            line-height: 1.75;
+            font-size: 0.9rem;
+            font-weight: 300;
+            padding: 1.75rem 2rem;
+        }
+        .popbang-section-text p { margin: 0 0 0.9rem; }
+        .popbang-section-text ul {
+            margin: 0.5rem 0 1rem;
+            padding-left: 1.1rem;
+            list-style: none;
+        }
+        .popbang-section-text li {
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+        .popbang-section-text li::before {
+            content: '—';
+            position: absolute;
+            left: -1.1rem;
+            color: var(--popbang-red);
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .popbang-section-img {
+            position: relative;
+            border-left: 1px solid var(--popbang-line);
+        }
+        @media (max-width: 768px) {
+            .popbang-section-img { border-left: none; border-top: 1px solid var(--popbang-line); }
+        }
+        .popbang-section-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--popbang-red-glow));
+            pointer-events: none;
+            z-index: 1;
+        }
+        .popbang-section-img img {
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+        #norme-tunisie .popbang-section-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+        .popbang-cta {
+            text-align: center;
+            padding: 3.5rem 1.5rem;
+            max-width: 480px;
+            margin: 4rem auto;
+            position: relative;
+            z-index: 1;
+        }
+        .popbang-cta p {
+            color: var(--popbang-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        .popbang-cta a {
+            display: inline-block;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--popbang-red);
+            text-decoration: none;
+            border: 1px solid var(--popbang-red);
+            border-radius: 2px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .popbang-cta a:hover {
+            background: var(--popbang-red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--popbang-red-glow);
+        }
+
+        .popbang-pellicule {
+            position: relative;
+            z-index: 1;
+            margin: 0 auto 3rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .popbang-pellicule-inner {
+            display: flex;
+            gap: 0;
+            padding: 0.5rem 0;
+            border-top: 2px solid var(--popbang-line);
+            border-bottom: 2px solid var(--popbang-line);
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .popbang-pellicule-inner::-webkit-scrollbar { display: none; }
+        .popbang-pellicule-track {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0 0.5rem;
+            flex-shrink: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .popbang-pellicule-track.is-scrolling { scroll-behavior: auto; }
+        .popbang-pellicule-inner.scroll-auto .popbang-pellicule-track { overflow-x: hidden; }
+        .popbang-pellicule-frame {
+            flex: 0 0 auto;
+            width: 180px;
+            height: 120px;
+            scroll-snap-align: start;
+            cursor: pointer;
+        }
+        .popbang-pellicule-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--popbang-line);
+            transition: opacity 0.2s;
+        }
+        .popbang-pellicule-frame:hover img { opacity: 0.85; }
+        @media (max-width: 768px) {
+            .popbang-pellicule-frame { width: 140px; height: 95px; }
+        }
+
+        .popbang-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.92);
+            cursor: pointer;
+        }
+        .popbang-lightbox.is-open { display: flex; }
+        .popbang-lightbox-content { position: relative; max-width: 95vw; max-height: 95vh; cursor: default; }
+        .popbang-lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border: 1px solid var(--popbang-line);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        .popbang-lightbox-close {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--popbang-red);
+            color: #fff;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .popbang-lightbox-close:hover {
+            background: #ff1a2e;
+            box-shadow: 0 0 20px var(--popbang-red-glow);
+        }
+        .popbang-lightbox-close:focus { outline: 2px solid #fff; outline-offset: 2px; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <button class="hamburger-menu" aria-label="Menu">
+                <i class="fas fa-bars hamburger-icon" aria-hidden="true"></i>
+                <i class="fas fa-times close-icon" aria-hidden="true"></i>
+            </button>
+            <div class="header-container">
+                <nav class="nav-main">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-min.png" alt="AUTOTECH reprogrammation moteur Tunisie" class="logo-img" loading="eager" width="150" height="50">
+                        </a>
+                    </div>
+                    <div class="nav-container">
+                        <ul class="nav-links">
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="index.html#about">À propos</a></li>
+                            <li><a href="index.html#boost">Reprogrammation</a></li>
+                            <li><a href="dyno.html">Dyno</a></li>
+                            <li class="has-submenu">
+                                <a href="#" class="nav-submenu-trigger">Options de reprog.</a>
+                                <ul class="submenu">
+                                    <li><a href="options-reprog.html">Toutes les options</a></li>
+                                    <li><a href="suppression-fap.html">Suppression du FAP</a></li>
+                                    <li><a href="suppression-adblue.html">Suppression AdBlue</a></li>
+                                    <li><a href="suppression-egr.html">Désactivation EGR</a></li>
+                                    <li><a href="suppression-catalyseur.html">Suppression catalyseur (décata)</a></li>
+                                    <li><a href="pop-bang.html">POP&amp;BANG</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="echapp.html">Échappement & Downpipe</a></li>
+                            <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
+                            <li><a href="index.html#news">News</a></li>
+                            <li><a href="ensavoirplus.html">En savoir +</a></li>
+                            <li><a href="devenir-revendeur.html">Devenir revendeur</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                        <div class="header-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="popbang-page-hero">
+                <div class="hero-inner">
+                    <div class="hero-index">Reprogrammation son</div>
+                    <h1><span>POP&amp;BANG</span></h1>
+                    <p class="hero-meta">Crackles et pops à la décélération. Chez nous, jamais de POP&amp;BANG sans suppression du catalyseur (décata) pour la fiabilité. Reprogrammation essence turbo, garantie à vie, Tunisie.</p>
+                </div>
+            </section>
+
+            <section class="popbang-pellicule" aria-label="Galerie POP&amp;BANG">
+                <div class="popbang-pellicule-inner scroll-auto" id="popbangPelliculeInner">
+                    <div class="popbang-pellicule-track" id="popbangPelliculeTrack">
+                        <div class="popbang-pellicule-frame"><img src="images/pop1.jpg" alt="POP 1" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop2.jpg" alt="POP 2" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop3.jpg" alt="POP 3" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop4.jpg" alt="POP 4" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop5.jpg" alt="POP 5" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop6.jpg" alt="POP 6" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop7.jpg" alt="POP 7" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop8.jpg" alt="POP 8" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop9.jpg" alt="POP 9" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop10.jpg" alt="POP 10" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop1.jpg" alt="POP 1" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop2.jpg" alt="POP 2" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop3.jpg" alt="POP 3" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop4.jpg" alt="POP 4" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop5.jpg" alt="POP 5" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop6.jpg" alt="POP 6" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop7.jpg" alt="POP 7" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop8.jpg" alt="POP 8" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop9.jpg" alt="POP 9" loading="lazy"></div>
+                        <div class="popbang-pellicule-frame"><img src="images/pop10.jpg" alt="POP 10" loading="lazy"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popbang-section" id="quest-ce-que">
+                <div class="popbang-section-inner">
+                    <h2 class="popbang-section-title"><span class="popbang-section-num">01</span>Qu’est-ce que le POP&amp;BANG ?</h2>
+                    <div class="popbang-section-content">
+                        <div class="popbang-section-text">
+                            <p>Le <strong>POP&amp;BANG</strong> (ou crackles &amp; pops) est une option de reprogrammation qui provoque des <strong>crachotements et des pops</strong> à l’échappement lors de la décélération. Très apprécié en préparation et sur les véhicules sport, il donne un son agressif et reconnaissable sans modifier la puissance en accélération.</p>
+                            <p>Chez AUTOTECH, le POP&amp;BANG est réalisé par <strong>reprogrammation du calculateur moteur</strong> : nous modifions les stratégies d’injection et d’allumage en décélération pour que du carburant non brûlé atteigne l’échappement et s’enflamme dans le pot, créant les pops. <strong>Nous ne faisons jamais de POP&amp;BANG sans suppression du catalyseur (décata)</strong> : c’est notre règle pour la fiabilité et la durabilité. Garantie à vie sur la cartographie livrée.</p>
+                        </div>
+                        <div class="popbang-section-img">
+                            <img src="images/pop&amp;bang.jpg" alt="Reprogrammation POP&amp;BANG - AUTOTECH" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popbang-section" id="comment-ca-marche">
+                <div class="popbang-section-inner">
+                    <h2 class="popbang-section-title"><span class="popbang-section-num">02</span>Comment ça marche ?</h2>
+                    <div class="popbang-section-content reverse">
+                        <div class="popbang-section-text">
+                            <p>Techniquement, le POP&amp;BANG repose sur&nbsp;:</p>
+                            <ul>
+                                <li><strong>Injection retardée ou post-combustion</strong> : une petite quantité de carburant est injectée alors que les soupapes d’échappement sont ouvertes (ou en fin de combustion), ce qui permet au carburant de brûler dans l’échappement.</li>
+                                <li><strong>Gestion de l’allumage</strong> et du calage en décélération pour favoriser les combustions incomplètes qui génèrent les pops.</li>
+                                <li><strong>Suppression du catalyseur (décata)</strong> systématique chez AUTOTECH : nous ne livrons jamais un POP&amp;BANG sans dépose du catalyseur et pose d’un tube décata. C’est indispensable pour la fiabilité (pas de surchauffe du catalyseur ni de dégradation).</li>
+                            </ul>
+                            <p>L’intensité (léger crackle ou gros bang) est réglable selon vos souhaits. Nous adaptons la cartographie à votre véhicule et à votre usage.</p>
+                        </div>
+                        <div class="popbang-section-img">
+                            <img src="images/popbang-comment-ca-marche.jpg" alt="Comment ça marche - injection, allumage et échappement POP&amp;BANG" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popbang-section" id="precautions">
+                <div class="popbang-section-inner">
+                    <h2 class="popbang-section-title"><span class="popbang-section-num">03</span>Précautions et bon usage</h2>
+                    <div class="popbang-section-content reverse">
+                        <div class="popbang-section-text">
+                            <p>Le POP&amp;BANG implique quelques points à connaître&nbsp;:</p>
+                            <ul>
+                                <li><strong>Chez AUTOTECH, POP&amp;BANG = toujours avec décata</strong> : nous ne faisons jamais de POP&amp;BANG sans suppression du catalyseur. C’est notre règle pour la fiabilité (éviter toute surchauffe ou casse du catalyseur).</li>
+                                <li><strong>Consommation</strong> légèrement augmentée en usage très sportif (décélérations répétées avec pops).</li>
+                                <li><strong>Usage raisonnable</strong> : éviter les pops en continu en ville ; idéal pour le circuit ou le show.</li>
+                                <li><strong>Véhicules concernés</strong> : principalement essence turbo (et certains atmosphériques). Nous vous indiquons la faisabilité selon votre moteur.</li>
+                            </ul>
+                            <p>AUTOTECH règle l’intensité et livre systématiquement avec décata pour concilier son, fiabilité et durabilité.</p>
+                        </div>
+                        <div class="popbang-section-img">
+                            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80" alt="POP&BANG - échappement" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popbang-section" id="quels-vehicules">
+                <div class="popbang-section-inner">
+                    <h2 class="popbang-section-title"><span class="popbang-section-num">04</span>Pour quels véhicules ?</h2>
+                    <div class="popbang-section-content reverse">
+                        <div class="popbang-section-text">
+                            <p>Le POP&amp;BANG est surtout proposé sur&nbsp;:</p>
+                            <ul>
+                                <li><strong>Moteurs essence turbo</strong> (BMW, Audi, VAG, Mercedes, Renault Sport, etc.) : les plus adaptés et les plus demandés.</li>
+                                <li><strong>Certains moteurs essence atmosphériques</strong> selon le calculateur et la ligne d’échappement.</li>
+                                <li><strong>À chaque fois avec suppression du catalyseur (décata)</strong> : la prestation inclut la reprogrammation POP&amp;BANG et la dépose du catalyseur + tube décata, pour la fiabilité.</li>
+                                <li><strong>Compatibilité</strong> avec un stage 1, 2 ou 3 : le POP&amp;BANG peut être ajouté à une cartographie puissance ou livré seul (son uniquement), toujours avec décata.</li>
+                            </ul>
+                            <p>Contactez-nous avec la marque, le modèle et le moteur de votre véhicule pour un devis et la faisabilité.</p>
+                        </div>
+                        <div class="popbang-section-img">
+                            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80" alt="POP&BANG - véhicules essence turbo" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="popbang-cta">
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Un projet POP&amp;BANG (toujours avec décata pour la fiabilité)&nbsp;? Discutons de votre véhicule.</p>
+                <a href="index.html#contact">Nous contacter</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="images/Logo-H.png" alt="AutoTech Logo" class="footer-logo" loading="lazy" width="200" height="80">
+                        <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH"><span class="icon-x">X</span></a>
+                            <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-nav">
+                            <h3>Navigation :</h3>
+                            <a href="index.html">Accueil</a>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="dyno.html">Dyno</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="index.html#contact">Contact</a>
+                        </div>
+                        <div class="footer-nav">
+                            <h3>Services :</h3>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="options-reprog.html">Options de reprog</a>
+                            <a href="dyno.html">Passage au banc</a>
+                            <a href="echapp.html">Échappement</a>
+                            <a href="echapp.html">Downpipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-to-top">
+                    <a href="#" class="scroll-button"><i class="fas fa-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AutoTech. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="popbang-lightbox" id="popbangLightbox" aria-hidden="true" role="dialog" aria-label="Image agrandie">
+        <div class="popbang-lightbox-content" onclick="event.stopPropagation()">
+            <button type="button" class="popbang-lightbox-close" id="popbangLightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+            <img id="popbangLightboxImg" src="" alt="">
+        </div>
+    </div>
+
+    <script src="js/header.js" defer></script>
+    <script src="js/scroll-to-top.js" defer></script>
+    <script>
+    (function() {
+        var lb = document.getElementById('popbangLightbox');
+        var lbImg = document.getElementById('popbangLightboxImg');
+        var lbClose = document.getElementById('popbangLightboxClose');
+        if (!lb || !lbImg) return;
+        document.querySelectorAll('.popbang-pellicule-frame img').forEach(function(img) {
+            img.closest('.popbang-pellicule-frame').addEventListener('click', function() {
+                lbImg.src = img.src;
+                lbImg.alt = img.alt;
+                lb.classList.add('is-open');
+                lb.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeLightbox() {
+            lb.classList.remove('is-open');
+            lb.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        lb.addEventListener('click', closeLightbox);
+        if (lbClose) lbClose.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lb.classList.contains('is-open')) closeLightbox();
+        });
+    })();
+    (function() {
+        var inner = document.getElementById('popbangPelliculeInner');
+        var track = document.getElementById('popbangPelliculeTrack');
+        if (!inner || !track) return;
+        track.classList.add('is-scrolling');
+        var step = 2;
+        var speed = 25;
+        function scrollPellicule() {
+            var sw = track.scrollWidth;
+            var cw = inner.clientWidth;
+            if (sw <= cw) return;
+            var half = sw / 2;
+            inner.scrollLeft += step;
+            if (inner.scrollLeft >= half) inner.scrollLeft = 0;
+        }
+        setInterval(scrollPellicule, speed);
+    })();
+    </script>
+</body>
+</html>

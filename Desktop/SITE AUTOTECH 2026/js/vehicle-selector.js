@@ -457,6 +457,8 @@ function goToBrandList(type) {
     if (tabs) {
         tabs.style.display = '';
     }
+    // Changer de marque/type : ne pas garder en mémoire l'ancienne fiche résultat (évite conflits Retour)
+    localStorage.removeItem('vehicleResultData');
     const targetType = type || (currentSelection && currentSelection.type) || 'cars';
     // Un seul onglet actif et une seule grille visible
     document.querySelectorAll('.tab-button').forEach(btn => {
@@ -476,6 +478,8 @@ function goToBrandList(type) {
 
 // Modifier handleBrandSelection pour utiliser la nouvelle fonction
 function handleBrandSelection(brand, type) {
+    // Changement de marque : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     currentSelection = {
         brand: brand,
         model: null,
@@ -659,6 +663,8 @@ function addEventListeners(detailsSection, brand, type, models) {
 
 // Modifier handleModelSelection pour centrer la sélection de version
 function handleModelSelection(brand, type, model) {
+    // Changement de modèle : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     // Mettre à jour la sélection courante
     currentSelection = {
         brand: brand,
@@ -785,6 +791,8 @@ function handleModelSelection(brand, type, model) {
 
 // Modifier handleVersionSelection pour centrer la sélection de motorisation
 function handleVersionSelection(brand, type, model, version) {
+    // Changement de version : ne pas garder l'ancienne fiche résultat en mémoire
+    localStorage.removeItem('vehicleResultData');
     // Mettre à jour la sélection courante
     currentSelection = {
         brand: brand,
@@ -1162,82 +1170,55 @@ async function createSlideshow(brand, model, version) {
     // Créer l'élément du diaporama seulement si des images existent
     const slideshow = document.createElement('div');
     slideshow.className = 'vehicle-slideshow';
+    const isDesktop = window.innerWidth > 768;
+
     slideshow.innerHTML = `
-        <h3 style="
-            color: white;
-            text-align: center;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        ">Photos prises dans notre atelier</h3>
-        <div class="slideshow-container" style="
-            position: relative;
-            width: 100%;
-            height: 400px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            overflow: hidden;
-            margin: 20px 0;
-        ">
-            ${images.map((imageUrl, index) => `
-                <div class="slide" style="
-                    position: absolute;
-                    width: 100%;
-                    height: 100%;
-                    opacity: ${index === 0 ? '1' : '0'};
-                ">
-                    <img src="${imageUrl}" alt="${brand} ${model}" style="
+        <h3 class="slideshow-title">Photos prises dans notre atelier</h3>
+        <div class="slideshow-wrapper">
+            <div class="slideshow-container" style="
+                position: relative;
+                width: 100%;
+                height: 400px;
+                background: rgba(0, 0, 0, 0.2);
+                border-radius: 8px;
+                overflow: hidden;
+            ">
+                ${images.map((imageUrl, index) => `
+                    <div class="slide" style="
+                        position: absolute;
                         width: 100%;
                         height: 100%;
-                        object-fit: contain;
-                        background: rgba(0, 0, 0, 0.5);
+                        opacity: ${index === 0 ? '1' : '0'};
                     ">
-                </div>
-            `).join('')}
+                        <img src="${imageUrl}" alt="${brand} ${model}" style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: contain;
+                            background: rgba(0, 0, 0, 0.5);
+                        ">
+                    </div>
+                `).join('')}
 
-            ${images.length > 1 ? `
-                <button class="slide-nav prev" style="
-                    position: absolute;
-                    left: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❮</button>
-                <button class="slide-nav next" style="
-                    position: absolute;
-                    right: 20px;
-                    top: 50%;
-                    transform: translateY(-50%);
-                    z-index: 10;
-                    background: rgba(227, 6, 19, 0.8);
-                    color: white;
-                    border: none;
-                    width: 40px;
-                    height: 40px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    font-size: 20px;
-                ">❯</button>
-                
-                <div class="slide-dots">
-                    ${images.map((_, index) => `
-                        <button class="dot" data-index="${index}" style="
-                            width: 12px;
-                            height: 12px;
-                            border-radius: 50%;
-                            background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
-                            border: none;
-                            cursor: pointer;
-                        "></button>
-                    `).join('')}
+                ${images.length > 1 && isDesktop ? `
+                    <div class="slide-dots">
+                        ${images.map((_, index) => `
+                            <button class="dot" data-index="${index}" style="
+                                width: 12px;
+                                height: 12px;
+                                border-radius: 50%;
+                                background: ${index === 0 ? 'white' : 'rgba(255, 255, 255, 0.5)'};
+                                border: none;
+                                cursor: pointer;
+                            "></button>
+                        `).join('')}
+                    </div>
+                ` : ''}
             </div>
+            ${images.length > 1 ? `
+                <div class="slideshow-nav-row">
+                    <button class="slide-nav prev" type="button" aria-label="Photo précédente">❮</button>
+                    <button class="slide-nav next" type="button" aria-label="Photo suivante">❯</button>
+                </div>
             ` : ''}
         </div>
     `;
@@ -1296,21 +1277,9 @@ function showResultPage(vehicleData) {
         torqueStage1: torqueStage1 === "00" ? "00" : (parseInt(torqueStage1) || "00")
     };
     
-    // Stocker les données complètes dans localStorage pour les récupérer après actualisation
-    localStorage.setItem('vehicleResultData', JSON.stringify({
-        brand,
-        model,
-        version,
-        engineType,
-        powerOriginal,
-        powerStage1,
-        torqueOriginal,
-        torqueStage1,
-        timestamp: Date.now(), // Pour l'expiration éventuelle des données
-        url: window.location.href // Stocker l'URL associée à ces données
-    }));
+    // Ne plus stocker la fiche résultat en mémoire : évite les conflits avec le bouton Retour quand l'utilisateur change de marque
     
-    // Créer le conteneur "page résultats" (wrapper neutre, sans style visuel)
+    // Créer le conteneur "page résultats"
     const container = document.createElement('div');
     container.className = 'vehicle-results-page';
     container.id = 'vehicle-results-page';
@@ -1572,36 +1541,16 @@ function showResultPage(vehicleData) {
 
             <!-- Autres sections de la page de résultats -->
             <div class="advantages-list">
-                <div class="advantage-item no-check">
-                    Reprog sur banc de puissance (dyno)
-                    </div>
-                <div class="advantage-item no-check">
-                    Reprog sur fichier d'origine
-                    </div>
-                <div class="advantage-item no-check">
-                    Log des valeurs (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Diagnostic détaillé (avant et après reprog)
-                </div>
-                <div class="advantage-item no-check">
-                    Garantie Logiciel 5ans
-                </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation en respectant les tolérances du constructeur
-                </div>
-                <div class="advantage-item no-check">
-                    Normes Antipollution respectées
-                </div>
-                <div class="advantage-item no-check">
-                    Possibilité de réinstaller le programme d'origine à tout moment
-            </div>
-                <div class="advantage-item no-check">
-                    Reprogrammation par la prise OBD, sans ouverture du calculateur
-                    </div>
-                <div class="advantage-item no-check">
-                    Aucun code défaut ni témoins allumés
-                </div>
+                <div class="advantage-item no-check"><span class="advantage-num">01</span><span class="advantage-text">Reprog sur banc de puissance (dyno)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">02</span><span class="advantage-text">Reprog sur fichier d'origine</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">03</span><span class="advantage-text">Log des valeurs (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">04</span><span class="advantage-text">Diagnostic détaillé (avant et après reprog)</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">05</span><span class="advantage-text">Garantie Logiciel 5ans</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">06</span><span class="advantage-text">Reprogrammation en respectant les tolérances du constructeur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">07</span><span class="advantage-text">Normes Antipollution respectées</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">08</span><span class="advantage-text">Possibilité de réinstaller le programme d'origine à tout moment</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">09</span><span class="advantage-text">Reprogrammation par la prise OBD, sans ouverture du calculateur</span></div>
+                <div class="advantage-item no-check"><span class="advantage-num">10</span><span class="advantage-text">Aucun code défaut ni témoins allumés</span></div>
             </div>
 
             <div class="pricing-grid">
@@ -1626,7 +1575,9 @@ function showResultPage(vehicleData) {
 
     // Initialiser le graphique CSS (barres) uniquement si données disponibles
     if (!enCoursDeDeveloppement) {
-        setTimeout(() => {
+        const graphBox = container.querySelector('.graph-chart-box');
+
+        const runBarAnimation = () => {
             // Convertir les valeurs "00" en nombres pour calculer les largeurs
             const powerOriginalValue = initialValues.powerOriginal === "00" ? 0 : parseInt(initialValues.powerOriginal, 10);
             const powerStage1Value = initialValues.powerStage1 === "00" ? 0 : parseInt(initialValues.powerStage1, 10);
@@ -1647,6 +1598,25 @@ function showResultPage(vehicleData) {
             const torqueStage1Bar = document.querySelector('.performance-bar.stage1[data-metric="torque-stage1"]');
             const torqueStage2Bar = document.querySelector('.performance-bar.stage2[data-metric="torque-stage2"]');
 
+            // Fonction d'animation inspirée du simulateur (remplissage progressif)
+            const animateBar = (bar, widthPercent, delayMs) => {
+                if (!bar) return;
+                const target = Math.max(0, Math.min(100, widthPercent));
+                bar.style.width = '0%';
+                // Forcer un reflow pour bien déclencher la transition
+                void bar.offsetWidth;
+                const start = () => {
+                    requestAnimationFrame(() => {
+                        bar.style.width = `${target}%`;
+                    });
+                };
+                if (delayMs && delayMs > 0) {
+                    setTimeout(start, delayMs);
+                } else {
+                    start();
+                }
+            };
+
             const powerOriginText = document.querySelector('.performance-value[data-metric="power-origin-value"]');
             const powerStage1Text = document.querySelector('.performance-value[data-metric="power-stage1-value"]');
             const powerStage2Text = document.querySelector('.performance-value[data-metric="power-stage2-value"]');
@@ -1654,30 +1624,14 @@ function showResultPage(vehicleData) {
             const torqueStage1Text = document.querySelector('.performance-value[data-metric="torque-stage1-value"]');
             const torqueStage2Text = document.querySelector('.performance-value[data-metric="torque-stage2-value"]');
 
-            if (powerOriginBar) {
-                const width = (powerOriginalValue / maxPower) * 100;
-                powerOriginBar.style.width = `${width}%`;
-            }
-            if (powerStage1Bar) {
-                const width = (powerStage1Value / maxPower) * 100;
-                powerStage1Bar.style.width = `${width}%`;
-            }
-            if (powerStage2Bar) {
-                const width = (powerStage2Value / maxPower) * 100;
-                powerStage2Bar.style.width = `${width}%`;
-            }
-            if (torqueOriginBar) {
-                const width = (torqueOriginalValue / maxTorque) * 100;
-                torqueOriginBar.style.width = `${width}%`;
-            }
-            if (torqueStage1Bar) {
-                const width = (torqueStage1Value / maxTorque) * 100;
-                torqueStage1Bar.style.width = `${width}%`;
-            }
-            if (torqueStage2Bar) {
-                const width = (torqueStage2Value / maxTorque) * 100;
-                torqueStage2Bar.style.width = `${width}%`;
-            }
+            // Lancer les animations de remplissage (cascade légère)
+            animateBar(powerOriginBar,  (powerOriginalValue / maxPower) * 100, 0);
+            animateBar(powerStage1Bar, (powerStage1Value  / maxPower) * 100, 250);
+            animateBar(powerStage2Bar, (powerStage2Value  / maxPower) * 100, 500);
+
+            animateBar(torqueOriginBar,  (torqueOriginalValue / maxTorque) * 100, 900);
+            animateBar(torqueStage1Bar, (torqueStage1Value  / maxTorque) * 100, 1150);
+            animateBar(torqueStage2Bar, (torqueStage2Value  / maxTorque) * 100, 1400);
 
             // Texte des valeurs (6 valeurs affichées)
             if (powerOriginText) {
@@ -1730,7 +1684,29 @@ function showResultPage(vehicleData) {
                     : 0;
                 torqueDiffPctStage2El.textContent = pct >= 0 ? `+${pct}%` : `${pct}%`;
             }
-        }, 100);
+
+            // Déclencher l'animation CSS (transform: scaleX)
+            if (graphBox) {
+                graphBox.classList.add('animate-bars');
+            }
+        };
+
+        // Lancer l'animation seulement quand la zone graphique est visible (scroll)
+        if (graphBox && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Petit délai pour laisser le layout se stabiliser
+                        setTimeout(runBarAnimation, 100);
+                        obs.disconnect();
+                    }
+                });
+            }, { threshold: 0.4 });
+            observer.observe(graphBox);
+        } else {
+            // Fallback si IntersectionObserver n'est pas dispo
+            setTimeout(runBarAnimation, 150);
+        }
 
     // Centrer le tableau des résultats
     setTimeout(() => {
@@ -1896,38 +1872,16 @@ function initializeSlideshow() {
 // Fonction pour gérer le retour (bouton "Retour" interne)
 function handleBack() {
     const s = currentSelection;
-
-    // 1) Si la page résultats est affichée : la supprimer et revenir à la sélection motorisation
     const resultsPage = document.getElementById('vehicle-results-page');
-    if (resultsPage) {
-        resultsPage.remove();
-        if (s && s.type && s.brand && s.model && s.version) {
-            handleVersionSelection(s.brand, s.type, s.model, s.version);
-            const detailsSection = document.querySelector('.vehicle-details');
-            if (detailsSection) detailsSection.style.display = 'block';
-            scrollToStepCenter('engine');
+    const hasResultPage = !!resultsPage;
+
+    if (hasResultPage || (s && s.type && s.brand)) {
+        if (window.history && typeof window.history.back === 'function') {
+            window.history.back();
         }
         return;
     }
 
-    // 2) Sinon on est sur une page de sélection : revenir d’une étape
-    if (s && s.type && s.brand && s.model && s.version) {
-        // Étape motorisation -> revenir à l’étape version (liste des versions)
-        handleModelSelection(s.brand, s.type, s.model);
-        return;
-    }
-    if (s && s.type && s.brand && s.model) {
-        // Étape version -> revenir à l’étape modèle (liste des modèles)
-        handleBrandSelection(s.brand, s.type);
-        return;
-    }
-    if (s && s.type && s.brand) {
-        // Étape modèle -> revenir à la liste des marques
-        goToBrandList(s.type);
-        return;
-    }
-
-    // 3) Sinon (étape marque ou rien) : aller à l’accueil
     window.location.href = 'index.html#boost';
 }
 
@@ -2101,6 +2055,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             sessionStorage.removeItem('selectedModel');
             sessionStorage.removeItem('selectedVersion');
         }
+        
+        // Après construction des grilles : traiter l'URL (hash ou paramètres) pour restaurer
+        // la page résultats si besoin, afin que handleHashChange ait les éléments DOM prêts
+        const paramsProcessed = checkURLParamsAndShowResults();
+        if (!paramsProcessed) {
+            setTimeout(handleHashChange, 800);
+        }
     } catch (error) {
         // Gérer l'erreur silencieusement
     }
@@ -2256,18 +2217,9 @@ function updatePerformanceData(isStage2) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM chargé, vérification des paramètres d\'URL...');
+    // Les paramètres d'URL et le hash sont traités après chargement du CSV (voir listener async plus haut)
     
-    // Vérifier d'abord les paramètres d'URL
-    const paramsProcessed = checkURLParamsAndShowResults();
-    
-    // Si les paramètres n'ont pas été traités, vérifier le hash
-    if (!paramsProcessed) {
-        // Attendre que tout soit initialisé
-        setTimeout(handleHashChange, 1000);
-    }
-    
-    // Ajouter des écouteurs d'événements pour tous les liens de navigation
+    // Ajouter des écouteurs pour supprimer vehicleResultData au clic sur les liens
     // afin de supprimer les données de résultats du localStorage
     document.querySelectorAll('a:not([href^="#resultat"])').forEach(link => {
         link.addEventListener('click', function(e) {
@@ -2402,6 +2354,16 @@ function getEngineData(brand, model, version, engineType) {
 }
 
     // Fonction pour gérer les URL avec hash
+function normalizeVersionSlug(s) {
+    if (!s || typeof s !== 'string') return '';
+    try {
+        const decoded = decodeURIComponent(s);
+        return decoded.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+    } catch (_) {
+        return s.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+    }
+}
+
 function handleHashChange() {
     const hash = window.location.hash.substring(1); // Enlever le # du début
     if (!hash) return;
@@ -2413,9 +2375,9 @@ function handleHashChange() {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
         const model = parts[3] ? decodeURIComponent(parts[3].replace(/-/g, ' ')) : null;
-        // On conserve pour la comparaison le slug brut venant de l'URL (déjà en format "f01---2009---2015")
-        const versionSlugFromHash = parts[4] ? parts[4].toLowerCase() : null;
-        const engineSlugFromHash = parts[5] ? parts[5].toLowerCase() : null;
+        // Décoder et normaliser le slug version (ex: e82---2011--%3E et e82---2011---> doivent matcher)
+        const versionSlugFromHash = parts[4] ? normalizeVersionSlug(parts[4]) : null;
+        const engineSlugFromHash = parts[5] ? decodeURIComponent(parts[5]).toLowerCase().replace(/\s+/g, '-') : null;
         
         console.log('URL hash détecté:', { type, brand, model, versionSlugFromHash, engineSlugFromHash });
 
@@ -2443,15 +2405,15 @@ function handleHashChange() {
                                             if (item.dataset.model.toLowerCase() === model.toLowerCase()) {
                                                 item.click();
                                                 
-                                                // Si nous avons une version, simuler sa sélection
+                                                // Si nous avons une version, simuler sa sélection (comparaison normalisée)
                                                 if (versionSlugFromHash) {
                                                     setTimeout(() => {
                                                         const versionItems = document.querySelectorAll('.selection-item[data-version]');
                                                         for (const item of versionItems) {
                                                             const itemVersionSlug = item.dataset.version
-                                                                ? item.dataset.version.toLowerCase().replace(/\s+/g, '-')
+                                                                ? normalizeVersionSlug(item.dataset.version)
                                                                 : '';
-                                                            if (itemVersionSlug === versionSlugFromHash) {
+                                                            if (itemVersionSlug && itemVersionSlug === versionSlugFromHash) {
                                                                 item.click();
 
                                                                 // Si une motorisation est spécifiée dans le hash, la sélectionner aussi
@@ -2493,11 +2455,7 @@ function handleHashChange() {
 // Écouter les changements de hash
 window.addEventListener('hashchange', handleHashChange);
 
-// Vérifier le hash au chargement initial
-document.addEventListener('DOMContentLoaded', () => {
-    // Attendre que tout soit initialisé
-    setTimeout(handleHashChange, 1500);
-});
+// Le hash au chargement initial est traité après le CSV (voir listener DOMContentLoaded async plus haut)
 
 // Utiliser IntersectionObserver pour charger les images de marque à la demande
 document.addEventListener('DOMContentLoaded', function() {
@@ -2643,23 +2601,51 @@ function checkURLParamsAndShowResults() {
                     torqueStage1: engineData.torqueStage1
                 };
                 
-                // Stocker ces données dans localStorage pour une meilleure persistance
-                localStorage.setItem('vehicleResultData', JSON.stringify({
-                    brand,
-                    model,
-                    version,
-                    engineType,
-                    powerOriginal: engineData.powerOriginal,
-                    powerStage1: engineData.powerStage1,
-                    torqueOriginal: engineData.torqueOriginal,
-                    torqueStage1: engineData.torqueStage1,
-                    timestamp: Date.now(),
-                    url: window.location.href // Stocker l'URL associée à ces données
-                }));
+                // Ne plus stocker la fiche en localStorage (évite conflits avec le bouton Retour)
                 
                 // Pour les URL partagées, s'assurer que l'engineType est toujours défini correctement
                 if (!engineData.engineType) {
                     engineData.engineType = engineType;
+                }
+                
+                // Construire la pile d'historique pour que le bouton Retour ramène aux bonnes étapes
+                try {
+                    if (!window.history.state || !window.history.state.step) {
+                        window.history.replaceState({
+                            step: 'list',
+                            type,
+                            brand: null,
+                            model: null,
+                            version: null,
+                            engine: null
+                        }, '', window.location.href);
+                    }
+                    window.history.pushState({
+                        step: 'brand',
+                        type,
+                        brand,
+                        model: null,
+                        version: null,
+                        engine: null
+                    }, '', window.location.href);
+                    window.history.pushState({
+                        step: 'model',
+                        type,
+                        brand,
+                        model,
+                        version: null,
+                        engine: null
+                    }, '', window.location.href);
+                    window.history.pushState({
+                        step: 'version',
+                        type,
+                        brand,
+                        model,
+                        version,
+                        engine: null
+                    }, '', window.location.href);
+                } catch (e) {
+                    console.error('Erreur lors de la construction de la pile d\'historique (query params):', e);
                 }
                 
                 // Simuler la sélection du moteur pour afficher la page de résultats
@@ -2676,70 +2662,14 @@ function checkURLParamsAndShowResults() {
         return true; // Indiquer que nous avons traité les paramètres d'URL
     }
     
-    // Si on n'a pas de paramètres dans l'URL actuelle, utiliser le localStorage en dernier recours
-    try {
-        const storedData = localStorage.getItem('vehicleResultData');
-        if (storedData) {
-            const data = JSON.parse(storedData);
-            // Vérifier si les données ne sont pas trop anciennes (24h max)
-            const now = Date.now();
-            const dataAge = now - (data.timestamp || 0);
-            
-            // Vérifier si l'URL actuelle correspond à celle stockée
-            const currentURL = window.location.href;
-            const storedURL = data.url || '';
-            
-            // Si l'URL stockée existe et ne correspond pas à l'URL actuelle, ne pas utiliser les données stockées
-            if (storedURL && storedURL !== currentURL) {
-                console.log('L\'URL actuelle ne correspond pas à l\'URL stockée, suppression des données');
-                localStorage.removeItem('vehicleResultData');
-                return false;
-            }
-            
-            if (dataAge < 24 * 60 * 60 * 1000) {
-                console.log('Utilisation des données stockées pour afficher les résultats');
-                
-                // Vérifier que toutes les données nécessaires sont présentes
-                if (data.brand && data.model && data.version && data.engineType) {
-                    // Utiliser directement les données stockées
-                    currentSelection = {
-                        brand: data.brand,
-                        model: data.model,
-                        version: data.version,
-                        type: getVehicleTypeFromURL() || 'cars',
-                        engine: data.engineType,
-                        powerOriginal: data.powerOriginal || "00",
-                        powerStage1: data.powerStage1 || "00",
-                        torqueOriginal: data.torqueOriginal || "00",
-                        torqueStage1: data.torqueStage1 || "00"
-                    };
-                    
-                    // Simuler la sélection du moteur pour afficher la page de résultats
-                    handleEngineSelection(data.brand, currentSelection.type, data.model, data.version, {
-                        type: data.engineType,
-                        powerOriginal: data.powerOriginal || "00",
-                        powerStage1: data.powerStage1 || "00",
-                        torqueOriginal: data.torqueOriginal || "00",
-                        torqueStage1: data.torqueStage1 || "00",
-                        engineType: data.engineType
-                    });
-                    
-                    return true;
-                } else {
-                    console.error('Données localStorage incomplètes, suppression');
-                    localStorage.removeItem('vehicleResultData');
-                }
-            } else {
-                // Les données sont trop anciennes, les supprimer
-                console.log('Données localStorage expirées, suppression');
-                localStorage.removeItem('vehicleResultData');
-            }
-        }
-    } catch (error) {
-        console.error('Erreur lors de la récupération des données stockées:', error);
-        localStorage.removeItem('vehicleResultData');
+    // Si l'URL contient déjà un hash résultat complet (#reprogrammation/type/brand/model/version/engine),
+    // ne pas utiliser le localStorage : laisser handleHashChange simuler les clics pour construire
+    // une pile d'historique correcte (sinon Retour ramène à une entrée vide).
+    if (parts.length >= 6 && parts[0] === 'reprogrammation') {
+        return false;
     }
     
+    // Ne plus restaurer la dernière fiche depuis localStorage : évite conflits avec le bouton Retour
     return false; // Indiquer que nous n'avons pas traité les paramètres d'URL
 }
 

@@ -139,10 +139,18 @@ const updateActiveLink = () => {
 // Gestionnaire pour tous les liens du menu
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
+        const parentLi = link.closest('.has-submenu');
+        const isSubmenuTrigger = parentLi && link.parentElement === parentLi;
+        if (isSubmenuTrigger) {
+            e.preventDefault();
+            if (window.innerWidth <= 768) {
+                parentLi.classList.toggle('active');
+            }
+            return;
+        }
         if (window.innerWidth <= 768) {
             const href = link.getAttribute('href');
-            const isAnchorLink = href.includes('#');
-            
+            const isAnchorLink = href && href.includes('#');
             if (isHomePage() && isAnchorLink) {
                 // Si on est sur la page d'accueil et que c'est un lien d'ancrage
                 e.preventDefault();

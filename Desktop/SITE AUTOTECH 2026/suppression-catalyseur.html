@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AUTOTECH Tunisie : suppression catalyseur (décata), reprogrammation, dépose et tube de remplacement, garantie à vie. Diesel et essence en Tunisie.">
+    <title>Suppression catalyseur (décata) | AUTOTECH Tunisie</title>
+    <meta property="og:title" content="Suppression catalyseur / Décata | AUTOTECH Tunisie">
+    <meta property="og:description" content="Reprogrammation et suppression du catalyseur (décata), garantie à vie. Fiabilité et norme en Tunisie.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://autotech-tunisia.com/suppression-catalyseur.html">
+    <link rel="icon" href="images/logoicon.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --decata-bg: #050508;
+            --decata-panel: #0a0a0f;
+            --decata-line: rgba(255,255,255,0.06);
+            --decata-red: #E30613;
+            --decata-red-glow: rgba(227, 6, 19, 0.12);
+            --decata-text: rgba(255,255,255,0.9);
+            --decata-muted: rgba(255,255,255,0.45);
+            --decata-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        }
+        body { background: var(--decata-bg); }
+        .main-content {
+            background: var(--decata-bg);
+            min-height: 60vh;
+            position: relative;
+        }
+        .main-content::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(var(--decata-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--decata-line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .decata-page-hero {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem 5rem;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .decata-page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d9?w=1920&q=75') center/cover no-repeat;
+            filter: brightness(0.2) contrast(1.05);
+        }
+        .decata-page-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--decata-bg) 95%);
+            pointer-events: none;
+        }
+        .decata-page-hero .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            text-align: center;
+        }
+        .decata-page-hero .hero-index {
+            font-family: var(--decata-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--decata-red);
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .decata-page-hero h1 {
+            color: #fff;
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin: 0 0 1.25rem;
+        }
+        .decata-page-hero h1 span {
+            color: var(--decata-red);
+            font-weight: 500;
+            position: relative;
+        }
+        .decata-page-hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--decata-red), transparent 70%);
+            opacity: 0.7;
+        }
+        .decata-page-hero .hero-meta {
+            color: var(--decata-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            line-height: 1.65;
+            font-weight: 300;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .decata-section {
+            max-width: 1120px;
+            margin: 0 auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .decata-section-inner {
+            background: var(--decata-panel);
+            border: 1px solid var(--decata-line);
+            border-radius: 2px;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .decata-section-inner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--decata-red), transparent 60%);
+            opacity: 0.6;
+        }
+        .decata-section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: 280px;
+        }
+        @media (max-width: 768px) {
+            .decata-section-content { grid-template-columns: 1fr; min-height: auto; }
+        }
+        .decata-section-content.reverse .decata-section-text { order: 2; }
+        .decata-section-content.reverse .decata-section-img { order: 1; }
+        .decata-section-title {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            margin: 0;
+            padding: 1.75rem 1.75rem 0.75rem;
+            border-bottom: 1px solid var(--decata-line);
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .decata-section-num {
+            font-family: var(--decata-mono);
+            font-size: 0.7rem;
+            color: var(--decata-red);
+            opacity: 0.9;
+        }
+        .decata-section-text {
+            color: var(--decata-text);
+            line-height: 1.75;
+            font-size: 0.9rem;
+            font-weight: 300;
+            padding: 1.75rem 2rem;
+        }
+        .decata-section-text p { margin: 0 0 0.9rem; }
+        .decata-section-text ul {
+            margin: 0.5rem 0 1rem;
+            padding-left: 1.1rem;
+            list-style: none;
+        }
+        .decata-section-text li {
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+        .decata-section-text li::before {
+            content: '—';
+            position: absolute;
+            left: -1.1rem;
+            color: var(--decata-red);
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .decata-section-img {
+            position: relative;
+            border-left: 1px solid var(--decata-line);
+        }
+        @media (max-width: 768px) {
+            .decata-section-img { border-left: none; border-top: 1px solid var(--decata-line); }
+        }
+        .decata-section-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--decata-red-glow));
+            pointer-events: none;
+            z-index: 1;
+        }
+        .decata-section-img img {
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+        #norme-tunisie .decata-section-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+        .decata-cta {
+            text-align: center;
+            padding: 3.5rem 1.5rem;
+            max-width: 480px;
+            margin: 4rem auto;
+            position: relative;
+            z-index: 1;
+        }
+        .decata-cta p {
+            color: var(--decata-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        .decata-cta a {
+            display: inline-block;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--decata-red);
+            text-decoration: none;
+            border: 1px solid var(--decata-red);
+            border-radius: 2px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .decata-cta a:hover {
+            background: var(--decata-red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--decata-red-glow);
+        }
+
+        .decata-pellicule {
+            position: relative;
+            z-index: 1;
+            margin: 0 auto 3rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .decata-pellicule-inner {
+            display: flex;
+            gap: 0;
+            padding: 0.5rem 0;
+            border-top: 2px solid var(--decata-line);
+            border-bottom: 2px solid var(--decata-line);
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .decata-pellicule-inner::-webkit-scrollbar { display: none; }
+        .decata-pellicule-track {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0 0.5rem;
+            flex-shrink: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .decata-pellicule-track.is-scrolling { scroll-behavior: auto; }
+        .decata-pellicule-inner.scroll-auto .decata-pellicule-track { overflow-x: hidden; }
+        .decata-pellicule-frame {
+            flex: 0 0 auto;
+            width: 180px;
+            height: 120px;
+            scroll-snap-align: start;
+            cursor: pointer;
+        }
+        .decata-pellicule-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--decata-line);
+            transition: opacity 0.2s;
+        }
+        .decata-pellicule-frame:hover img { opacity: 0.85; }
+        @media (max-width: 768px) {
+            .decata-pellicule-frame { width: 140px; height: 95px; }
+        }
+
+        .decata-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.92);
+            cursor: pointer;
+        }
+        .decata-lightbox.is-open { display: flex; }
+        .decata-lightbox-content { position: relative; max-width: 95vw; max-height: 95vh; cursor: default; }
+        .decata-lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border: 1px solid var(--decata-line);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        .decata-lightbox-close {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--decata-red);
+            color: #fff;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .decata-lightbox-close:hover {
+            background: #ff1a2e;
+            box-shadow: 0 0 20px var(--decata-red-glow);
+        }
+        .decata-lightbox-close:focus { outline: 2px solid #fff; outline-offset: 2px; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <button class="hamburger-menu" aria-label="Menu">
+                <i class="fas fa-bars hamburger-icon" aria-hidden="true"></i>
+                <i class="fas fa-times close-icon" aria-hidden="true"></i>
+            </button>
+            <div class="header-container">
+                <nav class="nav-main">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-min.png" alt="AUTOTECH reprogrammation moteur Tunisie" class="logo-img" loading="eager" width="150" height="50">
+                        </a>
+                    </div>
+                    <div class="nav-container">
+                        <ul class="nav-links">
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="index.html#about">À propos</a></li>
+                            <li><a href="index.html#boost">Reprogrammation</a></li>
+                            <li><a href="dyno.html">Dyno</a></li>
+                            <li class="has-submenu">
+                                <a href="#" class="nav-submenu-trigger">Options de reprog.</a>
+                                <ul class="submenu">
+                                    <li><a href="options-reprog.html">Toutes les options</a></li>
+                                    <li><a href="suppression-fap.html">Suppression du FAP</a></li>
+                                    <li><a href="suppression-adblue.html">Suppression AdBlue</a></li>
+                                    <li><a href="suppression-egr.html">Désactivation EGR</a></li>
+                                    <li><a href="suppression-catalyseur.html">Suppression catalyseur (décata)</a></li>
+                                    <li><a href="pop-bang.html">POP&amp;BANG</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="echapp.html">Échappement & Downpipe</a></li>
+                            <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
+                            <li><a href="index.html#news">News</a></li>
+                            <li><a href="ensavoirplus.html">En savoir +</a></li>
+                            <li><a href="devenir-revendeur.html">Devenir revendeur</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                        <div class="header-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="decata-page-hero">
+                <div class="hero-inner">
+                    <div class="hero-index">Décata</div>
+                    <h1>Suppression <span>catalyseur</span></h1>
+                    <p class="hero-meta">Reprogrammation et suppression du catalyseur (décata). Dépose et tube de remplacement. Garantie à vie, fiabilité en Tunisie.</p>
+                </div>
+            </section>
+
+            <section class="decata-pellicule" aria-label="Galerie">
+                <div class="decata-pellicule-inner scroll-auto" id="decataPelliculeInner">
+                    <div class="decata-pellicule-track" id="decataPelliculeTrack">
+                        <div class="decata-pellicule-frame"><img src="images/pop1.jpg" alt="POP 1" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop2.jpg" alt="POP 2" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop3.jpg" alt="POP 3" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop4.jpg" alt="POP 4" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop5.jpg" alt="POP 5" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop6.jpg" alt="POP 6" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop7.jpg" alt="POP 7" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop8.jpg" alt="POP 8" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop9.jpg" alt="POP 9" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop10.jpg" alt="POP 10" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop1.jpg" alt="POP 1" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop2.jpg" alt="POP 2" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop3.jpg" alt="POP 3" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop4.jpg" alt="POP 4" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop5.jpg" alt="POP 5" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop6.jpg" alt="POP 6" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop7.jpg" alt="POP 7" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop8.jpg" alt="POP 8" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop9.jpg" alt="POP 9" loading="lazy"></div>
+                        <div class="decata-pellicule-frame"><img src="images/pop10.jpg" alt="POP 10" loading="lazy"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="reprog-suppression">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">01</span>Reprogrammation et suppression du catalyseur (décata)</h2>
+                    <div class="decata-section-content">
+                        <div class="decata-section-text">
+                            <p>Le <strong>catalyseur</strong> (pot catalytique) réduit les émissions de CO, HC et NOx en sortie d’échappement. Il peut se colmater, se fondre ou provoquer des contre-pressions nuisibles aux performances. La <strong>suppression catalyseur (décata)</strong> chez AUTOTECH combine une <strong>reprogrammation</strong> qui retire ou adapte les stratégies liées aux sondes lambda (pour éviter les voyants) et, selon le véhicule, la <strong>dépose du catalyseur</strong> remplacé par un tube de décata.</p>
+                            <p>Nous intervenons sur diesel et essence, avec des outils professionnels et des cartographies éprouvées. Gain de débit, meilleur son et fiabilité.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="images/fap-reprog-suppression.jpg" alt="Reprogrammation et suppression catalyseur - décata" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="depose-tube">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">02</span>Dépose du catalyseur et tube de remplacement (pipe décata)</h2>
+                    <div class="decata-section-content reverse">
+                        <div class="decata-section-text">
+                            <p>En complément de la reprogrammation, nous réalisons&nbsp;:</p>
+                            <ul>
+                                <li><strong>La dépose du catalyseur</strong> (pot catalytique) de la ligne d’échappement.</li>
+                                <li><strong>Le remplacement par un tube inox</strong> (pipe décata) ou une pièce sur mesure pour libérer le débit des gaz et supprimer la contre-pression.</li>
+                                <li><strong>L’adaptation des sondes lambda</strong> (spacers, simulateurs ou reprogrammation) pour éviter le voyant moteur.</li>
+                            </ul>
+                            <p>Cela améliore les performances, le son et supprime les pannes liées à un catalyseur colmaté ou défaillant.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="images/decata-soudeur-downpipe-table.jpg" alt="Soudeur en train de fabriquer une downpipe sur table - pipe décata" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="garantie-fiabilite">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">03</span>Garantie à vie et fiabilité</h2>
+                    <div class="decata-section-content">
+                        <div class="decata-section-text">
+                            <p>Sur la <strong>reprogrammation décata</strong>, AUTOTECH propose une <strong>garantie à vie</strong> sur la cartographie livrée (sous conditions d’usage et sans modification ultérieure du fichier par un tiers). Plus de voyant lambda lié au catalyseur, meilleur débit et fiabilité au quotidien.</p>
+                            <p>Les travaux de dépose et de pose du tube décata sont réalisés avec des matériaux de qualité et des contrôles post-montage.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="images/garantie.jpg" alt="Garantie à vie et fiabilité - AUTOTECH" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="inconvenients-catalyseur">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">04</span>Les inconvénients du catalyseur</h2>
+                    <div class="decata-section-content reverse">
+                        <div class="decata-section-text">
+                            <p>Le catalyseur présente plusieurs inconvénients&nbsp;:</p>
+                            <ul>
+                                <li><strong>Colmatage</strong> (suie, dépôts) qui réduit le débit et les performances.</li>
+                                <li><strong>Contre-pression</strong> nuisible au turbo et au rendement moteur.</li>
+                                <li><strong>Coût élevé</strong> du remplacement du catalyseur d’origine.</li>
+                                <li><strong>Risque de fusion</strong> ou de casse en cas de mélange trop riche ou surchauffe.</li>
+                                <li><strong>Voyant moteur</strong> si les sondes lambda détectent un catalyseur défaillant.</li>
+                            </ul>
+                            <p>La suppression catalyseur (décata), couplée à une reprogrammation adaptée, supprime ces contraintes tout en conservant un moteur fiable.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80" alt="Inconvénients du catalyseur - échappement" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="norme-tunisie">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">05</span>La norme en Tunisie</h2>
+                    <div class="decata-section-content">
+                        <div class="decata-section-text">
+                            <p>En Tunisie, le contrôle technique et la réglementation locale ne imposent pas aujourd’hui le contrôle du catalyseur (pas de lecture OBD obligatoire du statut des sondes lambda comme dans certains pays européens). La suppression du catalyseur (décata) et la reprogrammation associée sont donc des prestations courantes pour les véhicules diesel et essence, dans un cadre de préparation ou d’allègement des contraintes.</p>
+                            <p>Il appartient au propriétaire du véhicule de s’informer sur l’évolution de la réglementation. AUTOTECH réalise la prestation sur demande du client, en toute transparence.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="images/visite%20tech.jpg" alt="La norme en Tunisie - visite technique" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="decata-section" id="risque-colmate">
+                <div class="decata-section-inner">
+                    <h2 class="decata-section-title"><span class="decata-section-num">06</span>Risques avec un catalyseur colmaté ou défaillant</h2>
+                    <div class="decata-section-content reverse">
+                        <div class="decata-section-text">
+                            <p>Un catalyseur colmaté ou défaillant peut entraîner&nbsp;:</p>
+                            <ul>
+                                <li><strong>Perte de puissance</strong> et difficultés à monter en régime.</li>
+                                <li><strong>Contre-pression excessive</strong> nuisible au turbo et au moteur.</li>
+                                <li><strong>Voyant moteur</strong> et mode dégradé.</li>
+                                <li><strong>Coûts élevés</strong> de remplacement du catalyseur d’origine.</li>
+                            </ul>
+                            <p>La suppression catalyseur (décata) et la reprogrammation associée constituent une alternative durable et maîtrisée, réalisée par AUTOTECH avec garantie à vie sur la cartographie.</p>
+                        </div>
+                        <div class="decata-section-img">
+                            <img src="images/decata-culasse-6-cylindres.jpg" alt="Culasse 6 cylindres et soupapes en réparation démontées sur table - risques catalyseur colmaté" loading="lazy" width="800" height="450">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="decata-cta">
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Un projet décata ou suppression catalyseur&nbsp;? Discutons de votre véhicule.</p>
+                <a href="index.html#contact">Nous contacter</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="images/Logo-H.png" alt="AutoTech Logo" class="footer-logo" loading="lazy" width="200" height="80">
+                        <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH"><span class="icon-x">X</span></a>
+                            <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-nav">
+                            <h3>Navigation :</h3>
+                            <a href="index.html">Accueil</a>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="dyno.html">Dyno</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="index.html#contact">Contact</a>
+                        </div>
+                        <div class="footer-nav">
+                            <h3>Services :</h3>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="options-reprog.html">Options de reprog</a>
+                            <a href="dyno.html">Passage au banc</a>
+                            <a href="echapp.html">Échappement</a>
+                            <a href="echapp.html">Downpipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-to-top">
+                    <a href="#" class="scroll-button"><i class="fas fa-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AutoTech. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="decata-lightbox" id="decataLightbox" aria-hidden="true" role="dialog" aria-label="Image agrandie">
+        <div class="decata-lightbox-content" onclick="event.stopPropagation()">
+            <button type="button" class="decata-lightbox-close" id="decataLightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+            <img id="decataLightboxImg" src="" alt="">
+        </div>
+    </div>
+
+    <script src="js/header.js" defer></script>
+    <script src="js/scroll-to-top.js" defer></script>
+    <script>
+    (function() {
+        var lb = document.getElementById('decataLightbox');
+        var lbImg = document.getElementById('decataLightboxImg');
+        var lbClose = document.getElementById('decataLightboxClose');
+        if (!lb || !lbImg) return;
+        document.querySelectorAll('.decata-pellicule-frame img').forEach(function(img) {
+            img.closest('.decata-pellicule-frame').addEventListener('click', function() {
+                lbImg.src = img.src;
+                lbImg.alt = img.alt;
+                lb.classList.add('is-open');
+                lb.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeLightbox() {
+            lb.classList.remove('is-open');
+            lb.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        lb.addEventListener('click', closeLightbox);
+        if (lbClose) lbClose.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lb.classList.contains('is-open')) closeLightbox();
+        });
+    })();
+    (function() {
+        var inner = document.getElementById('decataPelliculeInner');
+        var track = document.getElementById('decataPelliculeTrack');
+        if (!inner || !track) return;
+        track.classList.add('is-scrolling');
+        var step = 2;
+        var speed = 25;
+        function scrollPellicule() {
+            var sw = track.scrollWidth;
+            var cw = inner.clientWidth;
+            if (sw <= cw) return;
+            var half = sw / 2;
+            inner.scrollLeft += step;
+            if (inner.scrollLeft >= half) inner.scrollLeft = 0;
+        }
+        setInterval(scrollPellicule, speed);
+    })();
+    </script>
+</body>
+</html>

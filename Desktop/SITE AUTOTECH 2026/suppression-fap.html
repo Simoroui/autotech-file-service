@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AUTOTECH Tunisie : suppression du filtre à particules (FAP), reprogrammation FAP OFF, travaux mécaniques, downpipe, garantie à vie. Risques du FAP colmaté et norme en Tunisie.">
+    <title>Suppression du filtre à particules (FAP) | AUTOTECH Tunisie</title>
+    <meta property="og:title" content="Suppression FAP | AUTOTECH Tunisie">
+    <meta property="og:description" content="Reprogrammation et suppression physique du FAP, travaux mécaniques, downpipe, garantie à vie. Fiabilité et norme en Tunisie.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://autotech-tunisia.com/suppression-fap.html">
+    <link rel="icon" href="images/logoicon.png" type="image/png">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --fap-bg: #050508;
+            --fap-panel: #0a0a0f;
+            --fap-line: rgba(255,255,255,0.06);
+            --fap-line-accent: rgba(227, 6, 19, 0.5);
+            --fap-red: #E30613;
+            --fap-red-glow: rgba(227, 6, 19, 0.12);
+            --fap-text: rgba(255,255,255,0.9);
+            --fap-muted: rgba(255,255,255,0.45);
+            --fap-mono: 'SF Mono', 'Monaco', 'Consolas', monospace;
+        }
+        body { background: var(--fap-bg); }
+        .main-content {
+            background: var(--fap-bg);
+            min-height: 60vh;
+            position: relative;
+        }
+        .main-content::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(var(--fap-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--fap-line) 1px, transparent 1px);
+            background-size: 64px 64px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Hero techno */
+        .fap-page-hero {
+            position: relative;
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 1.5rem 5rem;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .fap-page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://images.unsplash.com/photo-1486262715619-67b85e0b08d9?w=1920&q=75') center/cover no-repeat;
+            filter: brightness(0.2) contrast(1.05);
+        }
+        .fap-page-hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--fap-bg) 95%);
+            pointer-events: none;
+        }
+        .fap-page-hero .hero-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            text-align: center;
+        }
+        .fap-page-hero .hero-index {
+            font-family: var(--fap-mono);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--fap-red);
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        .fap-page-hero h1 {
+            color: #fff;
+            font-size: clamp(2.2rem, 5.5vw, 3.2rem);
+            font-weight: 600;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin: 0 0 1.25rem;
+        }
+        .fap-page-hero h1 span {
+            color: var(--fap-red);
+            font-weight: 500;
+            position: relative;
+        }
+        .fap-page-hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--fap-red), transparent 70%);
+            opacity: 0.7;
+        }
+        .fap-page-hero .hero-meta {
+            color: var(--fap-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.04em;
+            line-height: 1.65;
+            font-weight: 300;
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        /* Sections type panneau */
+        .fap-section {
+            max-width: 1120px;
+            margin: 0 auto 3rem;
+            padding: 0 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+        .fap-section-inner {
+            background: var(--fap-panel);
+            border: 1px solid var(--fap-line);
+            border-radius: 2px;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+        .fap-section-inner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--fap-red), transparent 60%);
+            opacity: 0.6;
+        }
+        .fap-section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: 280px;
+        }
+        @media (max-width: 768px) {
+            .fap-section-content { grid-template-columns: 1fr; min-height: auto; }
+        }
+        .fap-section-content.reverse .fap-section-text { order: 2; }
+        .fap-section-content.reverse .fap-section-img { order: 1; }
+        .fap-section-title {
+            color: #fff;
+            font-size: 1.15rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            margin: 0;
+            padding: 1.75rem 1.75rem 0.75rem;
+            border-bottom: 1px solid var(--fap-line);
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .fap-section-num {
+            font-family: var(--fap-mono);
+            font-size: 0.7rem;
+            color: var(--fap-red);
+            opacity: 0.9;
+        }
+        .fap-section-text {
+            color: var(--fap-text);
+            line-height: 1.75;
+            font-size: 0.9rem;
+            font-weight: 300;
+            padding: 1.75rem 2rem;
+        }
+        .fap-section-text p { margin: 0 0 0.9rem; }
+        .fap-section-text ul {
+            margin: 0.5rem 0 1rem;
+            padding-left: 1.1rem;
+            list-style: none;
+        }
+        .fap-section-text li {
+            margin-bottom: 0.4rem;
+            position: relative;
+        }
+        .fap-section-text li::before {
+            content: '—';
+            position: absolute;
+            left: -1.1rem;
+            color: var(--fap-red);
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .fap-section-img {
+            position: relative;
+            border-left: 1px solid var(--fap-line);
+        }
+        @media (max-width: 768px) {
+            .fap-section-img { border-left: none; border-top: 1px solid var(--fap-line); }
+        }
+        .fap-section-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--fap-red-glow));
+            pointer-events: none;
+            z-index: 1;
+        }
+        .fap-section-img img {
+            width: 100%;
+            height: 100%;
+            min-height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+        /* Overlay noir transparent uniquement sur l'image section 05 (visite technique) */
+        #norme-tunisie .fap-section-img {
+            position: relative;
+        }
+        #norme-tunisie .fap-section-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+        .fap-cta {
+            text-align: center;
+            padding: 3.5rem 1.5rem;
+            max-width: 480px;
+            margin: 4rem auto;
+            position: relative;
+            z-index: 1;
+        }
+        .fap-cta p {
+            color: var(--fap-muted);
+            font-size: 0.9rem;
+            letter-spacing: 0.03em;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        .fap-cta a {
+            display: inline-block;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--fap-red);
+            text-decoration: none;
+            border: 1px solid var(--fap-red);
+            border-radius: 2px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        }
+        .fap-cta a:hover {
+            background: var(--fap-red);
+            color: #fff;
+            box-shadow: 0 0 24px var(--fap-red-glow);
+        }
+
+        /* Pellicule (filmstrip) sous le titre */
+        .fap-pellicule {
+            position: relative;
+            z-index: 1;
+            margin: 0 auto 3rem;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .fap-pellicule-inner {
+            display: flex;
+            gap: 0;
+            padding: 0.5rem 0;
+            border-top: 2px solid var(--fap-line);
+            border-bottom: 2px solid var(--fap-line);
+            background: rgba(0, 0, 0, 0.3);
+            width: 100%;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .fap-pellicule-inner::-webkit-scrollbar {
+            display: none;
+        }
+        .fap-pellicule-track {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0 0.5rem;
+            flex-shrink: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--fap-red) transparent;
+        }
+        .fap-pellicule-track.is-scrolling {
+            scroll-behavior: auto;
+        }
+        .fap-pellicule-inner.scroll-auto .fap-pellicule-track {
+            overflow-x: hidden;
+        }
+        .fap-pellicule-track::-webkit-scrollbar {
+            height: 6px;
+        }
+        .fap-pellicule-track::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        .fap-pellicule-track::-webkit-scrollbar-thumb {
+            background: var(--fap-red);
+            border-radius: 3px;
+        }
+        .fap-pellicule-frame {
+            flex: 0 0 auto;
+            width: 180px;
+            height: 120px;
+            scroll-snap-align: start;
+            cursor: pointer;
+        }
+        .fap-pellicule-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border: 1px solid var(--fap-line);
+            transition: opacity 0.2s;
+        }
+        .fap-pellicule-frame:hover img {
+            opacity: 0.85;
+        }
+        @media (max-width: 768px) {
+            .fap-pellicule-frame {
+                width: 140px;
+                height: 95px;
+            }
+        }
+
+        /* Lightbox agrandissement image */
+        .fap-lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.92);
+            cursor: pointer;
+        }
+        .fap-lightbox.is-open {
+            display: flex;
+        }
+        .fap-lightbox-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 95vh;
+            cursor: default;
+        }
+        .fap-lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            display: block;
+            border: 1px solid var(--fap-line);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        .fap-lightbox-close {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            width: 2.25rem;
+            height: 2.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--fap-red);
+            color: #fff;
+            border: none;
+            border-radius: 2px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.2s, box-shadow 0.2s;
+        }
+        .fap-lightbox-close:hover {
+            background: #ff1a2e;
+            box-shadow: 0 0 20px var(--fap-red-glow);
+        }
+        .fap-lightbox-close:focus {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <button class="hamburger-menu" aria-label="Menu">
+                <i class="fas fa-bars hamburger-icon" aria-hidden="true"></i>
+                <i class="fas fa-times close-icon" aria-hidden="true"></i>
+            </button>
+            <div class="header-container">
+                <nav class="nav-main">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-min.png" alt="AUTOTECH reprogrammation moteur Tunisie" class="logo-img" loading="eager" width="150" height="50">
+                        </a>
+                    </div>
+                    <div class="nav-container">
+                        <ul class="nav-links">
+                            <li><a href="index.html">Accueil</a></li>
+                            <li><a href="index.html#about">À propos</a></li>
+                            <li><a href="index.html#boost">Reprogrammation</a></li>
+                            <li><a href="dyno.html">Dyno</a></li>
+                            <li class="has-submenu">
+                                            <a href="#" class="nav-submenu-trigger">Options de reprog.</a>
+                                            <ul class="submenu">
+                                                <li><a href="options-reprog.html">Toutes les options</a></li>
+                                                <li><a href="suppression-fap.html">Suppression du FAP</a></li>
+                                                <li><a href="suppression-adblue.html">Suppression AdBlue</a></li>
+                                                <li><a href="suppression-egr.html">Désactivation EGR</a></li>
+                                                <li><a href="suppression-catalyseur.html">Suppression catalyseur (décata)</a></li>
+                                                <li><a href="pop-bang.html">POP&amp;BANG</a></li>
+                                            </ul>
+                                        </li>
+                            <li><a href="echapp.html">Échappement & Downpipe</a></li>
+                            <li><a href="https://www.facebook.com/autotechreprogrammation/photos_albums" target="_blank">Réalisations</a></li>
+                            <li><a href="index.html#news">News</a></li>
+                            <li><a href="ensavoirplus.html">En savoir +</a></li>
+                            <li><a href="devenir-revendeur.html">Devenir revendeur</a></li>
+                            <li><a href="index.html#contact">Contact</a></li>
+                        </ul>
+                        <div class="header-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="fap-page-hero">
+                <div class="hero-inner">
+                    <div class="hero-index">FAP OFF / Downpipe</div>
+                    <h1>Suppression du <span>filtre à particules</span></h1>
+                    <p class="hero-meta">Reprogrammation, travaux mécaniques et downpipe. Garantie à vie, fiabilité et conformité en Tunisie.</p>
+                </div>
+            </section>
+
+            <section class="fap-pellicule" aria-label="Galerie FAP">
+                <div class="fap-pellicule-inner scroll-auto" id="fapPelliculeInner">
+                    <div class="fap-pellicule-track" id="fapPelliculeTrack">
+                        <div class="fap-pellicule-frame"><img src="images/fap1.jpg" alt="FAP 1" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap2.jpg" alt="FAP 2" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap3.jpg" alt="FAP 3" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap4.jpg" alt="FAP 4" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap5.jpg" alt="FAP 5" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap6.jpg" alt="FAP 6" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap7.jpg" alt="FAP 7" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap8.jpg" alt="FAP 8" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap9.jpg" alt="FAP 9" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap10.jpg" alt="FAP 10" loading="lazy"></div>
+                        <!-- Dupliqué pour défilement infini -->
+                        <div class="fap-pellicule-frame"><img src="images/fap1.jpg" alt="FAP 1" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap2.jpg" alt="FAP 2" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap3.jpg" alt="FAP 3" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap4.jpg" alt="FAP 4" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap5.jpg" alt="FAP 5" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap6.jpg" alt="FAP 6" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap7.jpg" alt="FAP 7" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap8.jpg" alt="FAP 8" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap9.jpg" alt="FAP 9" loading="lazy"></div>
+                        <div class="fap-pellicule-frame"><img src="images/fap10.jpg" alt="FAP 10" loading="lazy"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="reprog-suppression">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">01</span>Reprogrammation et suppression physique du FAP</h2>
+                    <div class="fap-section-content">
+                    <div class="fap-section-text">
+                        <p>La suppression du FAP chez AUTOTECH combine une <strong>reprogrammation moteur (FAP OFF)</strong> et, selon votre choix, une <strong>suppression physique</strong> du filtre. La reprogrammation retire du calculateur toutes les stratégies liées au FAP (régénération, pressions, sondes) pour éviter les voyants et les blocages. La suppression physique consiste à retirer le catalyseur FAP du ligne d’échappement et à le remplacer par un tube de remplacement ou une downpipe.</p>
+                        <p>Nous travaillons sur la majorité des moteurs diesel (et certains essences équipés de FAP) avec des outils professionnels et des cartographies éprouvées.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="images/fap-reprog-suppression.jpg" alt="Reprogrammation et suppression physique du FAP - ECU et échappement" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="travaux-mecaniques">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">02</span>Travaux mécaniques : vider le FAP ou fabriquer une downpipe</h2>
+                    <div class="fap-section-content reverse">
+                    <div class="fap-section-text">
+                        <p>Deux options mécaniques sont proposées selon le véhicule et vos attentes&nbsp;:</p>
+                        <ul>
+                            <li><strong>Vider le FAP</strong>&nbsp;: le boîtier du filtre est conservé, seul le cœur (nid d’abeille) est retiré. L’aspect extérieur reste d’origine, le passage des gaz est libéré.</li>
+                            <li><strong>Downpipe / tube de remplacement</strong>&nbsp;: le FAP est entièrement déposé et remplacé par un tube inox (downpipe) ou une pièce fabriquée sur mesure. Meilleur débit, gain de couple et de puissance, son plus franc.</li>
+                        </ul>
+                        <p>Nous réalisons la dépose/pose, la soudure si besoin et le contrôle des couples de serrage pour un montage propre et fiable.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="images/fap-travaux-mecaniques.jpg" alt="FAP - filtre à particules, vider ou remplacer par downpipe" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="garantie-fiabilite">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">03</span>Garantie à vie et fiabilité</h2>
+                    <div class="fap-section-content">
+                    <div class="fap-section-text">
+                        <p>Sur la <strong>reprogrammation FAP OFF</strong>, AUTOTECH propose une <strong>garantie à vie</strong> sur la cartographie livrée (sous conditions d’usage et sans modification ultérieure du fichier par un tiers). L’objectif est la fiabilité au quotidien&nbsp;: plus de régénération forcée, plus de colmatage, moins de stress thermique et mécanique sur le moteur.</p>
+                        <p>Les travaux mécaniques (vidage FAP ou downpipe) sont réalisés avec des matériaux adaptés et des contrôles post-montage pour limiter les risques de fuites ou de casse.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="images/garantie.jpg" alt="Garantie à vie et fiabilité - AUTOTECH" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="inconvenients-fap">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">04</span>Les inconvénients du FAP</h2>
+                    <div class="fap-section-content reverse">
+                    <div class="fap-section-text">
+                        <p>Le filtre à particules présente plusieurs inconvénients bien connus&nbsp;:</p>
+                        <ul>
+                            <li><strong>Colmatage</strong> en ville ou trajets courts (régénération insuffisante).</li>
+                            <li><strong>Coût élevé</strong> du remplacement du FAP d’origine.</li>
+                            <li><strong>Consommations et pertes de puissance</strong> lors des régénérations.</li>
+                            <li><strong>Risque de surchauffe</strong> et de casse (turbo, soupapes) en cas de régénération répétée ou ratée.</li>
+                            <li><strong>Entretien contraignant</strong> (huile spécifique, trajets longs recommandés).</li>
+                        </ul>
+                        <p>La suppression du FAP, couplée à une reprogrammation adaptée, supprime ces contraintes tout en conservant un moteur propre et fiable.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="images/fap-turbo-demonte.jpg" alt="Turbo démonté sur table - inconvénients du FAP" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="norme-tunisie">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">05</span>La norme en Tunisie</h2>
+                    <div class="fap-section-content">
+                    <div class="fap-section-text">
+                        <p>En Tunisie, le contrôle technique et la réglementation locale ne imposent pas aujourd’hui le contrôle du FAP (pas de lecture OBD obligatoire du statut du filtre à particules comme dans certains pays européens). La suppression du FAP et la reprogrammation FAP OFF sont donc des prestations courantes pour les véhicules diesel, dans un cadre de préparation ou d’allègement des contraintes d’entretien.</p>
+                        <p>Il appartient au propriétaire du véhicule de s’informer sur l’évolution de la réglementation et des contrôles. AUTOTECH réalise la prestation sur demande du client, en toute transparence.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="images/visite%20tech.jpg" alt="La norme en Tunisie - visite technique" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <section class="fap-section" id="risque-colmate">
+                <div class="fap-section-inner">
+                    <h2 class="fap-section-title"><span class="fap-section-num">06</span>Les risques avec un filtre à particules colmaté</h2>
+                    <div class="fap-section-content reverse">
+                    <div class="fap-section-text">
+                        <p>Un FAP colmaté ou très encrassé peut entraîner&nbsp;:</p>
+                        <ul>
+                            <li><strong>Perte de puissance</strong> et difficultés à monter en régime.</li>
+                            <li><strong>Consommation anormale</strong> et fumées.</li>
+                            <li><strong>Régénérations forcées à répétition</strong>, avec surchauffe du moteur et de l’échappement.</li>
+                            <li><strong>Endommagement du turbo</strong> (contrepression excessive).</li>
+                            <li><strong>Risque de calamine</strong> et dégradation des segments ou de la distribution dans les cas extrêmes.</li>
+                        </ul>
+                        <p>Au-delà d’un certain niveau de colmatage, le remplacement du FAP par le constructeur est très coûteux. La suppression du FAP et la reprogrammation FAP OFF constituent une alternative durable et maîtrisée, réalisée par AUTOTECH avec garantie à vie sur la cartographie.</p>
+                    </div>
+                    <div class="fap-section-img">
+                        <img src="https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80" alt="Risques FAP colmaté - moteur et échappement" loading="lazy" width="800" height="450">
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <div class="fap-cta">
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 1rem;">Un projet suppression FAP ou downpipe&nbsp;? Discutons de votre véhicule.</p>
+                <a href="index.html#contact">Nous contacter</a>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="section-container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <img src="images/Logo-H.png" alt="AutoTech Logo" class="footer-logo" loading="lazy" width="200" height="80">
+                        <p class="footer-tagline subtitle">Autotech reprogrammation & optimisation moteur</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/autotechreprogrammation" target="_blank" class="social-link" aria-label="Facebook AUTOTECH"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/autotech_reprog/" target="_blank" class="social-link" aria-label="Instagram AUTOTECH"><i class="fab fa-instagram"></i></a>
+                            <a href="https://x.com/autotech_reprog" target="_blank" class="social-link" rel="noopener" aria-label="X (Twitter) AUTOTECH"><span class="icon-x">X</span></a>
+                            <a href="https://www.linkedin.com/company/autotech-tunisia" target="_blank" class="social-link" rel="noopener" aria-label="LinkedIn AUTOTECH"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="https://www.tiktok.com/@autotechreprog" target="_blank" class="social-link" rel="noopener" aria-label="TikTok AUTOTECH"><i class="fab fa-tiktok"></i></a>
+                            <a href="https://www.youtube.com/@autotechtunis2888" target="_blank" class="social-link" aria-label="YouTube AUTOTECH"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-links">
+                        <div class="footer-nav">
+                            <h3>Navigation :</h3>
+                            <a href="index.html">Accueil</a>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="dyno.html">Dyno</a>
+                            <a href="options-reprog.html">Options de reprog.</a>
+                            <a href="index.html#contact">Contact</a>
+                        </div>
+                        <div class="footer-nav">
+                            <h3>Services :</h3>
+                            <a href="index.html#boost">Reprogrammation</a>
+                            <a href="options-reprog.html">Options de reprog</a>
+                            <a href="dyno.html">Passage au banc</a>
+                            <a href="echapp.html">Échappement</a>
+                            <a href="echapp.html">Downpipe</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-to-top">
+                    <a href="#" class="scroll-button"><i class="fas fa-chevron-up"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AutoTech. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
+
+    <div class="fap-lightbox" id="fapLightbox" aria-hidden="true" role="dialog" aria-label="Image agrandie">
+        <div class="fap-lightbox-content" onclick="event.stopPropagation()">
+            <button type="button" class="fap-lightbox-close" id="fapLightboxClose" aria-label="Fermer"><i class="fas fa-times"></i></button>
+            <img id="fapLightboxImg" src="" alt="">
+        </div>
+    </div>
+
+    <script src="js/header.js" defer></script>
+    <script src="js/scroll-to-top.js" defer></script>
+    <script>
+    (function() {
+        var lb = document.getElementById('fapLightbox');
+        var lbImg = document.getElementById('fapLightboxImg');
+        var lbClose = document.getElementById('fapLightboxClose');
+        if (!lb || !lbImg) return;
+        document.querySelectorAll('.fap-pellicule-frame img').forEach(function(img) {
+            img.closest('.fap-pellicule-frame').addEventListener('click', function() {
+                lbImg.src = img.src;
+                lbImg.alt = img.alt;
+                lb.classList.add('is-open');
+                lb.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        function closeLightbox() {
+            lb.classList.remove('is-open');
+            lb.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        lb.addEventListener('click', closeLightbox);
+        if (lbClose) lbClose.addEventListener('click', closeLightbox);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lb.classList.contains('is-open')) closeLightbox();
+        });
+    })();
+    (function() {
+        var inner = document.getElementById('fapPelliculeInner');
+        var track = document.getElementById('fapPelliculeTrack');
+        if (!inner || !track) return;
+        track.classList.add('is-scrolling');
+        var step = 2;
+        var speed = 25;
+        function scrollPellicule() {
+            var sw = track.scrollWidth;
+            var cw = inner.clientWidth;
+            if (sw <= cw) return;
+            var half = sw / 2;
+            inner.scrollLeft += step;
+            if (inner.scrollLeft >= half) inner.scrollLeft = 0;
+        }
+        setInterval(scrollPellicule, speed);
+    })();
+    </script>
+</body>
+</html>
