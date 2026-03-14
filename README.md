@@ -1,86 +1,30 @@
-# Autotech File Service
+# autotech-file-service
 
-Une plateforme pour la gestion de fichiers ECU pour l'automobile avec système de facturation.
+Site démo chiptuning (test en ligne) – thème mécanique, performance, technologie.
 
-## Fonctionnalités
+## Contenu
 
-- Authentification des utilisateurs (connexion, inscription)
-- Gestion de profil utilisateur avec photo
-- Téléchargement et traitement de fichiers ECU
-- Système de notification
-- Tableau de bord pour visualiser l'historique des fichiers
-- Interface administrateur pour gérer les fichiers et les utilisateurs
-- Système de crédits pour les téléchargements
-- Gestion complète des factures (génération, visualisation, téléchargement PDF)
-- Détails de facturation dans le profil utilisateur
+- **Header** : logo PowerTune, navigation, menu mobile
+- **Hero** : section d’accueil avec visuel et CTA
+- **Services** : cartes (reprogrammation ECU, diagnostic, préparation moteur)
+- **Simulateur** : section avec iframe pour le configurateur gains tuning (ADAMO DataBase)
+- **Performance** : présentation et contact
+- **Footer** : liens et informations
 
-## Technologies utilisées
+## Lancer en local
 
-### Frontend
-- React
-- React Bootstrap
-- Context API pour la gestion d'état
-- Axios pour les requêtes HTTP
+Ouvrir `index.html` dans un navigateur ou servir le dossier avec un serveur HTTP :
 
-### Backend
-- Node.js
-- Express
-- MongoDB avec Mongoose
-- JWT pour l'authentification
-- Multer pour la gestion des fichiers
-- PDFKit pour la génération de factures
-
-## Installation
-
-### Prérequis
-- Node.js
-- MongoDB
-
-### Installation du backend
 ```bash
-cd server
-npm install
+python -m http.server 8080
 ```
 
-### Installation du frontend
-```bash
-cd client
-npm install
-```
+Puis aller sur `http://localhost:8080`.
 
-## Configuration
+## L’iframe simulateur
 
-Créez un fichier `.env` dans le dossier `server` avec les variables suivantes :
-```
-MONGO_URI=votre_uri_mongodb
-JWT_SECRET=votre_jwt_secret
-```
+L’URL du simulateur dans la page est configurable dans `index.html` (rechercher `simulateur?key=`). Par défaut : `https://simoroul.pythonanywhere.com/simulateur?key=demo-2025`. Pour un domaine en production, configurer la clé et le domaine autorisé côté API.
 
-## Démarrage
+---
 
-### Backend
-```bash
-cd server
-npm start
-```
-
-### Frontend
-```bash
-cd client
-npm start
-```
-
-Le frontend sera accessible à l'adresse : http://localhost:3000
-L'API backend sera accessible à l'adresse : http://localhost:5000
-
-## Déploiement
-
-### Frontend
-Construire la version de production :
-```bash
-cd client
-npm run build
-```
-
-### Backend
-Le backend est configuré pour servir les fichiers statiques du frontend en production. 
+*Plateforme de service de fichier modifié (chiptuning).*

@@ -1,8 +1,0 @@
-mon-site-auto/
-├── css/
-│   ├── style.css
-│   └── header.css
-├── js/
-│   └── vehicle-selector.js
-├── images/
-└── index.html

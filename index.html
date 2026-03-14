@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerTune Chiptuning – Performance &amp; Technologie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner container">
+            <a href="#" class="logo">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Power<span class="logo-accent">Tune</span></span>
+            </a>
+            <nav class="nav">
+                <a href="#accueil">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#simulateur">Simulateur</a>
+                <a href="#performance">Performance</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="nav-toggle" type="button" aria-label="Menu"><span></span></button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="accueil">
+            <div class="hero-bg">
+                <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80" alt="" class="hero-img">
+                <div class="hero-overlay"></div>
+            </div>
+            <div class="hero-content container">
+                <p class="hero-badge">Chiptuning &amp; Reprogrammation moteur</p>
+                <h1 class="hero-title">Défiez les <span class="text-accent">limites</span><br>de votre moteur</h1>
+                <p class="hero-desc">Gains puissance et couple, diagnostics, optimisation. Technologie de pointe au service de votre véhicule.</p>
+                <div class="hero-btns">
+                    <a href="#simulateur" class="btn btn-primary">Voir le simulateur</a>
+                    <a href="#services" class="btn btn-secondary">Nos services</a>
+                </div>
+            </div>
+            <div class="hero-scroll" aria-hidden="true">
+                <span>Scroll</span>
+                <div class="hero-scroll-line"></div>
+            </div>
+        </section>
+
+        <!-- Services -->
+        <section class="section section-services" id="services">
+            <div class="container">
+                <p class="section-badge">Ce que nous proposons</p>
+                <h2 class="section-title">Services <span class="text-accent">performance</span></h2>
+                <p class="section-intro">Reprogrammation Stage 1 &amp; 2, préparation moteur et diagnostics. Une équipe technique dédiée.</p>
+                <div class="services-grid">
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d9?w=400&q=80" alt="">
+                        </div>
+                        <h3>Reprogrammation ECU</h3>
+                        <p>Gains puissance et couple par optimisation des courbes moteur. Stage 1 et Stage 2.</p>
+                    </article>
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="https://images.unsplash.com/photo-1625047509168-a7027b807b08?w=400&q=80" alt="">
+                        </div>
+                        <h3>Diagnostic &amp; lecture</h3>
+                        <p>Lecture/écriture des calculateurs, diagnostic électronique et préparation compétition.</p>
+                    </article>
+                    <article class="service-card">
+                        <div class="service-icon">
+                            <img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&q=80" alt="">
+                        </div>
+                        <h3>Préparation moteur</h3>
+                        <p>Optimisation complète : admission, échappement, cartographie sur banc de puissance.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simulateur (iframe) -->
+        <section class="section section-simulateur" id="simulateur">
+            <div class="container">
+                <p class="section-badge">Outils en ligne</p>
+                <h2 class="section-title">Simulateur <span class="text-accent">gains</span> tuning</h2>
+                <p class="section-intro">Choisissez votre véhicule et consultez les gains puissance/couple réalisables avec notre reprogrammation Stage 1.</p>
+                <div class="iframe-wrap">
+                    <iframe
+                        id="simulateur-iframe"
+                        src="https://simoroui.pythonanywhere.com/simulateur?key=POWER%20TUNE"
+                        style="width: 100%; border: none; min-height: 620px; height: 700px; display: block;"
+                        loading="lazy"
+                        title="Simulateur gains tuning PowerTune">
+                    </iframe>
+                </div>
+                <p class="iframe-note">Simulateur fourni par notre partenaire technique. Données indicatives.</p>
+            </div>
+        </section>
+
+        <!-- Performance / Pourquoi nous -->
+        <section class="section section-performance" id="performance">
+            <div class="container">
+                <div class="performance-split">
+                    <div class="performance-content">
+                        <p class="section-badge">Notre approche</p>
+                        <h2 class="section-title">Technologie &amp; <span class="text-accent">précision</span></h2>
+                        <p class="section-intro">Nous utilisons des outils professionnels et des bases de données à jour pour des interventions sûres et mesurables.</p>
+                        <ul class="performance-list">
+                            <li>Cartographies optimisées par véhicule et moteur</li>
+                            <li>Contrôle qualité et tests avant livraison</li>
+                            <li>Support technique et garantie constructeur respectée</li>
+                        </ul>
+                        <a href="#contact" class="btn btn-primary">Nous contacter</a>
+                    </div>
+                    <div class="performance-visual">
+                        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&q=80" alt="Moteur et électronique automobile">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA / Contact -->
+        <section class="section section-contact" id="contact">
+            <div class="contact-bg">
+                <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1920&q=80" alt="">
+                <div class="contact-overlay"></div>
+            </div>
+            <div class="container contact-inner">
+                <h2 class="section-title light">Prêt à passer à la <span class="text-accent">performance</span> ?</h2>
+                <p class="section-intro light">Demandez un devis ou une démo. Réponse sous 24h.</p>
+                <div class="contact-actions">
+                    <a href="mailto:contact@powertune-demo.fr" class="btn btn-primary">contact@powertune-demo.fr</a>
+                    <a href="tel:+33000000000" class="btn btn-secondary">01 23 45 67 89</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Power<span class="logo-accent">Tune</span></span>
+                <p>Chiptuning &amp; reprogrammation moteur. Performance et technologie.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Liens</h4>
+                <a href="#accueil">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#simulateur">Simulateur</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-legal">
+                <h4>Informations</h4>
+                <p>Site démo – test en ligne.<br>Simulateur intégré via partenaire ADAMO DataBase.</p>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            <p>&copy; 2026 PowerTune. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Nav mobile
+        document.querySelector('.nav-toggle').addEventListener('click', function() {
+            document.querySelector('.nav').classList.toggle('open');
+            this.setAttribute('aria-expanded', document.querySelector('.nav').classList.contains('open'));
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                var id = this.getAttribute('href');
+                if (id === '#') return;
+                e.preventDefault();
+                var el = document.querySelector(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                document.querySelector('.nav').classList.remove('open');
+            });
+        });
+
+        // Iframe auto-resize (si le simulateur envoie postMessage)
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.type === 'simulator-resize' && e.data.height) {
+                var iframe = document.getElementById('simulateur-iframe');
+                if (iframe) {
+                    var h = Math.max(400, Math.min(2000, Math.round(e.data.height)));
+                    iframe.style.height = h + 'px';
+                    iframe.style.minHeight = h + 'px';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
