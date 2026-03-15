@@ -1,0 +1,37 @@
+// Fonction pour le diaporama dans la section À propos
+function initializeSlideshow() {
+    console.log('Initialisation du diaporama...');
+    const slides = document.querySelectorAll('.slideshow-slide .about-image');
+    console.log('Nombre de slides trouvées:', slides.length);
+    
+    if (slides.length === 0) {
+        console.log('Aucune slide trouvée');
+        return;
+    }
+    
+    let currentSlide = 0;
+    
+    function showNextSlide() {
+        // Masquer la slide active actuelle
+        slides[currentSlide].classList.remove('active');
+        
+        // Passer à la slide suivante (ou revenir à la première)
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Afficher la nouvelle slide active
+        slides[currentSlide].classList.add('active');
+        console.log('Changement vers la slide', currentSlide);
+    }
+    
+    // Changer de slide toutes les 5 secondes
+    setInterval(showNextSlide, 5000);
+}
+
+// Exécuter la fonction une fois que le DOM est chargé
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM chargé, initialisation du diaporama...');
+    // Initialiser le diaporama
+    initializeSlideshow();
+    
+    // ... autres fonctions d'initialisation existantes ...
+}); 

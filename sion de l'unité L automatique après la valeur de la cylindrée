@@ -1,0 +1,98 @@
+warning: in the working copy of 'js/vehicle-selector.js', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/js/vehicle-selector.js b/js/vehicle-selector.js[m
+[1mindex d902410..8313e30 100644[m
+[1m--- a/js/vehicle-selector.js[m
+[1m+++ b/js/vehicle-selector.js[m
+[36m@@ -345,7 +345,7 @@[m [mfunction handleBrandSelection(brand, type) {[m
+             models.add(columns[1].trim());[m
+         }[m
+     }[m
+[31m-    [m
+[32m+[m
+     // Créer ou utiliser la section existante[m
+     let detailsSection = document.querySelector('.vehicle-details');[m
+     if (!detailsSection) {[m
+[36m@@ -353,10 +353,10 @@[m [mfunction handleBrandSelection(brand, type) {[m
+         detailsSection.className = 'vehicle-details';[m
+         document.querySelector('.section-container').appendChild(detailsSection);[m
+     }[m
+[31m-    [m
+[32m+[m
+     // S'assurer que la section est visible[m
+     detailsSection.style.display = 'block';[m
+[31m-    [m
+[32m+[m
+     // Mettre à jour le contenu avec un affichage en boîtes[m
+     detailsSection.innerHTML = `[m
+         <button class="back-button">Retour</button>[m
+[36m@@ -551,9 +551,9 @@[m [mfunction handleModelSelection(brand, type, model) {[m
+             <div class="selection-grid">[m
+                 <h3 class="selection-title">Sélectionnez une version</h3>[m
+                 <div class="selection-items">[m
+[31m-                    ${Array.from(versions).map(version => `[m
+[31m-                        <div class="selection-item" data-version="${version}">${version}</div>[m
+[31m-                    `).join('')}[m
+[32m+[m[32m            ${Array.from(versions).map(version => `[m
+[32m+[m[32m                <div class="selection-item" data-version="${version}">${version}</div>[m
+[32m+[m[32m            `).join('')}[m
+                 </div>[m
+             </div>[m
+         </div>[m
+[36m@@ -664,34 +664,34 @@[m [mfunction handleVersionSelection(brand, type, model, version) {[m
+             <div class="selection-grid">[m
+                 <h3 class="selection-title">Sélectionnez une motorisation</h3>[m
+                 <div class="selection-items engine-items">[m
+[31m-                    ${engines.map(engine => `[m
+[31m-                        <div class="selection-item engine-item" data-engine='${JSON.stringify(engine)}'>[m
+[31m-                            <div class="engine-info">[m
+[31m-                                <div class="engine-type">${engine.type}</div>[m
+[31m-                                <div class="engine-details">[m
+[31m-                                    <div class="detail-item">[m
+[31m-                                        <span class="detail-label">Puissance:</span>[m
+[32m+[m[32m            ${engines.map(engine => `[m
+[32m+[m[32m                <div class="selection-item engine-item" data-engine='${JSON.stringify(engine)}'>[m
+[32m+[m[32m                        <div class="engine-info">[m
+[32m+[m[32m                            <div class="engine-type">${engine.type}</div>[m
+[32m+[m[32m                            <div class="engine-details">[m
+[32m+[m[32m                                <div class="detail-item">[m
+[32m+[m[32m                                <span class="detail-label">Puissance:</span>[m
+                                         <span class="detail-value">${engine.powerOriginal.toString().includes('Hp') ? engine.powerOriginal : `${engine.powerOriginal} Hp`}</span>[m
+[31m-                                    </div>[m
+[31m-                                    <div class="detail-item">[m
+[31m-                                        <span class="detail-label">Cylindrée:</span>[m
+[32m+[m[32m                                </div>[m
+[32m+[m[32m                                <div class="detail-item">[m
+[32m+[m[32m                                <span class="detail-label">Cylindrée:</span>[m
+                                         <span class="detail-value">${engine.displacement.toString().includes('L') ? engine.displacement : `${engine.displacement} L`}</span>[m
+[31m-                                    </div>[m
+[31m-                                    <div class="detail-item">[m
+[31m-                                        <span class="detail-label">Energie:</span>[m
+[31m-                                        <span class="detail-value">${engine.energy}</span>[m
+[31m-                                    </div>[m
+[31m-                                    <div class="detail-item">[m
+[31m-                                        <span class="detail-label">Code moteur:</span>[m
+[31m-                                        <span class="detail-value ${engine.engineInfo ? 'tooltip' : ''}" [m
+[31m-                                            ${engine.engineInfo ? `data-tooltip="ECU: ${engine.engineInfo}"` : ''}>[m
+[31m-                                            ${engine.engineCode}[m
+[31m-                                        </span>[m
+[31m-                                    </div>[m
+                                 </div>[m
+[32m+[m[32m                            <div class="detail-item">[m
+[32m+[m[32m                                <span class="detail-label">Energie:</span>[m
+[32m+[m[32m                                <span class="detail-value">${engine.energy}</span>[m
+                             </div>[m
+[32m+[m[32m                            <div class="detail-item">[m
+[32m+[m[32m                                <span class="detail-label">Code moteur:</span>[m
+[32m+[m[32m                                <span class="detail-value ${engine.engineInfo ? 'tooltip' : ''}"[m[41m [m
+[32m+[m[32m                                    ${engine.engineInfo ? `data-tooltip="ECU: ${engine.engineInfo}"` : ''}>[m
+[32m+[m[32m                                    ${engine.engineCode}[m
+[32m+[m[32m                                </span>[m
+                         </div>[m
+[31m-                    `).join('')}[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                    </div>[m
+[32m+[m[32m                </div>[m
+[32m+[m[32m            `).join('')}[m
+                 </div>[m
+             </div>[m
+         </div>[m

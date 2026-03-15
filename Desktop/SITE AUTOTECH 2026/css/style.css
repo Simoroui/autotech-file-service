@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     --primary-color: #E30613;
     --primary-color-rgb: 227, 6, 19;
     --secondary-color: #1D1D1B;
@@ -6,7 +6,7 @@
     --background-color: #ffffff;
 }
 
-/* Base lisible sur mobile (évite zoom iOS, améliore accessibilité) */
+/* Base lisible sur mobile (├®vite zoom iOS, am├®liore accessibilit├®) */
 html {
     font-size: 16px;
     -webkit-text-size-adjust: 100%;
@@ -129,7 +129,7 @@ body {
     }
 }
 
-/* Bloc titre (logo + texte) — sur PC la grille entoure uniquement ce bloc */
+/* Bloc titre (logo + texte) ÔÇö sur PC la grille entoure uniquement ce bloc */
 .hero-title-grid {
     position: relative;
     z-index: 1;
@@ -165,7 +165,7 @@ body {
     }
 }
 
-/* Ajout de la bande noire transparente derrière le contenu (mobile : autour de tout) */
+/* Ajout de la bande noire transparente derri├¿re le contenu (mobile : autour de tout) */
 .hero-content::before {
     content: '';
     position: absolute;
@@ -366,7 +366,7 @@ body {
     50% { opacity: 0.8; }
 }
 
-/* Styles des icônes d'onglets */
+/* Styles des ic├┤nes d'onglets */
 .cars-icon {
     background-image: url('../images/icons/car-icon.svg');
 }
@@ -503,7 +503,7 @@ body {
     }
 }
 
-/* Animation séquentielle pour les logos */
+/* Animation s├®quentielle pour les logos */
 .brand-item {
     animation-delay: calc(0.03s * var(--item-index));
 }
@@ -551,7 +551,7 @@ body {
         min-height: 0;
     }
     
-    /* Mobile : grille et titre au centre de l'écran, bouton en bas */
+    /* Mobile : grille et titre au centre de l'├®cran, bouton en bas */
     .hero-title-grid {
         position: absolute !important;
         top: 50% !important;
@@ -701,7 +701,7 @@ body {
     }
 }
 
-/* Nouveau style pour la section de sélection */
+/* Nouveau style pour la section de s├®lection */
 .vehicle-details {
     position: relative;
     width: 100%;
@@ -726,7 +726,7 @@ body {
     overflow: hidden;
 }
 
-/* Grille animée en arrière-plan, inspirée du simulateur */
+/* Grille anim├®e en arri├¿re-plan, inspir├®e du simulateur */
 .vehicle-details::before {
     content: '';
     position: absolute;
@@ -752,7 +752,7 @@ body {
     animation: fadeScale 0.4s ease-out;
 }
 
-/* En-tête zone de sélection : fil d'Ariane à gauche, bouton Retour à droite */
+/* En-t├¬te zone de s├®lection : fil d'Ariane ├á gauche, bouton Retour ├á droite */
 .vehicle-details-header {
     display: flex;
     align-items: stretch;
@@ -775,7 +775,7 @@ body {
     display: inline-flex;
     align-items: center;
 }
-/* Bouton Retour même hauteur que la barre du fil d'Ariane, centré */
+/* Bouton Retour m├¬me hauteur que la barre du fil d'Ariane, centr├® */
 .vehicle-details-header .back-button {
     margin: 0;
     min-height: 2.75rem;
@@ -831,7 +831,7 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Animation pour l'apparition de la troisième colonne */
+/* Animation pour l'apparition de la troisi├¿me colonne */
 .step[data-step="version"] {
     animation: slideIn 0.3s ease-out;
 }
@@ -987,7 +987,7 @@ body {
     }
 }
 
-/* Style spécifique pour la marque sélectionnée */
+/* Style sp├®cifique pour la marque s├®lectionn├®e */
 .step:first-child .selection-item.selected {
     background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
     border: 2px solid var(--primary-color);
@@ -1036,7 +1036,7 @@ body {
     width: 60px;
 }
 
-/* Style spécifique pour les items moteur */
+/* Style sp├®cifique pour les items moteur */
 .engine-item {
     background: linear-gradient(145deg, #222, #111);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1163,14 +1163,14 @@ body {
     }
 }
 
-/* Styles pour la page de résultat */
+/* Styles pour la page de r├®sultat */
 .results-page {
     width: 100%;
     background: #1a1a1a;
     min-height: 100vh;
 }
 
-/* En-tête des résultats */
+/* En-t├¬te des r├®sultats */
 .results-header {
     width: 100%;
     padding: 2rem 1rem;
@@ -1192,7 +1192,7 @@ body {
     font-size: 1.2rem;
 }
 
-/* Conteneur principal des résultats */
+/* Conteneur principal des r├®sultats */
 .results-container {
     width: 100%;
     max-width: 100%;
@@ -1237,7 +1237,7 @@ table::before {
     animation: laserPulse 3s infinite;
 }
 
-/* Animation effet laser améliorée */
+/* Animation effet laser am├®lior├®e */
 @keyframes laserPulse {
     0% {
         opacity: 0.04;
@@ -1260,7 +1260,7 @@ table::before {
     }
 }
 
-/* Effet au survol du tableau amélioré */
+/* Effet au survol du tableau am├®lior├® */
 table:hover::before {
     animation: laserIntensify 0.5s forwards;
 }
@@ -1275,7 +1275,7 @@ table:hover::before {
     }
 }
 
-/* Ajout d'un effet de focus sur les deux dernières lignes */
+/* Ajout d'un effet de focus sur les deux derni├¿res lignes */
 tbody tr:nth-last-child(-n+2) {
     position: relative;
     z-index: 2;
@@ -1300,7 +1300,7 @@ tbody tr {
     }
 }
 
-/* En-tête du tableau */
+/* En-t├¬te du tableau */
 thead tr {
     background: linear-gradient(145deg, 
         rgba(var(--primary-color-rgb), 0.2),
@@ -1320,7 +1320,7 @@ th {
     position: relative;
 }
 
-/* Effet de brillance sur l'en-tête */
+/* Effet de brillance sur l'en-t├¬te */
 thead tr::after {
     content: '';
     position: absolute;
@@ -1426,7 +1426,7 @@ td:last-child::before {
     }
 }
 
-/* Ajustement pour très petits écrans */
+/* Ajustement pour tr├¿s petits ├®crans */
 @media screen and (max-width: 375px) {
     .performance-table {
         padding: 0 0.5rem;
@@ -1457,7 +1457,7 @@ td:last-child::before {
     margin-bottom: 2rem;
 }
 
-/* Légende du graphique */
+/* L├®gende du graphique */
 .graph-legend {
     display: flex;
     justify-content: center;
@@ -1483,7 +1483,7 @@ td:last-child::before {
     font-size: 0.9rem;
 }
 
-/* Styles pour le logo dans la page résultat */
+/* Styles pour le logo dans la page r├®sultat */
 .result-header .logo {
     display: flex;
     align-items: center;
@@ -1738,7 +1738,7 @@ html {
     z-index: 1;
 }
 
-/* Cœur lumineux central – pulse fort et visible */
+/* C┼ôur lumineux central ÔÇô pulse fort et visible */
 .news-section::before {
     z-index: 0;
     content: '';
@@ -1764,7 +1764,7 @@ html {
     50% { opacity: 1; transform: scale(1.15); }
 }
 
-/* Balayage lumineux horizontal – raie qui traverse la section */
+/* Balayage lumineux horizontal ÔÇô raie qui traverse la section */
 .news-section::after {
     content: '';
     position: absolute;
@@ -1952,7 +1952,7 @@ html {
     }
 }
 
-/* Section Avis clients / Témoignages */
+/* Section Avis clients / T├®moignages */
 .testimonials-section {
     background-color: #1a1a1a;
     padding: 80px 0;
@@ -2135,7 +2135,7 @@ html {
     margin-right: 0.5rem;
 }
 
-/* Carte Google (même style, rouge AUTOTECH) */
+/* Carte Google (m├¬me style, rouge AUTOTECH) */
 .testimonials-google-icon {
     background: rgba(227, 6, 19, 0.2) !important;
     color: var(--primary-color) !important;
@@ -2179,7 +2179,7 @@ html {
     position: relative;
 }
 
-/* Entrée en scène décalée des cartes */
+/* Entr├®e en sc├¿ne d├®cal├®e des cartes */
 .testimonial-card {
     background: rgba(0, 0, 0, 0.55);
     border-radius: 16px;
@@ -2209,7 +2209,7 @@ html {
     }
 }
 
-/* Survol : légère élévation + lueur rouge + effet shine */
+/* Survol : l├®g├¿re ├®l├®vation + lueur rouge + effet shine */
 .testimonial-card::after {
     content: '';
     position: absolute;
@@ -2659,7 +2659,7 @@ html {
     }
 }
 
-/* Ajustement du séparateur */
+/* Ajustement du s├®parateur */
 .section-separator {
     height: 2px;
     margin: 0;
@@ -2675,12 +2675,12 @@ html {
     padding: 80px 0;
 }
 
-/* Ajoutez ces styles à la fin de style.css */
+/* Ajoutez ces styles ├á la fin de style.css */
 .hero-enconstruction .hero-background {
     background-image: url('../images/hero-enconstruction.png') !important;
 }
 
-/* Ajustements pour la section de sélection sur mobile */
+/* Ajustements pour la section de s├®lection sur mobile */
 @media screen and (max-width: 768px) {
     .vehicle-selector {
         padding: 2rem 1rem;
@@ -2741,7 +2741,7 @@ html {
     }
 }
 
-/* Ajustements pour très petits écrans */
+/* Ajustements pour tr├¿s petits ├®crans */
 @media screen and (max-width: 375px) {
     .brands-grid {
         grid-template-columns: repeat(1, 1fr);
@@ -2789,7 +2789,7 @@ html {
         border-radius: 8px;
     }
 
-    /* En-tête du tableau */
+    /* En-t├¬te du tableau */
     .mobile-header {
         display: grid;
         grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -2847,14 +2847,14 @@ html {
         font-weight: bold;
     }
 
-    /* Mise à jour du sélecteur pour les gains */
+    /* Mise ├á jour du s├®lecteur pour les gains */
     td[data-label^="GAIN"] {
         color: var(--primary-color);
         font-weight: bold;
     }
 }
 
-/* Style normal pour desktop - reste inchangé */
+/* Style normal pour desktop - reste inchang├® */
 .results-table-desktop {
     width: 100%;
     border-collapse: collapse;
@@ -2952,7 +2952,7 @@ html {
     transform: translateY(-2px);
 }
 
-/* Style pour l'onglet désactivé */
+/* Style pour l'onglet d├®sactiv├® */
 .stage-tab.disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -3285,7 +3285,7 @@ html {
     box-shadow: 0 0 15px rgba(var(--primary-color-rgb), 0.8);
 }
 
-/* Version mobile : titre \"Nos Options de Reprogrammation\" bien centré et contenu entier visible */
+/* Version mobile : titre \"Nos Options de Reprogrammation\" bien centr├® et contenu entier visible */
 @media screen and (max-width: 768px) {
     .tuning-options .section-title {
         font-size: 1.5rem;
@@ -3306,7 +3306,7 @@ html {
     margin: 0 auto 3rem;
 }
 
-/* Style pour l'icône FAP */
+/* Style pour l'ic├┤ne FAP */
 .fap-icon {
     width: 60px;
     height: 40px;
@@ -3365,7 +3365,7 @@ html {
     }
 }
 
-/* Style pour l'icône EGR */
+/* Style pour l'ic├┤ne EGR */
 .egr-icon {
     width: 60px;
     height: 40px;
@@ -3441,7 +3441,7 @@ html {
     }
 }
 
-/* Style pour l'icône Decata (silencieux stylisé) */
+/* Style pour l'ic├┤ne Decata (silencieux stylis├®) */
 .decata-icon {
     width: 90px;
     height: 50px;
@@ -3507,7 +3507,7 @@ html {
     }
 }
 
-/* Style pour l'icône GPF/OPF */
+/* Style pour l'ic├┤ne GPF/OPF */
 .gpf-icon {
     width: 60px;
     height: 40px;
@@ -3613,7 +3613,7 @@ html {
     }
 }
 
-/* Style pour l'icône Pop & Bang (étoile BD "BANG") */
+/* Style pour l'ic├┤ne Pop & Bang (├®toile BD "BANG") */
 .popbang-icon {
     width: 96px;
     height: 58px;
@@ -3629,7 +3629,7 @@ html {
     width: 52px;
     height: 52px;
     background: radial-gradient(circle at 40% 30%, #ff5555 0%, #ff1a1a 45%, #b30000 85%);
-    /* Forme éclatée type "BANG" (asymétrique) */
+    /* Forme ├®clat├®e type "BANG" (asym├®trique) */
     clip-path: polygon(
         12% 40%,
         0% 20%,
@@ -3777,7 +3777,7 @@ html {
     }
 }
 
-/* Ancien code des flammes - à supprimer */
+/* Ancien code des flammes - ├á supprimer */
 .flames {
     display: none;
 }
@@ -3796,7 +3796,7 @@ html {
     }
 }
 
-/* Style pour l'icône Hard Cut */
+/* Style pour l'ic├┤ne Hard Cut */
 .hardcut-icon {
     width: 60px;
     height: 60px;
@@ -3987,7 +3987,7 @@ html {
     transform: translateX(4px);
 }
 
-/* Ajuster l'espacement dans la carte retournée */
+/* Ajuster l'espacement dans la carte retourn├®e */
 .option-back {
     display: flex;
     flex-direction: column;
@@ -4009,7 +4009,7 @@ html {
     }
 }
 
-/* Style modifié pour l'icône Start&Stop */
+/* Style modifi├® pour l'ic├┤ne Start&Stop */
 .startstop-icon {
     width: 60px;
     height: 40px;
@@ -4063,7 +4063,7 @@ html {
     }
 }
 
-/* Style pour l'icône Clonage ECU */
+/* Style pour l'ic├┤ne Clonage ECU */
 .clone-icon {
     width: 60px;
     height: 40px;
@@ -4112,7 +4112,7 @@ html {
     );
 }
 
-/* Broches des côtés */
+/* Broches des c├┤t├®s */
 .ecu-pins-left, .ecu-pins-right {
     position: absolute;
     width: 5px;
@@ -4164,7 +4164,7 @@ html {
     border-left: 8px solid var(--primary-color);
 }
 
-/* Animation des icônes */
+/* Animation des ic├┤nes */
 .startstop-icon:hover, .clone-icon:hover {
     animation: glowIcon 2s infinite alternate;
 }
@@ -4240,7 +4240,7 @@ html {
     }
 }
 
-/* Message quand l'optimisation est en cours de développement */
+/* Message quand l'optimisation est en cours de d├®veloppement */
 .dev-in-progress-message {
     max-width: 720px;
     margin: 2rem auto;
@@ -4257,7 +4257,7 @@ html {
     text-align: center;
 }
 
-/* Style pour le tableau des résultats */
+/* Style pour le tableau des r├®sultats */
 .results-table {
     width: 100%;
     margin: 30px 0;
@@ -4270,7 +4270,7 @@ html {
     border-collapse: collapse;
 }
 
-/* En-tête du tableau */
+/* En-t├¬te du tableau */
 .results-table .table-header {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -4308,7 +4308,7 @@ html {
     font-size: 1.1em;
 }
 
-/* Différences (valeurs en rouge) */
+/* Diff├®rences (valeurs en rouge) */
 .results-table .power-diff,
 .results-table .torque-diff {
     color: var(--primary-color);
@@ -4396,7 +4396,7 @@ html {
     }
 }
 
-/* Styles pour la page de sélection en mode mobile */
+/* Styles pour la page de s├®lection en mode mobile */
 @media screen and (max-width: 768px) {
     /* Container principal */
     .vehicle-details {
@@ -4405,20 +4405,20 @@ html {
         max-width: 100%;
     }
 
-    /* Étapes de sélection */
+    /* ├ëtapes de s├®lection */
     .selection-steps {
         width: 100%;
         padding: 0 12px;
     }
 
-    /* Contenu de chaque étape */
+    /* Contenu de chaque ├®tape */
     .step-content {
         width: 100%;
         overflow-x: hidden;
         padding: 0 8px;
     }
 
-    /* Items de sélection : conserver le style carte (comme sur PC) */
+    /* Items de s├®lection : conserver le style carte (comme sur PC) */
     .selection-items .selection-item,
     .selection-item {
         width: 100%;
@@ -4428,7 +4428,7 @@ html {
         display: flex;
         align-items: center;
         border-radius: 10px;
-        /* Même rendu verre fumé / carte que le desktop */
+        /* M├¬me rendu verre fum├® / carte que le desktop */
         background: linear-gradient(
             145deg,
             rgba(0, 0, 0, 0.65),
@@ -4474,7 +4474,7 @@ html {
         line-height: 1.5;   
     }
 
-    /* Titres des étapes */
+    /* Titres des ├®tapes */
     .step-title {
         font-size: 20px;     
         margin-bottom: 18px; 
@@ -4505,7 +4505,7 @@ html {
     }
 }
 
-/* Assure que le conteneur principal n'a pas d'espaces indésirables */
+/* Assure que le conteneur principal n'a pas d'espaces ind├®sirables */
 .container-fluid {
     margin: 0;
     padding: 0;
@@ -4641,7 +4641,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     background-color: #ff3333;
 }
 
-/* Styles pour la section À propos */
+/* Styles pour la section ├Ç propos */
 .about-wrapper {
     position: relative;
     width: 100%;
@@ -4652,7 +4652,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     will-change: opacity;
 }
 
-/* Fond avec effet de fumée rouge intensifié - optimisé */
+/* Fond avec effet de fum├®e rouge intensifi├® - optimis├® */
 .about-wrapper::before {
     content: '';
     position: absolute;
@@ -4666,13 +4666,13 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         radial-gradient(circle at 50% 50%, rgba(227, 6, 19, 0.15) 0%, transparent 80%),
         linear-gradient(135deg, rgba(20, 0, 0, 1) 0%, #000000 100%);
     z-index: -1;
-    /* Animation optimisée avec transform au lieu de background-position */
+    /* Animation optimis├®e avec transform au lieu de background-position */
     animation: smokePulseOptimized 15s ease-in-out infinite alternate;
     will-change: opacity, transform;
     transform: translateZ(0);
 }
 
-/* Effet de fumée supplémentaire avec plus de visibilité - optimisé */
+/* Effet de fum├®e suppl├®mentaire avec plus de visibilit├® - optimis├® */
 .about-wrapper::after {
     content: '';
     position: absolute;
@@ -4686,13 +4686,13 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPgogIDxmaWx0ZXIgaWQ9Im5vaXNlIj4KICAgIDxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjA1IiBudW1PY3RhdmVzPSIyIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJzYXR1cmF0ZSIgdmFsdWVzPSIwIi8+CiAgPC9maWx0ZXI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI25vaXNlKSIgb3BhY2l0eT0iMC4wMyIvPgo8L3N2Zz4=');
     opacity: 0.6;
     z-index: 0;
-    /* Animation optimisée avec transform au lieu de background-position */
+    /* Animation optimis├®e avec transform au lieu de background-position */
     animation: smokeMoveOptimized 20s ease-in-out infinite alternate;
     will-change: opacity, transform;
     transform: translateZ(0);
 }
 
-/* Ajout d'un élément pour renforcer l'effet de fumée - optimisé */
+/* Ajout d'un ├®l├®ment pour renforcer l'effet de fum├®e - optimis├® */
 .about-section::before {
     content: '';
     position: absolute;
@@ -4704,14 +4704,14 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         radial-gradient(ellipse at 30% 40%, rgba(227, 6, 19, 0.2) 0%, transparent 70%),
         radial-gradient(ellipse at 70% 60%, rgba(227, 6, 19, 0.2) 0%, transparent 70%);
     z-index: 0;
-    /* Animation optimisée */
+    /* Animation optimis├®e */
     animation: smokeFlickerOptimized 8s ease-in-out infinite alternate;
     pointer-events: none;
     will-change: opacity, transform;
     transform: translateZ(0);
 }
 
-/* Ligne laser horizontale qui se déplace - optimisé */
+/* Ligne laser horizontale qui se d├®place - optimis├® */
 .about-container::before {
     content: '';
     position: absolute;
@@ -4732,7 +4732,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     transform: translateZ(0);
 }
 
-/* Ligne laser verticale qui se déplace - optimisé */
+/* Ligne laser verticale qui se d├®place - optimis├® */
 .about-container::after {
     content: '';
     position: absolute;
@@ -4753,7 +4753,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     transform: translateZ(0);
 }
 
-/* Animation optimisée pour l'effet de fumée qui pulse */
+/* Animation optimis├®e pour l'effet de fum├®e qui pulse */
 @keyframes smokePulseOptimized {
     0% {
         opacity: 0.8;
@@ -4769,7 +4769,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Animation optimisée pour l'effet de fumée qui se déplace */
+/* Animation optimis├®e pour l'effet de fum├®e qui se d├®place */
 @keyframes smokeMoveOptimized {
     0% {
         opacity: 0.5;
@@ -4785,7 +4785,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Animation optimisée pour l'effet de fumée qui scintille */
+/* Animation optimis├®e pour l'effet de fum├®e qui scintille */
 @keyframes smokeFlickerOptimized {
     0% {
         opacity: 0.3;
@@ -4805,7 +4805,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Animation optimisée pour le scan laser horizontal */
+/* Animation optimis├®e pour le scan laser horizontal */
 @keyframes laserScanHorizontal {
     0% {
         top: 0;
@@ -4827,7 +4827,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Animation optimisée pour le scan laser vertical */
+/* Animation optimis├®e pour le scan laser vertical */
 @keyframes laserScanVertical {
     0% {
         left: 0;
@@ -4945,11 +4945,11 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Section Une équipe dédiée */
+/* Section Une ├®quipe d├®di├®e */
 .equipe-dediee-section {
     position: relative;
     width: 100%;
-    padding: 3.5rem 0 0 2rem; /* pas de padding à droite ni en bas : images collées aux limites */
+    padding: 3.5rem 0 0 2rem; /* pas de padding ├á droite ni en bas : images coll├®es aux limites */
     background:
         linear-gradient(135deg, rgba(227, 6, 19, 0.22) 0%, transparent 35%, transparent 65%, rgba(227, 6, 19, 0.18) 100%),
         radial-gradient(circle at 0% 0%, rgba(0, 0, 0, 0.7) 0, transparent 55%),
@@ -4986,12 +4986,12 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-    align-items: end; /* bas des images collé à la limite de la section */
+    align-items: end; /* bas des images coll├® ├á la limite de la section */
 }
 
 .equipe-dediee-content {
     padding-right: 1rem;
-    padding-bottom: 6rem; /* espace entre le texte et la limite basse (images restent collées en bas) */
+    padding-bottom: 6rem; /* espace entre le texte et la limite basse (images restent coll├®es en bas) */
 }
 
 .equipe-dediee-title {
@@ -5020,7 +5020,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     box-shadow: 0 0 10px rgba(227, 6, 19, 0.7);
 }
 
-/* (equipe-dediee-highlight animé supprimé à la demande) */
+/* (equipe-dediee-highlight anim├® supprim├® ├á la demande) */
 
 .equipe-dediee-subtitle {
     font-size: clamp(1.05rem, 2vw, 1.35rem);
@@ -5058,7 +5058,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     margin-right: min(0, calc((1200px - 100vw) / 2));
 }
 
-/* Diaporama équipe : 4 tuners – défilement par translation (pas de fondu) */
+/* Diaporama ├®quipe : 4 tuners ÔÇô d├®filement par translation (pas de fondu) */
 .equipe-dediee-slideshow {
     position: relative;
     width: 336px;   /* +20 % vs 280px (PC uniquement) */
@@ -5186,7 +5186,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     box-shadow: none;
 }
 
-/* slide img hérite des dimensions du slide */
+/* slide img h├®rite des dimensions du slide */
 .equipe-dediee-slide .equipe-dediee-img {
     max-width: none;
     max-height: none;
@@ -5203,7 +5203,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     box-shadow: 0 0 10px rgba(227, 6, 19, 0.6);
 }
 
-/* Section équipements - logos outils */
+/* Section ├®quipements - logos outils */
 .equipment-section {
     position: relative;
     background-image: url("../images/equipement.jpg");
@@ -5332,7 +5332,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
     .equipe-dediee-content {
         padding-right: 0;
-        order: 1; /* 3. Texte après les images */
+        order: 1; /* 3. Texte apr├¿s les images */
     }
     .equipe-dediee-visual {
         justify-content: center;
@@ -5372,7 +5372,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         max-width: none;
         max-height: none;
     }
-    /* Texte section équipe plus fin sur mobile */
+    /* Texte section ├®quipe plus fin sur mobile */
     .equipe-dediee-title,
     .equipe-dediee-subtitle,
     .equipe-dediee-quote,
@@ -5391,7 +5391,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Séparateur laser */
+/* S├®parateur laser */
 .laser-separator {
     height: 3px;
     width: 100%;
@@ -5487,7 +5487,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     resize: vertical;
 }
 
-/* Préchargement des polices pour améliorer la performance */
+/* Pr├®chargement des polices pour am├®liorer la performance */
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
@@ -5506,7 +5506,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Styles pour le diaporama dans la section À propos */
+/* Styles pour le diaporama dans la section ├Ç propos */
 .slideshow-container {
     position: relative;
     width: 100%;
@@ -5579,7 +5579,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     right: 10px;
 }
 
-/* Nouveau style pour les pages de sélection */
+/* Nouveau style pour les pages de s├®lection */
 .selection-page {
     display: flex;
     flex-direction: column;
@@ -5601,7 +5601,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     border-radius: 14px;
     padding: 15px;
 
-    /* Effet transparent flouté + dégradé, style simulateur */
+    /* Effet transparent flout├® + d├®grad├®, style simulateur */
     background: linear-gradient(
         145deg,
         rgba(0, 0, 0, 0.65),
@@ -5665,7 +5665,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     border-radius: 14px;
     padding: 20px;
 
-    /* Gris très foncé + effet miroir / panneau verre fumé */
+    /* Gris tr├¿s fonc├® + effet miroir / panneau verre fum├® */
     background: linear-gradient(
         145deg,
         #000000,
@@ -5682,7 +5682,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .selection-grid::before {
-    /* Reflet haut, plus marqué (effet vitre) */
+    /* Reflet haut, plus marqu├® (effet vitre) */
     content: '';
     position: absolute;
     top: 0;
@@ -5700,7 +5700,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .selection-grid::after {
-    /* Reflet bas renforcé pour l'effet miroir */
+    /* Reflet bas renforc├® pour l'effet miroir */
     content: '';
     position: absolute;
     bottom: 0;
@@ -5739,8 +5739,8 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .selection-items .selection-item {
-    /* Cartes de choix (modèles / années / moteurs) :
-       fond plus léger et translucide que les cases déjà sélectionnées */
+    /* Cartes de choix (mod├¿les / ann├®es / moteurs) :
+       fond plus l├®ger et translucide que les cases d├®j├á s├®lectionn├®es */
     border-radius: 10px;
     padding: 15px;
     min-height: 60px;
@@ -5768,7 +5768,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     box-shadow: 0 0 20px rgba(227, 6, 19, 0.2);
 }
 
-/* Styles spécifiques pour les items de moteur */
+/* Styles sp├®cifiques pour les items de moteur */
 .engine-items {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
@@ -5838,7 +5838,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .back-button:before {
-    content: '←';
+    content: 'ÔåÉ';
     margin-right: 8px;
 }
 
@@ -5848,13 +5848,13 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     box-shadow: 0 3px 10px rgba(227, 6, 19, 0.3);
 }
 
-/* Media queries pour les écrans mobiles */
+/* Media queries pour les ├®crans mobiles */
 @media (max-width: 768px) {
     .selection-items {
         grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     }
     
-    /* Grille choix motorisation : masquer puissance, cylindrée, énergie, code moteur (mobile uniquement) */
+    /* Grille choix motorisation : masquer puissance, cylindr├®e, ├®nergie, code moteur (mobile uniquement) */
     .selection-items.engine-items .engine-details {
         display: none !important;
     }
@@ -5869,7 +5869,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     .selection-items.engine-items .selection-item {
         width: 100%;
         min-height: auto;
-        /* Suppression du cadre extérieur (carte) sur mobile */
+        /* Suppression du cadre ext├®rieur (carte) sur mobile */
         border: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -5890,7 +5890,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Styles pour les filtres d'énergie */
+/* Styles pour les filtres d'├®nergie */
 .energy-filter {
     margin-top: -10px;
     margin-bottom: 15px;
@@ -5981,14 +5981,14 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     }
 
-    /* Ajustement de la grille des marques pour éviter le conflit */
+    /* Ajustement de la grille des marques pour ├®viter le conflit */
     .marque-selectionnee {
         margin-top: 50px;
         padding-top: 10px;
     }
 }
 
-/* Styles pour la page de sélection en mode mobile */
+/* Styles pour la page de s├®lection en mode mobile */
 @media screen and (max-width: 768px) {
     .retour-btn {
         position: fixed;
@@ -6018,9 +6018,9 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 }
 
-/* Styles pour la page de sélection en mode mobile */
+/* Styles pour la page de s├®lection en mode mobile */
 @media screen and (max-width: 768px) {
-    /* Container principal avec padding-top pour éviter le chevauchement */
+    /* Container principal avec padding-top pour ├®viter le chevauchement */
     .vehicle-details {
         padding-top: 60px;
     }
@@ -6043,7 +6043,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
     }
 
     .back-button::before {
-        content: '←';
+        content: 'ÔåÉ';
     }
 
     /* Ajustement de la grille des marques */
@@ -6086,7 +6086,7 @@ input.error ~ .form-border, textarea.error ~ .form-border, select.error ~ .form-
 }
 
 .retour-btn::before {
-    content: '←';
+    content: 'ÔåÉ';
 }
 
 /* Ajustement du contenu principal */

@@ -1,0 +1,107 @@
+/* Styles spécifiques pour la page en construction */
+.hero .hero-background {
+    background-image: url('../images/hero-enconstruction.jpg') !important;
+    background-size: cover;
+    background-position: center 60%;
+    background-repeat: no-repeat;
+    filter: brightness(0.7);
+}
+
+/* Centrage des éléments */
+.hero {
+    align-items: center !important;
+    justify-content: center !important;
+    padding-bottom: 0 !important;
+}
+
+.hero-content {
+    height: auto !important;
+    text-align: center;
+    padding: 2rem;
+}
+
+.construction-message {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.construction-message p {
+    color: white;
+    font-size: 1.2rem;
+    margin: 1rem 0;
+    line-height: 1.6;
+}
+
+.hero .boost-button {
+    margin: 2rem auto 0;
+    display: inline-block;
+}
+
+/* Animation subtile */
+.hero-content {
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajoutez ces media queries à la fin du fichier */
+@media screen and (max-width: 768px) {
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-content {
+        width: 100%;
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+
+    .hero-logo {
+        width: 80%;
+        max-width: 250px;
+        height: auto;
+        margin-bottom: 1rem;
+    }
+
+    .text-red {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        display: block;
+    }
+
+    .construction-message {
+        width: 100%;
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    .construction-message p {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+    }
+
+    .boost-button {
+        margin: 1.5rem auto;
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .construction-message {
+        max-width: 80%;
+    }
+}

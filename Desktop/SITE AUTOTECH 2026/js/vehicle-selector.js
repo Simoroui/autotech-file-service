@@ -202,14 +202,9 @@ function handleTabClick(event, brands) {
             const currentState = window.history.state || {};
             if (currentState.step === 'list' || !currentState.step) {
                 try {
-                    window.history.replaceState({
-                        step: 'list',
-                        type: type,
-                        brand: null,
-                        model: null,
-                        version: null,
-                        engine: null
-                    }, '', window.location.href);
+                    const listState = { step: 'list', type, brand: null, model: null, version: null, engine: null };
+                    const url = `${window.location.origin}${window.location.pathname}#${buildSelectionHash(listState)}`;
+                    window.history.replaceState(listState, '', url);
                 } catch (e) {
                     console.error('Erreur replaceState onglet:', e);
                 }
@@ -324,7 +319,27 @@ let isRestoringFromHistory = false;
 // Cache des marques par type (pour restauration depuis l'historique)
 let cachedBrands = null;
 
-// Pousser un état de sélection dans l'historique du navigateur
+/** Met en forme un slug pour l'URL (espaces et tirets → un seul tiret) */
+function slugForHash(s) {
+    if (s == null || typeof s !== 'string') return '';
+    return String(s).toLowerCase().trim().replace(/[\s-]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
+/** Construit le hash d'URL pour l'état de sélection (marque, modèle, version, motorisation) */
+function buildSelectionHash(s) {
+    const type = s.type || 'cars';
+    const parts = ['reprogrammation', type];
+    if (s.brand) parts.push(slugForHash(s.brand));
+    if (s.model) parts.push(slugForHash(s.model));
+    if (s.version) parts.push(slugForHash(s.version));
+    if (s.engine) {
+        parts.push(slugForHash(s.engine));
+        parts.push('stage1-stage2');
+    }
+    return parts.join('/');
+}
+
+// Pousser un état de sélection dans l'historique du navigateur et mettre à jour l'URL
 function pushSelectionState(step, overrides = {}) {
     if (isRestoringFromHistory || !window.history || typeof window.history.pushState !== 'function') {
         return;
@@ -341,7 +356,9 @@ function pushSelectionState(step, overrides = {}) {
     };
 
     try {
-        window.history.pushState(state, '', window.location.href);
+        const hash = buildSelectionHash(state);
+        const url = `${window.location.origin}${window.location.pathname}#${hash}`;
+        window.history.pushState(state, '', url);
     } catch (e) {
         // En cas d'erreur (mode privé strict, etc.), on ne casse pas le flux
         console.error('Erreur lors de pushState:', e);
@@ -1290,13 +1307,13 @@ function showResultPage(vehicleData) {
     currentUrl.search = '';
     
     // Construire le hash correct pour la page de résultats
-    // Format: reprogrammation/type/marque/modele/version/motorisation
+    // Format: reprogrammation/type/marque/modele/version/motorisation (un seul tiret entre les parties)
     const type = currentSelection.type || 'cars'; // Utiliser 'cars' par défaut si non défini
-    const cleanBrand = (brand || '').toLowerCase().replace(/\s+/g, '-');
-    const cleanModel = (model || '').toLowerCase().replace(/\s+/g, '-');
-    const cleanVersion = (version || '').toLowerCase().replace(/\s+/g, '-');
-    const cleanEngine = (engineType || '').toLowerCase().replace(/\s+/g, '-');
-    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}`;
+    const cleanBrand = toSingleDashSlug(brand || '');
+    const cleanModel = toSingleDashSlug(model || '');
+    const cleanVersion = toSingleDashSlug(version || '');
+    const cleanEngine = toSingleDashSlug(engineType || '');
+    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}/stage1-stage2`;
     
     // Mettre à jour l'URL (hash + query) sans recharger la page
     currentUrl.hash = newHash;
@@ -1940,7 +1957,8 @@ window.addEventListener('popstate', (event) => {
                 break;
         }
     } finally {
-        isRestoringFromHistory = false;
+        // Retarder la réinitialisation pour que le hashchange (qui suit popstate) n'écrase pas la vue restaurée
+        setTimeout(function() { isRestoringFromHistory = false; }, 200);
     }
 });
 
@@ -1978,23 +1996,22 @@ document.addEventListener('DOMContentLoaded', async () => {
         const lines = parseCSV(csvContent);
         const brands = extractBrands(lines);
         cachedBrands = brands;
-        
+
+        // Détecter une URL partagée (hash avec marque/modèle/version/moteur) pour ne pas l'écraser
+        const currentHash = (window.location.hash || '').substring(1);
+        const hashParts = currentHash.split('/').filter(function(p) { return p; });
+        const isSharedDeepLink = hashParts.length > 2 && hashParts[0] === 'reprogrammation';
+
         const defaultTab = document.querySelector('.tab-button.active');
         if (defaultTab) {
             const defaultType = defaultTab.dataset.type;
             displayBrands(brands, defaultType);
 
-            // Définir l'état initial dans l'historique si absent
-            if (!window.history.state || !window.history.state.step) {
+            if (!isSharedDeepLink && (!window.history.state || !window.history.state.step)) {
                 try {
-                    window.history.replaceState({
-                        step: 'list',
-                        type: defaultType,
-                        brand: null,
-                        model: null,
-                        version: null,
-                        engine: null
-                    }, '', window.location.href);
+                    const listState = { step: 'list', type: defaultType, brand: null, model: null, version: null, engine: null };
+                    const url = `${window.location.origin}${window.location.pathname}#${buildSelectionHash(listState)}`;
+                    window.history.replaceState(listState, '', url);
                 } catch (e) {
                     console.error('Erreur lors de replaceState initial:', e);
                 }
@@ -2007,13 +2024,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
         
-        // Vérifier s'il y a des sélections précédentes à restaurer
+        // Vérifier s'il y a des sélections précédentes à restaurer (sauf si l'URL est un lien partagé)
         const savedType = sessionStorage.getItem('selectedType');
         const savedBrand = sessionStorage.getItem('selectedBrand');
         const savedModel = sessionStorage.getItem('selectedModel');
         const savedVersion = sessionStorage.getItem('selectedVersion');
-        
-        if (savedType && savedBrand) {
+
+        if (!isSharedDeepLink && savedType && savedBrand) {
             // Simuler un clic sur l'onglet correspondant au type
             const tabButton = document.querySelector(`.tab-button[data-type="${savedType}"]`);
             if (tabButton) {
@@ -2354,17 +2371,26 @@ function getEngineData(brand, model, version, engineType) {
 }
 
     // Fonction pour gérer les URL avec hash
+/** Met en forme un slug avec un seul tiret entre les parties (ex: "G2x - 2021 - 2024" → "g2x-2021-2024") */
+function toSingleDashSlug(s) {
+    if (!s || typeof s !== 'string') return '';
+    return s.toLowerCase().trim().replace(/[\s-]+/g, '-').replace(/^-+|-+$/g, '');
+}
+
 function normalizeVersionSlug(s) {
     if (!s || typeof s !== 'string') return '';
     try {
         const decoded = decodeURIComponent(s);
-        return decoded.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+        return toSingleDashSlug(decoded);
     } catch (_) {
-        return s.toLowerCase().replace(/\s+/g, '-').replace(/[->]+$/g, '-');
+        return toSingleDashSlug(s);
     }
 }
 
 function handleHashChange() {
+    // Ne pas re-simuler les clics quand on vient de restaurer via le bouton Retour (popstate)
+    if (isRestoringFromHistory) return;
+
     const hash = window.location.hash.substring(1); // Enlever le # du début
     if (!hash) return;
 
@@ -2543,12 +2569,12 @@ function checkURLParamsAndShowResults() {
     if (hasCurrentURLParams && parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1]; // cars, motorcycles, etc.
         
-        // Construire une URL propre sans query string pour cette combinaison
-        const cleanBrandSlug = encodeURIComponent(brand.toLowerCase().replace(/\s+/g, '-'));
-        const cleanModelSlug = encodeURIComponent(model.toLowerCase().replace(/\s+/g, '-'));
-        const cleanVersionSlug = encodeURIComponent(version.toLowerCase().replace(/\s+/g, '-'));
-        const cleanEngineSlug = encodeURIComponent(engineType.toLowerCase().replace(/\s+/g, '-'));
-        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}/${cleanEngineSlug}`;
+        // Construire une URL propre sans query string pour cette combinaison (un seul tiret entre les parties)
+        const cleanBrandSlug = encodeURIComponent(toSingleDashSlug(brand));
+        const cleanModelSlug = encodeURIComponent(toSingleDashSlug(model));
+        const cleanVersionSlug = encodeURIComponent(toSingleDashSlug(version));
+        const cleanEngineSlug = encodeURIComponent(toSingleDashSlug(engineType));
+        const cleanHash = `reprogrammation/${type}/${cleanBrandSlug}/${cleanModelSlug}/${cleanVersionSlug}/${cleanEngineSlug}/stage1-stage2`;
         try {
             const cleanUrl = `${window.location.origin}${window.location.pathname}#${cleanHash}`;
             const currentState = window.history.state || {};
@@ -2610,40 +2636,17 @@ function checkURLParamsAndShowResults() {
                 
                 // Construire la pile d'historique pour que le bouton Retour ramène aux bonnes étapes
                 try {
+                    const baseUrl = `${window.location.origin}${window.location.pathname}`;
                     if (!window.history.state || !window.history.state.step) {
-                        window.history.replaceState({
-                            step: 'list',
-                            type,
-                            brand: null,
-                            model: null,
-                            version: null,
-                            engine: null
-                        }, '', window.location.href);
+                        const listState = { step: 'list', type, brand: null, model: null, version: null, engine: null };
+                        window.history.replaceState(listState, '', `${baseUrl}#${buildSelectionHash(listState)}`);
                     }
-                    window.history.pushState({
-                        step: 'brand',
-                        type,
-                        brand,
-                        model: null,
-                        version: null,
-                        engine: null
-                    }, '', window.location.href);
-                    window.history.pushState({
-                        step: 'model',
-                        type,
-                        brand,
-                        model,
-                        version: null,
-                        engine: null
-                    }, '', window.location.href);
-                    window.history.pushState({
-                        step: 'version',
-                        type,
-                        brand,
-                        model,
-                        version,
-                        engine: null
-                    }, '', window.location.href);
+                    const brandState = { step: 'brand', type, brand, model: null, version: null, engine: null };
+                    window.history.pushState(brandState, '', `${baseUrl}#${buildSelectionHash(brandState)}`);
+                    const modelState = { step: 'model', type, brand, model, version: null, engine: null };
+                    window.history.pushState(modelState, '', `${baseUrl}#${buildSelectionHash(modelState)}`);
+                    const versionState = { step: 'version', type, brand, model, version, engine: null };
+                    window.history.pushState(versionState, '', `${baseUrl}#${buildSelectionHash(versionState)}`);
                 } catch (e) {
                     console.error('Erreur lors de la construction de la pile d\'historique (query params):', e);
                 }

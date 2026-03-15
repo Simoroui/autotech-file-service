@@ -1,0 +1,28 @@
+[33mcommit 36f820d23ecdf5aabf6ac7470aabdf5aba2ba122[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Simoroui <simoroui@gmail.com>
+Date:   Mon Mar 24 15:04:16 2025 +0100
+
+    Ajout de l'image apropos12.jpg au diaporama de la section À propos
+
+images/apropos12.jpg
+index.html
+
+[33mcommit 6e5071e218526fa42862ecdb86178258cac4b656[m
+Author: Simoroui <simoroui@gmail.com>
+Date:   Mon Mar 24 14:53:38 2025 +0100
+
+    Réduction de la taille des éléments de la section hero (logo, texte, bouton et cadre)
+
+css/style.css
+hero-bg.jpg
+images/apropos9.jpg
+images/hero-bg.jpg
+
+[33mcommit 105fb4f90103392f8338e3c1399f601a4dc2076e[m
+Author: Simoroui <simoroui@gmail.com>
+Date:   Mon Mar 24 12:49:29 2025 +0100
+
+    Modification de la disposition des filtres d'énergie pour les motorisations
+
+css/style.css
+js/vehicle-selector.js
