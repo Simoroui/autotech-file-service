@@ -67,16 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Gestion du diaporama de la section À propos
     const aboutSlides = document.querySelectorAll('.slideshow-slide .about-image');
-    console.log('Diaporama À propos: ' + aboutSlides.length + ' images trouvées');
 
     if (aboutSlides.length > 0) {
         // Vérification de chaque image du diaporama
         aboutSlides.forEach((slide, index) => {
-            console.log(`Image ${index}: ${slide.src}, classe: ${slide.className}, visible: ${slide.style.opacity || 'non défini'}`);
-            
             // Vérifier si l'image est chargée correctement
             slide.addEventListener('load', () => {
-                console.log(`Image ${index} chargée correctement`);
+                // image OK
             });
             
             slide.addEventListener('error', () => {
@@ -101,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Afficher la nouvelle slide active
                 aboutSlides[currentAboutSlide].classList.add('active');
-                console.log('Changement vers la slide À propos #' + currentAboutSlide);
             } catch (e) {
                 console.error('Erreur dans le diaporama:', e);
             }

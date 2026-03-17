@@ -1,0 +1,221 @@
+/* Page FAQ – style élégant et moderne */
+
+.main-content {
+    --faq-primary: #E30613;
+    --faq-bg: #0a0a0b;
+    --faq-card-bg: rgba(22, 22, 24, 0.85);
+    --faq-border: rgba(255, 255, 255, 0.06);
+    --faq-glow: rgba(227, 6, 19, 0.15);
+    background: var(--faq-bg);
+    color: #e8e8e8;
+    min-height: 60vh;
+    padding: 5rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Fond avec motif discret et dégradés */
+.main-content::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: 
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(227, 6, 19, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(227, 6, 19, 0.06) 0%, transparent 45%),
+        radial-gradient(ellipse 50% 30% at 0% 80%, rgba(227, 6, 19, 0.05) 0%, transparent 45%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.main-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 10%, rgba(227, 6, 19, 0.4) 50%, transparent 90%);
+    opacity: 0.7;
+    z-index: 1;
+}
+
+.main-content .dyno-article,
+.main-content .section-container {
+    position: relative;
+    z-index: 2;
+}
+
+.main-content .dyno-article {
+    background: transparent;
+}
+
+.main-content .section-container {
+    padding: 0 1.5rem;
+    max-width: 1080px;
+    margin: 0 auto;
+}
+
+/* Titre principal – décalé vers le bas */
+.main-content .article-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+}
+
+.main-content .article-title {
+    color: #fff;
+    font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+    text-shadow: 0 0 40px var(--faq-glow);
+}
+
+.main-content .article-title::after {
+    content: '';
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--faq-primary), transparent);
+    box-shadow: 0 0 16px var(--faq-primary);
+    border-radius: 2px;
+}
+
+/* Cartes type glassmorphism */
+.main-content .article-content {
+    color: #e8e8e8;
+}
+
+.main-content .info-section {
+    margin-bottom: 2rem;
+    padding: 1.85rem 1.6rem;
+    background: var(--faq-card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--faq-border);
+    border-radius: 16px;
+    border-left: 4px solid rgba(227, 6, 19, 0.6);
+    box-shadow: 
+        0 4px 24px rgba(0, 0, 0, 0.35),
+        0 0 40px -8px rgba(227, 6, 19, 0.25),
+        0 0 80px -16px rgba(227, 6, 19, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    position: relative;
+    transition: 
+        border-left-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.25s ease;
+}
+
+/* Lueur miroir rouge sous la carte */
+.main-content .info-section::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    height: 40px;
+    background: linear-gradient(to bottom, 
+        rgba(227, 6, 19, 0.2) 0%, 
+        rgba(227, 6, 19, 0.06) 40%, 
+        transparent 100%);
+    border-radius: 50%;
+    filter: blur(12px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.main-content .info-section:hover {
+    border-left-color: var(--faq-primary);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(227, 6, 19, 0.1),
+        0 0 56px -6px rgba(227, 6, 19, 0.35),
+        0 0 100px -20px rgba(227, 6, 19, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transform: translateY(-2px);
+}
+
+.main-content .info-section:hover::after {
+    background: linear-gradient(to bottom, 
+        rgba(227, 6, 19, 0.35) 0%, 
+        rgba(227, 6, 19, 0.1) 50%, 
+        transparent 100%);
+    bottom: -24px;
+    height: 48px;
+    filter: blur(16px);
+}
+
+.main-content .info-section h2 {
+    color: #fff;
+    font-size: 1.18rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    padding-right: 0.5rem;
+}
+
+.main-content .article-text {
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.78;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.main-content .article-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Listes */
+.main-content .article-list {
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.85;
+    margin: 0.75rem 0 0 1.25rem;
+    padding-left: 0.25rem;
+    list-style: none;
+}
+
+.main-content .article-list li {
+    margin-bottom: 0.7rem;
+    padding-left: 1.5rem;
+    position: relative;
+    font-size: 1rem;
+}
+
+.main-content .article-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 6px;
+    background: var(--faq-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--faq-glow);
+}
+
+@media (min-width: 768px) {
+    .main-content {
+        padding: 6rem 0 7rem;
+    }
+    .main-content .article-header {
+        padding-top: 3.5rem;
+        padding-bottom: 2.5rem;
+    }
+    .main-content .section-container {
+        padding: 0 2rem;
+    }
+    .main-content .info-section {
+        padding: 2.25rem 2.25rem;
+    }
+    .main-content .info-section h2 {
+        font-size: 1.32rem;
+    }
+}

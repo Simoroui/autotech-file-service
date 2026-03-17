@@ -59,6 +59,307 @@
     z-index: 1;
 }
 
+/* Titre H1 de la page résultat — style élégant type HUD / tech */
+.result-page-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin: 0 0 1.5rem 0;
+    padding: 1rem 0 1rem 1.25rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+    letter-spacing: 0.04em;
+    position: relative;
+    border-left: 3px solid var(--primary-color);
+    background: linear-gradient(90deg, rgba(227, 6, 19, 0.08) 0%, transparent 35%);
+    border-radius: 0 8px 8px 0;
+    box-shadow: 0 0 20px rgba(227, 6, 19, 0.06);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+.result-page-title .stage-part {
+    display: inline-block;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-color), rgba(227, 6, 19, 0.85));
+    padding: 0.2em 0.55em 0.25em;
+    margin-right: 0.35em;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    font-size: 0.9em;
+    vertical-align: baseline;
+    box-shadow: 0 2px 8px rgba(227, 6, 19, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+/* Mobile : descendre le titre pour éviter le chevauchement avec le bouton Retour (fixe) */
+@media screen and (max-width: 768px) {
+    .result-page-title {
+        margin-top: 3.25rem;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .result-page-title {
+        font-size: 1.35rem;
+        padding: 1.15rem 0 1.15rem 1.5rem;
+        margin-bottom: 1.75rem;
+        letter-spacing: 0.045em;
+    }
+    .result-page-title .stage-part {
+        padding: 0.22em 0.6em 0.28em;
+        font-size: 0.92em;
+    }
+}
+
+/* Paragraphe d'intro sous le titre — présentation élégante type tech / HUD */
+.result-page-intro {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1.5rem 0;
+    padding: 1rem 1.1rem 1rem 1.35rem;
+    letter-spacing: 0.025em;
+    max-width: 52em;
+    position: relative;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.35) 50%, rgba(227, 6, 19, 0.04) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.result-page-intro::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--primary-color), rgba(227, 6, 19, 0.4));
+    border-radius: 0 2px 2px 0;
+}
+@media screen and (min-width: 769px) {
+    .result-page-intro {
+        font-size: 0.98rem;
+        margin-bottom: 1.75rem;
+        padding: 1.1rem 1.25rem 1.1rem 1.5rem;
+        letter-spacing: 0.03em;
+    }
+}
+
+/* Boutons en fin de section résultat : Dyno, Options de reprog., Échappement */
+.result-section-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+.result-cta-btn {
+    display: inline-block;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, rgba(227, 6, 19, 0.85), rgba(227, 6, 19, 0.7));
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 2px 10px rgba(227, 6, 19, 0.25);
+}
+.result-cta-btn:hover {
+    background: linear-gradient(135deg, var(--primary-color), rgba(227, 6, 19, 0.9));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(227, 6, 19, 0.4);
+}
+.result-section-ctas-energy {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+}
+.result-seo-box {
+    margin-top: 0.85rem;
+    margin-bottom: 0.35rem;
+    padding: 0.9rem 1rem 1rem 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(227, 6, 19, 0.65);
+    background:
+        linear-gradient(135deg, rgba(227, 6, 19, 0.18), rgba(0, 0, 0, 0.6));
+    position: relative;
+    overflow: hidden;
+}
+.result-seo-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02));
+    mix-blend-mode: screen;
+    opacity: 0.35;
+    pointer-events: none;
+}
+.result-seo-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.25), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(227, 6, 19, 0.18), transparent 55%);
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.result-seo-box-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 0.5rem;
+}
+
+.result-seo-text {
+    margin: 0.3rem 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.result-seo-economy {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+    border: 1px solid rgba(82, 196, 26, 0.8);
+    background: linear-gradient(135deg, rgba(82, 196, 26, 0.18), rgba(0, 0, 0, 0.7));
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: rgba(240, 255, 240, 0.95);
+}
+.result-seo-economy strong {
+    color: #d5ffd5;
+}
+
+.advantage-item.no-check::before {
+    content: none !important;
+    display: none !important;
+}
+.advantage-item.no-check {
+    background-image: none !important;
+    text-indent: 0 !important;
+    padding-left: 10px !important;
+}
+.result-ctas-energy-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+.result-ctas-energy-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.result-ctas-engine-meta {
+    width: 100%;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 0.02em;
+}
+.result-cta-btn-energy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffe4e6;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    /* Fond de base discret */
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid #e30613;
+    box-shadow: 0 0 10px rgba(227, 6, 19, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    /* Animation douce pour attirer l’attention sur les options disponibles */
+    animation: energy-cta-pulse 2.4s ease-in-out infinite;
+}
+.result-cta-btn-energy:hover {
+    color: #ffffff;
+    /* Au survol : légèrement plus marqué mais toujours très transparent */
+    background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.22), rgba(0, 0, 0, 0.5));
+    border-color: #ff445a;
+    transform: translateY(-1px);
+    box-shadow: 0 0 16px rgba(227, 6, 19, 0.7);
+}
+
+@keyframes energy-cta-pulse {
+    0% {
+        box-shadow: 0 0 4px rgba(227, 6, 19, 0.15);
+        background: rgba(0, 0, 0, 0.4);
+        border-color: rgba(227, 6, 19, 0.45);
+        opacity: 0.85;
+    }
+    40% {
+        box-shadow: 0 0 14px rgba(227, 6, 19, 0.45);
+        background: radial-gradient(circle at 0% 0%, rgba(227, 6, 19, 0.25), rgba(0, 0, 0, 0.75));
+        border-color: #e30613;
+        opacity: 1;
+    }
+    100% {
+        box-shadow: 0 0 4px rgba(227, 6, 19, 0.15);
+        background: rgba(0, 0, 0, 0.4);
+        border-color: rgba(227, 6, 19, 0.45);
+        opacity: 0.85;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .result-section-ctas {
+        flex-direction: column;
+        margin-top: 1.25rem;
+        padding-top: 1rem;
+    }
+    .result-cta-btn {
+        text-align: center;
+        padding: 0.7rem 1rem;
+    }
+    .result-section-ctas-energy {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .result-ctas-energy-label {
+        font-size: 0.85rem;
+    }
+    .result-ctas-energy-btns {
+        width: 100%;
+    }
+    .result-cta-btn-energy {
+        display: block;
+        text-align: center;
+        width: 100%;
+        padding: 0.6rem 1rem;
+    }
+    .result-seo-box {
+        margin-top: 0.7rem;
+        padding: 0.8rem 0.9rem 0.9rem 0.9rem;
+        border-radius: 8px;
+    }
+    .result-seo-text {
+        font-size: 0.88rem;
+    }
+}
+
 /* Réduire l'espace vide autour du tableau et du graphique sur la page résultats */
 .results-container .selection-page {
     padding: 10px 12px 8px 12px;

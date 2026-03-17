@@ -1,0 +1,9 @@
+{
+  "name": "site-autotech-2026",
+  "version": "1.0.0",
+  "description": "AUTOTECH reprogrammation - site avec pages résultats SEO",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  }
+}

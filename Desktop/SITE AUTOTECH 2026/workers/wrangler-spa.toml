@@ -1,0 +1,7 @@
+# Déploiement du Worker zone (SPA fallback + icône PWA).
+# Depuis workers/ : npx wrangler deploy -c wrangler-spa.toml
+# Puis dans le dashboard : route *autotech-tunisia.com/*
+
+name = "autotech-zone-spa"
+main = "spa-fallback-zone.js"
+compatibility_date = "2024-01-01"

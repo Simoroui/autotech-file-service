@@ -1,0 +1,2 @@
+# SPA fallback (Netlify + Cloudflare Pages) — /reprogrammation/* → index.html avec 200
+/reprogrammation/*    /index.html   200

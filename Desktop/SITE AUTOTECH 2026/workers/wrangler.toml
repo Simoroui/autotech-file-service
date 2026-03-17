@@ -1,0 +1,15 @@
+# Exemple de configuration Wrangler pour déployer le Worker d’injection canonique.
+# À placer à la racine du projet ou dans workers/ selon comment vous déployez.
+#
+# Déploiement : depuis le dossier workers/
+#   npx wrangler deploy
+#
+# Puis dans le dashboard Cloudflare : Workers & Pages > votre Worker > Settings > Triggers >
+# Add route : https://autotech-tunisia.com/reprogrammation/*
+
+name = "autotech-canonical"
+main = "canonical-inject.js"
+compatibility_date = "2024-01-01"
+
+# Route à ajouter dans le dashboard (pas dans wrangler pour un domaine personnalisé) :
+# routes = [{ pattern = "autotech-tunisia.com/reprogrammation/*", zone_name = "autotech-tunisia.com" }]

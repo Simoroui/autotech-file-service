@@ -199,12 +199,9 @@ function initializeSplashScreen() {
 
 // Fonction pour le diaporama dans la section À propos
 function initializeSlideshow() {
-    console.log('Initialisation du diaporama...');
     const slides = document.querySelectorAll('.slideshow-slide .about-image');
-    console.log('Nombre de slides trouvées:', slides.length);
     
     if (slides.length === 0) {
-        console.log('Aucune slide trouvée');
         return;
     }
     
@@ -219,20 +216,77 @@ function initializeSlideshow() {
         
         // Afficher la nouvelle slide active
         slides[currentSlide].classList.add('active');
-        console.log('Changement vers la slide', currentSlide);
     }
     
     // Changer de slide toutes les 5 secondes
     setInterval(showNextSlide, 5000);
 }
 
+// Utilitaire : savoir si on est sur la page d'accueil (splash complet)
+function isHomePageForSplash() {
+    const path = window.location.pathname || '';
+    return path === '/' ||
+           path.endsWith('/index.html') ||
+           path.endsWith('/autotech-reprog/') ||
+           path.endsWith('/autotech-reprog/index.html');
+}
+
+// Savoir si on doit réellement afficher le splash sur la home
+function shouldShowHomeSplash() {
+    if (!isHomePageForSplash()) return false;
+    try {
+        const skipOnce = sessionStorage.getItem('skipHomeSplashOnce');
+        if (skipOnce) {
+            sessionStorage.removeItem('skipHomeSplashOnce');
+            return false;
+        }
+    } catch (err) {
+        console.warn('Accès sessionStorage impossible pour skipHomeSplashOnce', err);
+    }
+    return true;
+}
+
 // Exécuter les fonctions une fois que le DOM est chargé
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialiser le splash screen en premier
-    initializeSplashScreen();
+    const splashScreen = document.getElementById('splash-screen');
+    const pageWrapper = document.querySelector('.page-wrapper');
+
+    if (shouldShowHomeSplash()) {
+        // Page d'accueil : conserver le comportement actuel avec splash complet
+        initializeSplashScreen();
+    } else {
+        // Autres pages (dont les URLs /reprogrammation/...):
+        // rendre la page immédiatement visible et masquer le splash si présent,
+        // sans préchargement lourd ni blocage visuel.
+        if (pageWrapper) {
+            pageWrapper.style.visibility = 'visible';
+        }
+        if (splashScreen) {
+            splashScreen.classList.add('hidden');
+            splashScreen.style.display = 'none';
+        }
+    }
     
-    // Initialiser le diaporama (sera exécuté même pendant que le splash screen est affiché)
-    initializeSlideshow();
+    // Initialiser le diaporama uniquement quand la section À propos devient visible
+    let slideshowInitialized = false;
+    const aboutSection = document.querySelector('.about-section') || document.querySelector('#about');
+    if (aboutSection) {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !slideshowInitialized) {
+                        slideshowInitialized = true;
+                        initializeSlideshow();
+                        obs.disconnect();
+                    }
+                });
+            }, { rootMargin: '0px 0px -30% 0px' });
+            observer.observe(aboutSection);
+        } else {
+            // Fallback anciens navigateurs : initialisation directe
+            initializeSlideshow();
+        }
+    }
     
     // ... autres fonctions d'initialisation existantes ...
-}); 
+});

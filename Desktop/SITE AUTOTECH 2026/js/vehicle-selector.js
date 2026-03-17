@@ -25,6 +25,68 @@ function csvLineMatchesType(columns, uiType) {
     return mapped === uiType;
 }
 
+/** Normalise un segment d'URL (décodage + slug) pour comparaison avec le CSV */
+function normalizePathSegment(s) {
+    if (s == null || s === '') return '';
+    try {
+        return slugForHash(decodeURIComponent(String(s)));
+    } catch (e) {
+        return slugForHash(String(s));
+    }
+}
+
+/** Pour la comparaison version : slug puis remplacer / par - (ex: F32/33 - May/2016 -> f32-33-may-2016) */
+function versionSlugForMatch(s) {
+    var slug = slugForHash(s || '');
+    return slug.replace(/\//g, '-');
+}
+
+/** Compare version URL vs CSV : accepte correspondance exacte ou préfixe (ex: g42-2021 matche "G42 - 2021 -> ...") */
+function versionSlugMatches(csvVersionSlug, urlVersionSlug) {
+    if (!csvVersionSlug || !urlVersionSlug) return false;
+    var csvNorm = versionSlugForMatch(csvVersionSlug).replace(/\s*->.*$/, '').replace(/-+$/, '');
+    var urlNorm = versionSlugForMatch(urlVersionSlug);
+    return csvNorm === urlNorm || csvNorm.indexOf(urlNorm) === 0 || urlNorm.indexOf(csvNorm) === 0;
+}
+
+/** Trouve les données moteur dans le CSV à partir des segments d'URL (page résultat SEO). engineSlug optionnel si version = plusieurs segments. */
+function findEngineDataByPath(csvText, type, brandSlug, modelSlug, versionSlug, engineSlug) {
+    if (!csvText || !brandSlug || !modelSlug || !versionSlug) return null;
+    var nBrand = normalizePathSegment(brandSlug);
+    var nModel = normalizePathSegment(modelSlug);
+    var nVersion = versionSlugForMatch(versionSlug);
+    var nEngine = engineSlug ? normalizePathSegment(engineSlug) : null;
+    var lines = parseCSV(csvText);
+    for (var i = 1; i < lines.length; i++) {
+        var columns = lines[i].split(',');
+        if (columns.length < 9) continue;
+        if (!csvLineMatchesType(columns, type)) continue;
+        var c0 = (columns[0] || '').trim();
+        var c1 = (columns[1] || '').trim();
+        var c2 = (columns[2] || '').trim();
+        var c3 = (columns[3] || '').trim();
+        if (slugForHash(c0) !== nBrand) continue;
+        if (slugForHash(c1) !== nModel) continue;
+        if (!versionSlugMatches(c2, versionSlug)) continue;
+        if (nEngine !== null && slugForHash(c3) !== nEngine) continue;
+        return {
+            brand: c0,
+            model: c1,
+            version: c2,
+            engineType: c3,
+            energy: (columns[4] || '').trim(),
+            powerOriginal: (columns[5] || '').trim().replace(/\s*Hp\s*/gi, '') || '00',
+            torqueOriginal: (columns[6] || '').trim().replace(/\s*Nm\s*/gi, '') || '00',
+            powerStage1: (columns[7] || '').trim().replace(/\s*Hp\s*/gi, '') || '00',
+            torqueStage1: (columns[8] || '').trim().replace(/\s*Nm\s*/gi, '') || '00',
+            engineCode: (columns[9] || '').trim() || 'N/A',   // Code moteur
+            compression: (columns[11] || '').trim() || '',    // Compression
+            calculator: (columns[12] || '').trim() || ''      // Calculateur (ECU)
+        };
+    }
+    return null;
+}
+
 // Fonction pour tester le chargement du fichier
 async function testFileAccess() {
     try {
@@ -203,7 +265,9 @@ function handleTabClick(event, brands) {
             if (currentState.step === 'list' || !currentState.step) {
                 try {
                     const listState = { step: 'list', type, brand: null, model: null, version: null, engine: null };
-                    const url = `${window.location.origin}${window.location.pathname}#${buildSelectionHash(listState)}`;
+                    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+                    const hash = buildSelectionHash(listState);
+                    const url = hash ? `${baseUrl}#${hash}` : baseUrl;
                     window.history.replaceState(listState, '', url);
                 } catch (e) {
                     console.error('Erreur replaceState onglet:', e);
@@ -325,11 +389,28 @@ function slugForHash(s) {
     return String(s).toLowerCase().trim().replace(/[\s-]+/g, '-').replace(/^-+|-+$/g, '');
 }
 
-/** Construit le hash d'URL pour l'état de sélection (marque, modèle, version, motorisation) */
+/** Construit l'URL de la page de résultats (vraie page, SEO). Ex: /reprogrammation/cars/bmw/2-serie/f2x-2013-2020/218d-143hp/stage1-stage2 */
+function getResultPageUrl(type, brand, model, version, engineType) {
+    var pathname = window.location.pathname || '/';
+    var siteRoot = pathname.replace(/\/reprogrammation\/.*$/, '').replace(/\/?index\.html$/, '') || '/';
+    var root = window.location.origin + (siteRoot === '/' ? '/' : siteRoot.replace(/\/$/, '') + '/');
+    var segments = [
+        'reprogrammation',
+        (type || 'cars').toLowerCase(),
+        slugForHash(brand || ''),
+        slugForHash(model || ''),
+        versionSlugForMatch(version || ''),
+        slugForHash(engineType || ''),
+        'stage1-stage2'
+    ].filter(Boolean);
+    return (root.endsWith('/') ? root : root + '/') + segments.join('/');
+}
+
+/** Construit le hash d'URL à partir du choix de la marque (pas de hash pour l'étape "liste" seule = URL propre) */
 function buildSelectionHash(s) {
+    if (!s.brand) return '';
     const type = s.type || 'cars';
-    const parts = ['reprogrammation', type];
-    if (s.brand) parts.push(slugForHash(s.brand));
+    const parts = ['reprogrammation', type, slugForHash(s.brand)];
     if (s.model) parts.push(slugForHash(s.model));
     if (s.version) parts.push(slugForHash(s.version));
     if (s.engine) {
@@ -356,8 +437,9 @@ function pushSelectionState(step, overrides = {}) {
     };
 
     try {
+        const baseUrl = `${window.location.origin}${window.location.pathname}`;
         const hash = buildSelectionHash(state);
-        const url = `${window.location.origin}${window.location.pathname}#${hash}`;
+        const url = hash ? `${baseUrl}#${hash}` : baseUrl;
         window.history.pushState(state, '', url);
     } catch (e) {
         // En cas d'erreur (mode privé strict, etc.), on ne casse pas le flux
@@ -836,8 +918,10 @@ function handleVersionSelection(brand, type, model, version) {
                 torqueOriginal: columns[6]?.trim() || 'N/A',
                 powerStage1: columns[7]?.trim() || 'N/A',
                 torqueStage1: columns[8]?.trim() || 'N/A',
-                engineCode: columns[9]?.trim() || 'N/A',
+                engineCode: columns[9]?.trim() || 'N/A',      // Code moteur (comme avant)
                 displacement: columns[10]?.trim() || 'N/A',
+                compression: columns[11]?.trim() || '',        // Compression
+                calculator: columns[12]?.trim() || '',         // Calculateur moteur (ECU)
                 engineInfo: columns[13]?.trim() || ''
             };
 
@@ -1050,11 +1134,11 @@ function handleEngineSelection(brand, type, model, version, engineData) {
     // S'assurer que le type de moteur est défini
     const engineType = engineData.engineType || engineData.type || 'Moteur non spécifié';
     
-    // Mettre à jour la sélection courante
+    // Mettre à jour la sélection courante (inclut les données de perf pour l'état "result")
     currentSelection = {
-                brand: brand,
-                model: model,
-                version: version,
+        brand: brand,
+        model: model,
+        version: version,
         type: type,
         engine: engineType,
         powerOriginal: engineData.powerOriginal,
@@ -1062,47 +1146,72 @@ function handleEngineSelection(brand, type, model, version, engineData) {
         torqueOriginal: engineData.torqueOriginal,
         torqueStage1: engineData.torqueStage1
     };
-
+    
     // Mettre à jour le breadcrumb
     updateBreadcrumb(currentSelection);
 
-    // Enregistrer l'étape "résultats" dans l'historique
-    pushSelectionState('result', {
-        type,
-        brand,
-        model,
-        version,
-        engine: engineType,
-        powerOriginal: engineData.powerOriginal,
-        powerStage1: engineData.powerStage1,
-        torqueOriginal: engineData.torqueOriginal,
-        torqueStage1: engineData.torqueStage1
-    });
-
-    // Créer la page de résultats (sans encore l'ajouter au DOM)
-    const container = showResultPage({
-        brand,
-        model,
-        version,
+    // Construire les données complètes pour l'affichage des résultats
+    const vehicleData = {
+        brand: brand,
+        model: model,
+        version: version,
         engineType: engineType,
+        energy: engineData.energy,
+        engineCode: engineData.engineCode,
+        compression: engineData.compression,
+        calculator: engineData.calculator,
         powerOriginal: engineData.powerOriginal,
-        powerStage1: engineData.powerStage1,
         torqueOriginal: engineData.torqueOriginal,
+        powerStage1: engineData.powerStage1,
         torqueStage1: engineData.torqueStage1
-    });
+    };
 
-    // Ajouter la page de résultats au DOM en supprimant d'éventuels résultats précédents
-    const mainContent = document.querySelector('.section-container');
-    if (mainContent && container) {
-        const existingResults = mainContent.querySelectorAll('.results-container');
-        existingResults.forEach(el => el.remove());
-        mainContent.appendChild(container);
+    // Mode SPA : afficher la page de résultats dans la même page (sans rechargement complet)
+    // et enregistrer l'étape "result" dans l'historique pour que le bouton Retour fonctionne.
+    try {
+        pushSelectionState('result', {
+            type,
+            brand,
+            model,
+            version,
+            engine: engineType,
+            powerOriginal: engineData.powerOriginal,
+            powerStage1: engineData.powerStage1,
+            torqueOriginal: engineData.torqueOriginal,
+            torqueStage1: engineData.torqueStage1
+        });
+    } catch (e) {
+        console.error('Erreur lors de l\'enregistrement de l\'état result:', e);
     }
 
-    // Supprimer la fiche de sélection lorsqu'on affiche les résultats
+    // Supprimer une éventuelle ancienne page de résultats
+    const existingResults = document.getElementById('vehicle-results-page');
+    if (existingResults) {
+        existingResults.remove();
+    }
+
+    // Cacher le sélecteur (intro, onglets, grilles) comme pour le mode standalone
+    const selectorSection = document.querySelector('.vehicle-selector');
+    if (selectorSection) {
+        const intro = selectorSection.querySelector('.section-intro');
+        const tabs = selectorSection.querySelector('.vehicle-tabs');
+        const grids = selectorSection.querySelectorAll('.brands-grid');
+        if (intro) intro.style.display = 'none';
+        if (tabs) tabs.style.display = 'none';
+        grids.forEach(g => { g.style.display = 'none'; });
+    }
+
+    // Construire le DOM des résultats (mode non-standalone) et l'insérer
+    // Masquer la section de sélection détaillée pour ne laisser visible que la page de résultats
     const detailsSection = document.querySelector('.vehicle-details');
     if (detailsSection) {
-        detailsSection.remove();
+        detailsSection.style.display = 'none';
+    }
+
+    const container = showResultPage(vehicleData, { standalone: false, vehicleType: type });
+    const mainContent = document.querySelector('.section-container');
+    if (mainContent && container) {
+        mainContent.appendChild(container);
     }
 }
 
@@ -1248,7 +1357,10 @@ let initialValues = {
     powerOriginal: 0,
     torqueOriginal: 0,
     powerStage1: 0,
-    torqueStage1: 0
+    torqueStage1: 0,
+    engineCode: '',
+    compression: '',
+    calculator: ''
 };
 
 // Indique si les données de performance sont absentes (reprog en cours de développement)
@@ -1260,12 +1372,13 @@ function isPerformanceDataMissing(powerOriginal, powerStage1, torqueOriginal, to
     return invalid(powerOriginal) || invalid(powerStage1) || invalid(torqueOriginal) || invalid(torqueStage1);
 }
 
-// Dans showResultPage, stockons les valeurs
-function showResultPage(vehicleData) {
+// Dans showResultPage, stockons les valeurs. options.standalone = true pour la page résultat SEO (pas de replaceState)
+function showResultPage(vehicleData, options) {
+    options = options || {};
     // S'assurer que toutes les données nécessaires sont disponibles
     if (!vehicleData || !vehicleData.brand || !vehicleData.model || !vehicleData.version || !vehicleData.engineType) {
         console.error('Données insuffisantes pour afficher la page de résultats', vehicleData);
-        return;
+        return null;
     }
     
     // Extraire les données avec valeurs par défaut au cas où
@@ -1291,7 +1404,10 @@ function showResultPage(vehicleData) {
         powerOriginal: powerOriginal === "00" ? "00" : (parseInt(powerOriginal) || "00"),
         torqueOriginal: torqueOriginal === "00" ? "00" : (parseInt(torqueOriginal) || "00"),
         powerStage1: powerStage1 === "00" ? "00" : (parseInt(powerStage1) || "00"),
-        torqueStage1: torqueStage1 === "00" ? "00" : (parseInt(torqueStage1) || "00")
+        torqueStage1: torqueStage1 === "00" ? "00" : (parseInt(torqueStage1) || "00"),
+        engineCode: vehicleData.engineCode || '',
+        compression: vehicleData.compression || '',
+        calculator: vehicleData.calculator || ''
     };
     
     // Ne plus stocker la fiche résultat en mémoire : évite les conflits avec le bouton Retour quand l'utilisateur change de marque
@@ -1301,29 +1417,23 @@ function showResultPage(vehicleData) {
     container.className = 'vehicle-results-page';
     container.id = 'vehicle-results-page';
     
-    // Préparer une URL propre (sans paramètres de requête) pour la page de résultats
-    const currentUrl = new URL(window.location.href);
-    // On ne conserve plus aucun paramètre en query string pour avoir des URLs SEO-friendly
-    currentUrl.search = '';
-    
-    // Construire le hash correct pour la page de résultats
-    // Format: reprogrammation/type/marque/modele/version/motorisation (un seul tiret entre les parties)
-    const type = currentSelection.type || 'cars'; // Utiliser 'cars' par défaut si non défini
-    const cleanBrand = toSingleDashSlug(brand || '');
-    const cleanModel = toSingleDashSlug(model || '');
-    const cleanVersion = toSingleDashSlug(version || '');
-    const cleanEngine = toSingleDashSlug(engineType || '');
-    const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}/stage1-stage2`;
-    
-    // Mettre à jour l'URL (hash + query) sans recharger la page
-    currentUrl.hash = newHash;
-    
-    // Conserver l'état courant (step, sélection) tout en mettant à jour l'URL
-    try {
-        const currentState = window.history.state || {};
-        window.history.replaceState(currentState, '', currentUrl);
-    } catch (e) {
-        console.error('Erreur lors de replaceState dans showResultPage:', e);
+    // Mettre à jour l'URL (hash) seulement si on n'est pas sur la page résultat SEO (standalone)
+    if (!options.standalone) {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.search = '';
+        const type = currentSelection.type || 'cars';
+        const cleanBrand = toSingleDashSlug(brand || '');
+        const cleanModel = toSingleDashSlug(model || '');
+        const cleanVersion = toSingleDashSlug(version || '');
+        const cleanEngine = toSingleDashSlug(engineType || '');
+        const newHash = `reprogrammation/${type}/${cleanBrand}/${cleanModel}/${cleanVersion}/${cleanEngine}/stage1-stage2`;
+        currentUrl.hash = newHash;
+        try {
+            const currentState = window.history.state || {};
+            window.history.replaceState(currentState, '', currentUrl);
+        } catch (e) {
+            console.error('Erreur lors de replaceState dans showResultPage:', e);
+        }
     }
     
     // Calculer les différences pour l'affichage (uniquement si données valides)
@@ -1341,12 +1451,184 @@ function showResultPage(vehicleData) {
     
     const messageEnCoursDeDev = `L'optimisation moteur pour le "${brand} ${model} ${version} ${engineType}" n'est pas encore possible étant encore en cours de développement. Vous souhaitez être informé lorsque la modification sera possible ? Merci d'envoyer vos coordonnées et nous vous recontacterons dès qu'elle le sera.`;
     
+    var resultPageTitleHtml = '<span class="stage-part">Reprogrammation Stage 1 & 2</span> — ' + escapeHtml(brand) + ' ' + escapeHtml(model) + ' ' + escapeHtml(version) + ' ' + escapeHtml(engineType);
+    
+    var powerNum = parseInt(powerDiff, 10);
+    var torqueNum = parseInt(torqueDiff, 10);
+    if (isNaN(powerNum)) powerNum = 0;
+    if (isNaN(torqueNum)) torqueNum = 0;
+    var gainsPhrase;
+    if (powerNum > 0 && torqueNum > 0) gainsPhrase = 'Gagnez jusqu\'à ' + powerNum + ' ch et ' + torqueNum + ' Nm de couple.';
+    else if (powerNum > 0) gainsPhrase = 'Gagnez jusqu\'à ' + powerNum + ' ch.';
+    else if (torqueNum > 0) gainsPhrase = 'Gagnez jusqu\'à ' + torqueNum + ' Nm de couple.';
+    else gainsPhrase = 'Gagnez en puissance et en couple.';
+    
+    var resultPageIntroHtml = '<p class="result-page-intro">' + escapeHtml(gainsPhrase) + ' Voici les résultats obtenus après reprogrammation du calculateur moteur. Nous veillons à ne pas dépasser les tolérances fixées par le constructeur. Nous reprogrammons sur banc de puissance.</p>';
+    
+    var vehicleType = options.vehicleType || '';
+    if (!vehicleType && typeof window !== 'undefined' && window.location && window.location.pathname) {
+        var pathMatch = window.location.pathname.match(/\/reprogrammation\/([^/]+)/);
+        vehicleType = pathMatch ? pathMatch[1] : '';
+    }
+    var energy = (vehicleData.energy || '').trim();
+    var isDiesel = /diesel/i.test(energy);
+    var isEssence = /essence|petrol/i.test(energy);
+
+    // Blocs dynamiques par type d'énergie (voitures uniquement)
+    var resultEnergyCtasHtml = '';
+    var resultSeoTextHtml = '';
+
+    if (vehicleType === 'cars') {
+        // CTA options énergie
+        if (isDiesel) {
+            var dieselMetaParts = [];
+            if (vehicleData.engineCode && vehicleData.engineCode !== 'N/A') {
+                dieselMetaParts.push('Code moteur&nbsp;: <strong>' + escapeHtml(vehicleData.engineCode) + '</strong>');
+            }
+            if (vehicleData.calculator) {
+                dieselMetaParts.push('Calculateur moteur&nbsp;: <strong>' + escapeHtml(vehicleData.calculator) + '</strong>');
+            }
+            if (vehicleData.compression) {
+                dieselMetaParts.push('Compression moteur&nbsp;: <strong>' + escapeHtml(vehicleData.compression) + '</strong>');
+            }
+            var dieselMetaHtml = dieselMetaParts.length
+                ? '<div class="result-ctas-engine-meta">' + dieselMetaParts.join(' &nbsp;|&nbsp; ') + '</div>'
+                : '';
+
+            resultEnergyCtasHtml =
+                '<div class="result-section-ctas result-section-ctas-energy">' +
+                dieselMetaHtml +
+                '<span class="result-ctas-energy-label">Les options de reprog. disponibles pour ce moteur&nbsp;:</span>' +
+                '<div class="result-ctas-energy-btns">' +
+                '<a href="suppression-fap.html" class="result-cta-btn result-cta-btn-energy">Suppression FAP</a>' +
+                '<a href="suppression-adblue.html" class="result-cta-btn result-cta-btn-energy">Suppression AdBlue</a>' +
+                '<a href="suppression-egr.html" class="result-cta-btn result-cta-btn-energy">Désactivation EGR</a>' +
+                '</div></div>';
+        } else if (isEssence) {
+            var essenceMetaParts = [];
+            if (vehicleData.engineCode && vehicleData.engineCode !== 'N/A') {
+                essenceMetaParts.push('Code moteur&nbsp;: <strong>' + escapeHtml(vehicleData.engineCode) + '</strong>');
+            }
+            if (vehicleData.calculator) {
+                essenceMetaParts.push('Calculateur moteur&nbsp;: <strong>' + escapeHtml(vehicleData.calculator) + '</strong>');
+            }
+            if (vehicleData.compression) {
+                essenceMetaParts.push('Compression moteur&nbsp;: <strong>' + escapeHtml(vehicleData.compression) + '</strong>');
+            }
+            var essenceMetaHtml = essenceMetaParts.length
+                ? '<div class="result-ctas-engine-meta">' + essenceMetaParts.join(' &nbsp;|&nbsp; ') + '</div>'
+                : '';
+
+            resultEnergyCtasHtml =
+                '<div class="result-section-ctas result-section-ctas-energy">' +
+                essenceMetaHtml +
+                '<span class="result-ctas-energy-label">Les options de reprog. disponibles pour ce moteur&nbsp;:</span>' +
+                '<div class="result-ctas-energy-btns">' +
+                '<a href="suppression-catalyseur.html" class="result-cta-btn result-cta-btn-energy">Suppression catalyseur (décata)</a>' +
+                '<a href="pop-bang.html" class="result-cta-btn result-cta-btn-energy">POP&BANG</a>' +
+                '</div></div>';
+        }
+
+        // Texte SEO/gains par énergie (hors cas en cours de dev)
+        if (!enCoursDeDeveloppement) {
+            var basePower = parseInt(powerOriginal, 10);
+            var stage1Power = parseInt(powerStage1, 10);
+            var baseTorque = parseInt(torqueOriginal, 10);
+            var stage1Torque = parseInt(torqueStage1, 10);
+
+            var powerGainPct = basePower > 0 && stage1Power > 0 ? Math.round(((stage1Power - basePower) / basePower) * 100) : null;
+            var torqueGainPct = baseTorque > 0 && stage1Torque > 0 ? Math.round(((stage1Torque - baseTorque) / baseTorque) * 100) : null;
+
+            if (isEssence) {
+                var engineCodeNote = '';
+                if (vehicleData.engineCode && vehicleData.engineCode !== 'N/A') {
+                    engineCodeNote = ' (code moteur <strong>' + escapeHtml(vehicleData.engineCode) + '</strong>)';
+                }
+
+                var energyTextParts = [];
+
+                // Essence : gains + options + diagnostic catalyseur/GPF
+                var essenceIntro = 'Sur ce moteur essence <strong>' + escapeHtml(engineType) + '</strong>' + engineCodeNote + ', nous passons d\'environ <strong>' + basePower + ' ch</strong> à <strong>' + stage1Power + ' ch</strong>';
+                if (powerGainPct !== null) {
+                    essenceIntro += ' (<strong>+' + powerGainPct + '%</strong>)';
+                }
+                essenceIntro += ', et de <strong>' + baseTorque + ' Nm</strong> à <strong>' + stage1Torque + ' Nm</strong>';
+                if (torqueGainPct !== null) {
+                    essenceIntro += ' (<strong>+' + torqueGainPct + '%</strong>)';
+                }
+                essenceIntro += '.';
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">' +
+                    essenceIntro +
+                    ' Le résultat se ressent surtout en accélération et en reprise : la voiture devient plus vive tout en restant dans les tolérances du constructeur, contrôlées sur banc de puissance.' +
+                    '</p>'
+                );
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">Sur les moteurs essence turbo comme celui-ci, des options complémentaires comme la suppression catalyseur (décata) ou une ligne d’échappement optimisée permettent de réduire les contre-pressions et de laisser le turbo travailler plus librement. L’option POP&amp;BANG ajoute un effet sonore en décélération, réservée aux usages loisirs ou circuit sur des véhicules bien entretenus.</p>'
+                );
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">Lors du passage au banc, si nous détectons via les températures d’échappement qu’un catalyseur ou un filtre à particules essence (GPF) est partiellement bouché, nous conseillons soit un passage en Stage 2 avec ligne adaptée, soit le remplacement du catalyseur/GPF par une pièce en bon état afin de maîtriser les températures et préserver la fiabilité du moteur et du turbo.</p>'
+                );
+            } else if (isDiesel) {
+                var engineCodeNoteDiesel = '';
+                if (vehicleData.engineCode && vehicleData.engineCode !== 'N/A') {
+                    engineCodeNoteDiesel = ' (code moteur <strong>' + escapeHtml(vehicleData.engineCode) + '</strong>)';
+                }
+
+                var energyTextParts = [];
+
+                // Diesel : gains + options + diagnostic FAP
+                var dieselIntro = 'Sur ce moteur diesel <strong>' + escapeHtml(engineType) + '</strong>' + engineCodeNoteDiesel + ', nous passons d\'environ <strong>' + basePower + ' ch</strong> à <strong>' + stage1Power + ' ch</strong>';
+                if (powerGainPct !== null) {
+                    dieselIntro += ' (<strong>+' + powerGainPct + '%</strong>)';
+                }
+                dieselIntro += ', et de <strong>' + baseTorque + ' Nm</strong> à <strong>' + stage1Torque + ' Nm</strong>';
+                if (torqueGainPct !== null) {
+                    dieselIntro += ' (<strong>+' + torqueGainPct + '%</strong>)';
+                }
+                dieselIntro += '.';
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">' +
+                    dieselIntro +
+                    ' La différence se ressent clairement en reprise à bas et moyen régime : le véhicule repart plus fort sans rétrograder, avec des dépassements plus courts et plus sécurisants, tout en respectant les tolérances du constructeur contrôlées sur banc.' +
+                    '</p>'
+                );
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">Sur les moteurs diesel modernes, les systèmes de dépollution (FAP, EGR, AdBlue) influencent directement le comportement et l’encrassement du moteur. En complément d’un Stage 1, certaines options de reprog peuvent limiter les régénérations gênantes ou préparer un usage circuit/compétition, toujours au cas par cas et après contrôle des fumées et des températures.</p>'
+                );
+
+                energyTextParts.push(
+                    '<p class="result-seo-text">Si, lors du passage au banc, nous constatons grâce aux températures d’échappement qu’un filtre à particules (FAP) est partiellement bouché, nous recommandons soit un Stage 2 avec ligne adaptée pour un usage non routier, soit un nettoyage ou un remplacement du FAP pour un véhicule destiné à la route, afin de réduire la contre-pression, maîtriser les températures et préserver la fiabilité du turbo et de l’injection.</p>'
+                );
+            }
+
+            if (energyTextParts.length) {
+                const economyNote = '<div class="result-seo-economy">ECONOMIE de carburant&nbsp;: Grâce à l’optimisation du rendement moteur, à une gestion plus précise de l’injection et à l’augmentation du couple à bas régime, le moteur délivre davantage de force dès les bas tours, réduisant ainsi le besoin de monter dans les régimes. Cette diminution de sollicitation permet, en conduite souple, de réduire légèrement la consommation de carburant, notamment à charge partielle et régime stabilisé.</div>';
+
+                resultSeoTextHtml =
+                    '<div class="result-seo-box">' +
+                    '<div class="result-seo-box-title">Note de notre ingénieur</div>' +
+                    energyTextParts.join('') +
+                    economyNote +
+                    '</div>';
+            } else {
+                resultSeoTextHtml = '';
+            }
+        }
+    }
+    
     // Ajouter le contenu HTML (vue "en cours de développement" ou vue complète avec tableau)
     if (enCoursDeDeveloppement) {
         container.innerHTML = `
         <div class="results-container">
             <button class="back-button" onclick="handleBack()">Retour</button>
-            
+            <h1 class="result-page-title">${resultPageTitleHtml}</h1>
+            <p class="result-page-intro">Voici les résultats obtenus après reprogrammation du calculateur moteur. Nous veillons à ne pas dépasser les tolérances fixées par le constructeur. Nous reprogrammons sur banc de puissance.</p>
             <div class="selection-page">
                 <div class="selected-info">
                     <div class="selected-item" data-goto="brand" title="Changer de marque">
@@ -1384,6 +1666,11 @@ function showResultPage(vehicleData) {
                     </div>
                 </div>
             </div>
+            <div class="result-section-ctas">
+                <a href="dyno.html" class="result-cta-btn">Dyno</a>
+                <a href="echapp.html" class="result-cta-btn">Échappement & Downpipe</a>
+            </div>
+            ${resultEnergyCtasHtml}
         </div>
         `;
         // Défilement vers la page de résultats (comme pour le cas avec tableau)
@@ -1399,7 +1686,8 @@ function showResultPage(vehicleData) {
         container.innerHTML = `
         <div class="results-container">
             <button class="back-button" onclick="handleBack()">Retour</button>
-            
+            <h1 class="result-page-title">${resultPageTitleHtml}</h1>
+            ${resultPageIntroHtml}
             <div class="selection-page">
                 <div class="selected-info">
                     <div class="selected-item" data-goto="brand" title="Changer de marque">
@@ -1430,30 +1718,6 @@ function showResultPage(vehicleData) {
                         </div>
                     </div>
                 </div>
-
-            <style>
-                /* Styles pour supprimer le symbole ✔️ */
-                .advantage-item.no-check::before {
-                    content: none !important;
-                }
-                
-                /* Si le symbole est ajouté via content */
-                .advantage-item.no-check::before {
-                    display: none !important;
-                }
-                
-                /* Si le symbole est ajouté via background-image */
-                .advantage-item.no-check {
-                    background-image: none !important;
-                    padding-left: 0 !important;
-                }
-                
-                /* Si le symbole est ajouté via text-indent et un pseudo-élément */
-                .advantage-item.no-check {
-                    text-indent: 0 !important;
-                    padding-left: 10px !important;
-                }
-            </style>
 
             <div class="stage-selector">
                 <button class="stage-btn active" data-stage="1">Stage 1</button>
@@ -1556,6 +1820,9 @@ function showResultPage(vehicleData) {
                 </div>
             </div>
 
+            ${resultEnergyCtasHtml}
+            ${resultSeoTextHtml}
+
             <!-- Autres sections de la page de résultats -->
             <div class="advantages-list">
                 <div class="advantage-item no-check"><span class="advantage-num">01</span><span class="advantage-text">Reprog sur banc de puissance (dyno)</span></div>
@@ -1584,7 +1851,12 @@ function showResultPage(vehicleData) {
                 <button class="reserve-btn" onclick="handleReservation('${brand}', '${model}', '${version}', '${engineType}')">
                     Réserver maintenant
                 </button>
-                </div>
+            </div>
+
+            <div class="result-section-ctas">
+                <a href="dyno.html" class="result-cta-btn">Dyno</a>
+                <a href="echapp.html" class="result-cta-btn">Échappement & Downpipe</a>
+            </div>
             </div> <!-- .results-body-grid -->
         </div>
     `;
@@ -1781,23 +2053,86 @@ function showResultPage(vehicleData) {
     });
     }
 
-    // Grilles des choix sur la page résultats : clic renvoie à la page de sélection correspondante
-    container.querySelectorAll('.selected-info .selected-item[data-goto]').forEach(item => {
-        item.style.cursor = 'pointer';
-        item.addEventListener('click', () => {
-            const step = item.dataset.goto;
-            const resultsPage = document.getElementById('vehicle-results-page');
-            if (resultsPage) resultsPage.remove();
-            const detailsSection = document.querySelector('.vehicle-details');
-            if (detailsSection) detailsSection.style.display = 'block';
-            if (step === 'brand') goToBrandList(type);
-            else if (step === 'model') handleBrandSelection(brand, type);
-            else if (step === 'version') handleModelSelection(brand, type, model);
-            else if (step === 'engine') handleVersionSelection(brand, type, model, version);
+    // Grilles des choix sur la page résultats : clic renvoie à l'étape correspondante (marque / modèle / version / motorisation)
+    (function attachResultPageCardHandlers() {
+        var isStandaloneResultUrl = /\/reprogrammation\/[^/]+\/[^/]+\/[^/]+\/[^/]+\/[^/]+(?:\/[^/]*)?$/.test(window.location.pathname || '');
+
+        container.querySelectorAll('.selected-info .selected-item[data-goto]').forEach(function(item) {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', function() {
+                var step = item.dataset.goto;
+                var type = currentSelection.type || 'cars';
+                var b = currentSelection.brand || brand;
+                var m = currentSelection.model || model;
+                var v = currentSelection.version || version;
+
+                // Page résultat en URL directe (/reprogrammation/...) : navigation vers l'accueil avec le bon hash
+                if (isStandaloneResultUrl) {
+                    var path = window.location.pathname || '';
+                    var siteRoot = path.replace(/\/reprogrammation\/.*$/, '').replace(/\/?index\.html$/, '') || '/';
+                    var rootUrl = window.location.origin + (siteRoot === '/' ? '/' : siteRoot.replace(/\/$/, '') + '/');
+                    var hash;
+                    if (step === 'brand') {
+                        hash = 'reprogrammation/' + type;
+                    } else {
+                        var state = { type: type, brand: b, model: null, version: null, engine: null };
+                        if (step === 'model') {
+                            state.model = null;
+                            state.version = null;
+                            state.engine = null;
+                        } else if (step === 'version') {
+                            state.model = m;
+                            state.version = null;
+                            state.engine = null;
+                        } else {
+                            state.model = m;
+                            state.version = v;
+                            state.engine = null;
+                        }
+                        hash = buildSelectionHash(state);
+                    }
+                    window.location.href = rootUrl + (hash ? '#' + hash : '');
+                    return;
+                }
+
+                // Mode SPA (accueil avec hash) : retirer la page résultat puis afficher le bon écran de sélection
+                var resultsPage = document.getElementById('vehicle-results-page');
+                if (resultsPage) resultsPage.remove();
+
+                if (step === 'brand') {
+                    var sel = document.querySelector('.vehicle-selector');
+                    if (sel) {
+                        var intro = sel.querySelector('.section-intro');
+                        if (intro) intro.style.display = '';
+                    }
+                    goToBrandList(type);
+                } else if (step === 'model') {
+                    handleBrandSelection(b, type);
+                } else if (step === 'version') {
+                    handleModelSelection(b, type, m);
+                } else if (step === 'engine') {
+                    handleVersionSelection(b, type, m, v);
+                }
+                setTimeout(scrollToEngineSelection, 280);
+            });
         });
-    });
+    })();
 
     return container;
+}
+
+// Scroll vers la liste de motorisations (après fermeture de la page résultat en mode SPA)
+function scrollToEngineSelection() {
+    const selectorSection = document.querySelector('.vehicle-selector');
+    if (!selectorSection) return;
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    // Sur la home avec hash (#reprogrammation/...), la section complète est déjà en haut :
+    // on se cale donc simplement sur le haut de .vehicle-selector pour éviter de tomber trop bas.
+    const offset = selectorSection.getBoundingClientRect().top + window.scrollY - headerHeight - 20;
+    window.scrollTo({
+        top: Math.max(0, offset),
+        behavior: 'smooth'
+    });
 }
 
 // Nouvelle version de la fonction initializeSlideshow
@@ -1888,6 +2223,30 @@ function initializeSlideshow() {
 
 // Fonction pour gérer le retour (bouton "Retour" interne)
 function handleBack() {
+    // Page de résultats en URL propre : renvoyer vers le simulateur avec hash (étape version = sélection motorisation)
+    if (/\/reprogrammation\/[^/]+\/[^/]+\/[^/]+\/[^/]+\/[^/]+/.test(window.location.pathname)) {
+        var path = window.location.pathname || '';
+        var m = path.match(/\/reprogrammation\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)(?:\/[^/]*)?$/);
+        if (m) {
+            var typeSlug = m[1];
+            // Reconstruire une URL hash jusqu'à la version (sans moteur) pour revenir à la liste des motorisations
+            var brandSlug = m[2];
+            var modelSlug = m[3];
+            var versionSlug = m[4];
+            var siteRoot = path.replace(/\/reprogrammation\/.*$/, '').replace(/\/?index\.html$/, '') || '/';
+            var rootUrl = window.location.origin + (siteRoot === '/' ? '/' : siteRoot.replace(/\/$/, '') + '/');
+            var hash = [
+                'reprogrammation',
+                typeSlug,
+                brandSlug,
+                modelSlug,
+                versionSlug
+            ].join('/');
+            window.location.href = rootUrl + '#' + hash;
+            return;
+        }
+    }
+
     const s = currentSelection;
     const resultsPage = document.getElementById('vehicle-results-page');
     const hasResultPage = !!resultsPage;
@@ -1986,6 +2345,15 @@ async function fetchCSV() {
     }
 }
 
+// Fallback pour compatibilité avec d'anciennes versions :
+// certaines pages ou anciens scripts peuvent encore appeler checkFirstSelection().
+// On fournit donc une implémentation vide pour éviter les erreurs JS qui bloquent
+// l'exécution du sélecteur de véhicules.
+function checkFirstSelection() {
+    // Intentionnellement vide : la logique de première sélection est désormais
+    // gérée directement dans initVehicleSelector / handleBrandSelection / handleModelSelection.
+}
+
 // Initialisation
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -1997,10 +2365,88 @@ document.addEventListener('DOMContentLoaded', async () => {
         const brands = extractBrands(lines);
         cachedBrands = brands;
 
+        // Page de résultats en URL propre (SEO) : /reprogrammation/type/brand/model/version/engine[/stage1-stage2]
+        // ou /reprogrammation/type/brand/model/v1/v2/v3 (version en 3 segments, ex: f32/33-may/2016-2019)
+        var pathname = window.location.pathname || '';
+        var resultPathMatch = pathname.match(/\/reprogrammation\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)(?:\/([^/]*))?$/);
+        if (resultPathMatch) {
+            var typeSlug = resultPathMatch[1];
+            var brandSlug = resultPathMatch[2];
+            var modelSlug = resultPathMatch[3];
+            var seg4 = resultPathMatch[4];
+            var seg5 = resultPathMatch[5];
+            var seg6 = resultPathMatch[6];
+            var versionSlug = seg4;
+            var engineSlug = seg5;
+            if (seg6 && seg6 !== 'stage1-stage2') {
+                versionSlug = seg4 + '-' + seg5 + '-' + seg6;
+                engineSlug = null;
+            }
+            var engineData = findEngineDataByPath(csvContent, typeSlug, brandSlug, modelSlug, versionSlug, engineSlug);
+            if (engineData) {
+                currentSelection = { type: typeSlug, brand: engineData.brand, model: engineData.model, version: engineData.version, engine: engineData.engineType };
+                var selectorSection = document.querySelector('.vehicle-selector');
+                if (selectorSection) {
+                    var intro = selectorSection.querySelector('.section-intro');
+                    var tabs = selectorSection.querySelector('.vehicle-tabs');
+                    var grids = selectorSection.querySelectorAll('.brands-grid');
+                    if (intro) intro.style.display = 'none';
+                    if (tabs) tabs.style.display = 'none';
+                    grids.forEach(function(g) { g.style.display = 'none'; });
+                }
+                var container = showResultPage({
+                    brand: engineData.brand,
+                    model: engineData.model,
+                    version: engineData.version,
+                    engineType: engineData.engineType,
+                    energy: engineData.energy,
+                    engineCode: engineData.engineCode,
+                    powerOriginal: engineData.powerOriginal,
+                    powerStage1: engineData.powerStage1,
+                    torqueOriginal: engineData.torqueOriginal,
+                    torqueStage1: engineData.torqueStage1
+                }, { standalone: true, vehicleType: typeSlug });
+                var mainContent = document.querySelector('.section-container');
+                if (mainContent && container) mainContent.appendChild(container);
+                document.body.classList.add('result-page-standalone');
+                document.title = 'Reprogrammation ' + engineData.brand + ' ' + engineData.model + ' ' + engineData.engineType + ' - Stage 1 & 2 | AUTOTECH Tunisie';
+                var metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) metaDesc.setAttribute('content', 'Reprogrammation moteur ' + engineData.brand + ' ' + engineData.model + ' ' + engineData.version + ' ' + engineData.engineType + '. Gain puissance et couple. AUTOTECH Tunis.');
+                var canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) canonical.href = window.location.href;
+                return;
+            }
+            // Pas de ligne trouvée (URL incorrecte, ex. 24 au lieu de z4) : afficher un message sans rediriger pour garder l'URL (SEO 200)
+            var selectorSection = document.querySelector('.vehicle-selector');
+            if (selectorSection) {
+                var intro = selectorSection.querySelector('.section-intro');
+                var tabs = selectorSection.querySelector('.vehicle-tabs');
+                var grids = selectorSection.querySelectorAll('.brands-grid');
+                if (intro) intro.style.display = 'none';
+                if (tabs) tabs.style.display = 'none';
+                grids.forEach(function(g) { g.style.display = 'none'; });
+            }
+            var notFoundContainer = document.createElement('div');
+            notFoundContainer.className = 'vehicle-results-page';
+            notFoundContainer.id = 'vehicle-results-page';
+            notFoundContainer.innerHTML = '<div class="result-not-found">' +
+                '<h1 class="result-page-title">Motorisation introuvable</h1>' +
+                '<p class="result-page-intro">Cette combinaison marque / modèle / version / moteur n\'est pas dans notre base. Vérifiez l\'URL (ex. <strong>z4</strong> pour BMW Z4, pas 24).</p>' +
+                '<p><a href="/#reprogrammation/cars" class="back-button">Choisir un véhicule</a></p>' +
+                '</div>';
+            var mainContent = document.querySelector('.section-container');
+            if (mainContent && notFoundContainer) mainContent.appendChild(notFoundContainer);
+            document.body.classList.add('result-page-standalone');
+            document.title = 'Motorisation introuvable | AUTOTECH Tunisie';
+            var canonical = document.querySelector('link[rel="canonical"]');
+            if (canonical) canonical.href = window.location.href;
+            return;
+        }
+
         // Détecter une URL partagée (hash avec marque/modèle/version/moteur) pour ne pas l'écraser
         const currentHash = (window.location.hash || '').substring(1);
         const hashParts = currentHash.split('/').filter(function(p) { return p; });
-        const isSharedDeepLink = hashParts.length > 2 && hashParts[0] === 'reprogrammation';
+        const isSharedDeepLink = hashParts.length >= 2 && hashParts[0] === 'reprogrammation';
 
         const defaultTab = document.querySelector('.tab-button.active');
         if (defaultTab) {
@@ -2010,7 +2456,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!isSharedDeepLink && (!window.history.state || !window.history.state.step)) {
                 try {
                     const listState = { step: 'list', type: defaultType, brand: null, model: null, version: null, engine: null };
-                    const url = `${window.location.origin}${window.location.pathname}#${buildSelectionHash(listState)}`;
+                    const baseUrl = `${window.location.origin}${window.location.pathname}`;
+                    const hash = buildSelectionHash(listState);
+                    const url = hash ? `${baseUrl}#${hash}` : baseUrl;
                     window.history.replaceState(listState, '', url);
                 } catch (e) {
                     console.error('Erreur lors de replaceState initial:', e);
@@ -2352,7 +2800,10 @@ function getEngineData(brand, model, version, engineType) {
             powerStage1: engineData.powerStage1 === "00" ? "00" : (parseInt(engineData.powerStage1) || "00"),
             torqueOriginal: engineData.torqueOriginal === "00" ? "00" : (parseInt(engineData.torqueOriginal) || "00"),
             torqueStage1: engineData.torqueStage1 === "00" ? "00" : (parseInt(engineData.torqueStage1) || "00"),
-            engineType: cleanEngineType
+            engineType: cleanEngineType,
+            engineCode: engineData.engineCode || '',
+            compression: engineData.compression || '',
+            calculator: engineData.calculator || ''
         };
         
         console.log('Données moteur trouvées:', result);
@@ -2396,7 +2847,7 @@ function handleHashChange() {
 
     const parts = hash.split('/').filter(part => part);
     
-    // Format attendu: reprogrammation/type/marque/modele/version[/motorisation]
+        // Format attendu: reprogrammation/type[/marque/modele/version/motorisation]
     if (parts.length >= 2 && parts[0] === 'reprogrammation') {
         const type = parts[1];
         const brand = parts[2] ? decodeURIComponent(parts[2].replace(/-/g, ' ')) : null;
@@ -2406,6 +2857,15 @@ function handleHashChange() {
         const engineSlugFromHash = parts[5] ? decodeURIComponent(parts[5]).toLowerCase().replace(/\s+/g, '-') : null;
         
         console.log('URL hash détecté:', { type, brand, model, versionSlugFromHash, engineSlugFromHash });
+
+        // Lien avec type seul (#reprogrammation/cars) : afficher l'onglet correspondant
+        if (type && !brand) {
+            setTimeout(function() {
+                const tabButton = document.querySelector('.tab-button[data-type="' + type + '"]');
+                if (tabButton) tabButton.click();
+            }, 800);
+            return;
+        }
 
         // Si nous avons au moins le type et la marque, simuler la sélection progressive
         if (type && brand) {
@@ -2639,7 +3099,8 @@ function checkURLParamsAndShowResults() {
                     const baseUrl = `${window.location.origin}${window.location.pathname}`;
                     if (!window.history.state || !window.history.state.step) {
                         const listState = { step: 'list', type, brand: null, model: null, version: null, engine: null };
-                        window.history.replaceState(listState, '', `${baseUrl}#${buildSelectionHash(listState)}`);
+                        const listHash = buildSelectionHash(listState);
+                        window.history.replaceState(listState, '', listHash ? `${baseUrl}#${listHash}` : baseUrl);
                     }
                     const brandState = { step: 'brand', type, brand, model: null, version: null, engine: null };
                     window.history.pushState(brandState, '', `${baseUrl}#${buildSelectionHash(brandState)}`);
@@ -2770,12 +3231,10 @@ function fillContactForm() {
 
 // Ajouter l'événement au chargement de la page
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOMContentLoaded - Appel de fillContactForm");
     fillContactForm();
     
     // Vérifier si l'URL contient l'ancre #contact
     if (window.location.hash === '#contact') {
-        console.log("Ancre #contact détectée, appel de fillContactForm");
         // Attendre un peu que la page se charge complètement
         setTimeout(fillContactForm, 500);
     }
@@ -2783,13 +3242,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Ajouter un écouteur pour les changements de hash dans l'URL
 window.addEventListener('hashchange', function() {
-    console.log("Changement de hash détecté:", window.location.hash);
     if (window.location.hash === '#contact') {
-        console.log("Ancre #contact détectée après changement de hash, appel de fillContactForm");
         // Attendre un peu que la section se charge
         setTimeout(fillContactForm, 500);
     }
 });
+
+// Flags pour éviter de ré-attacher les écouteurs / recharger les données plusieurs fois
+let vehicleSelectorEventsAttached = false;
+let vehicleDataLoaded = false;
+let optionExplanationsLoaded = false;
 
 // Initialiser le sélecteur de véhicule
 function initVehicleSelector() {
@@ -2921,38 +3383,86 @@ function initVehicleSelector() {
     
     // Vérifie s'il y a une sélection à afficher directement depuis l'URL
     checkUrlForSelection();
-
-    // Ajouter des écouteurs d'événements pour les interactions
-    addEventListeners();
-
-    // Charger les données depuis le fichier CSV
-    loadCsvData();
-
-    // Charger les explications des options
-    loadOptionExplanations();
+    
+    // Ajouter des écouteurs d'événements pour les interactions (une seule fois)
+    if (!vehicleSelectorEventsAttached) {
+        addEventListeners();
+        vehicleSelectorEventsAttached = true;
+    }
+    
+    // Charger les données depuis le fichier CSV (une seule fois)
+    if (!vehicleDataLoaded) {
+        loadCsvData();
+        vehicleDataLoaded = true;
+    }
+    
+    // Charger les explications des options (une seule fois)
+    if (!optionExplanationsLoaded) {
+        loadOptionExplanations();
+        optionExplanationsLoaded = true;
+    }
 }
 
 // Ajouter un écouteur pour le chargement du DOM
+// Détecter si l'URL courante correspond à une page de résultat standalone /reprogrammation/...
+function isStandaloneResultPath() {
+    const pathname = window.location.pathname || '';
+    return /\/reprogrammation\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)\/([^/]+)(?:\/([^/]*))?$/.test(pathname);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    console.log("DOM chargé, vérification de l'URL");
+    // Si on est sur une page résultat standalone, ne pas ré-initialiser le sélecteur en mode liste
+    if (isStandaloneResultPath()) {
+        return;
+    }
     
-    // Vérifier si nous sommes sur la section #boost
-    if (window.location.hash === '#boost' || window.location.hash === '' || window.location.hash === '#') {
-        console.log("Section #boost détectée ou page d'accueil, initialisation du sélecteur de véhicule");
-        // Initialiser le sélecteur de véhicule
+    // Cas spécifique : URL avec #boost directement (lien profond vers la section)
+    if (window.location.hash === '#boost') {
         initVehicleSelector();
+        return;
+    }
+    
+    // Sur la home sans hash ou avec hash simple (#), initialiser le sélecteur uniquement
+    // lorsque la section reprogrammation devient visible (lazy-init pour alléger le chargement initial)
+    const selectorSection = document.querySelector('.vehicle-selector');
+    if (selectorSection) {
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        initVehicleSelector();
+                        obs.disconnect();
+                    }
+                });
+            }, { rootMargin: '0px 0px -35% 0px' });
+            observer.observe(selectorSection);
+        } else {
+            // Fallback anciens navigateurs : comportement précédent (init directe)
+            initVehicleSelector();
+        }
     }
 });
 
 // Ajouter un écouteur pour les changements de hash dans l'URL
 window.addEventListener('hashchange', function() {
-    console.log("Changement de hash détecté:", window.location.hash);
-    
-    // Vérifier si nous sommes sur la section #boost
-    if (window.location.hash === '#boost') {
-        console.log("Section #boost détectée après changement de hash, initialisation du sélecteur de véhicule");
-        // Initialiser le sélecteur de véhicule
+    const hash = window.location.hash || '';
+
+    // Cas 1 : ancre simple vers la section reprogrammation
+    if (hash === '#boost') {
         initVehicleSelector();
+        return;
+    }
+
+    // Cas 2 : navigation interne dans le tunnel via un hash de type #reprogrammation/...
+    // (par exemple après clic sur « Motorisation sélectionnée » depuis une page résultat)
+    if (!isStandaloneResultPath() && hash.startsWith('#reprogrammation/')) {
+
+        // On laisse le routeur/hash handler faire son travail, puis on recadre le scroll
+        setTimeout(function() {
+            initVehicleSelector();
+            // Petit délai supplémentaire pour laisser le DOM s'ajuster avant le scroll
+            setTimeout(scrollToEngineSelection, 200);
+        }, 100);
     }
 });
 

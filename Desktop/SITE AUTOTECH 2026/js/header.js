@@ -1,5 +1,4 @@
 // Message initial pour confirmer que le script est chargé
-console.log('%c=== Initialisation du Menu Hamburger ===', 'background: #222; color: #bada55; padding: 5px;');
 
 // Déclarer les variables
 let hamburgerMenu;
@@ -97,7 +96,6 @@ const closeMenu = () => {
     navLinks.classList.remove('active');
     body.classList.remove('menu-open');
     if (header) header.style.display = 'flex';
-    console.log('Menu fermé');
 };
 
 // Fonction pour vérifier si nous sommes sur la page d'accueil
@@ -136,9 +134,24 @@ const updateActiveLink = () => {
     });
 };
 
+// Ancres de la page d'accueil : scroll sans rechargement (évite le splash)
+const HOME_ANCHORS = ['boost', 'about', 'news', 'contact'];
+
 // Gestionnaire pour tous les liens du menu
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href') || '';
+        const targetId = href.includes('#') ? href.split('#')[1] : null;
+        const isHomeAnchor = targetId && HOME_ANCHORS.includes(targetId);
+
+        // Sur la page d'accueil : clic vers une section (Reprogrammation, À propos, News, Contact) → scroll sans recharger
+        if (isHomePage() && isHomeAnchor) {
+            e.preventDefault();
+            if (window.innerWidth <= 768) closeMenu();
+            scrollToAnchor(targetId);
+            return;
+        }
+
         const parentLi = link.closest('.has-submenu');
         const isSubmenuTrigger = parentLi && link.parentElement === parentLi;
         if (isSubmenuTrigger) {
@@ -149,25 +162,17 @@ document.querySelectorAll('.nav-links a').forEach(link => {
             return;
         }
         if (window.innerWidth <= 768) {
-            const href = link.getAttribute('href');
             const isAnchorLink = href && href.includes('#');
             if (isHomePage() && isAnchorLink) {
-                // Si on est sur la page d'accueil et que c'est un lien d'ancrage
                 e.preventDefault();
                 closeMenu();
-                // Ajouter un petit délai pour le défilement
                 setTimeout(() => {
-                    const targetId = href.split('#')[1];
-                    scrollToAnchor(targetId);
+                    if (targetId) scrollToAnchor(targetId);
                 }, 300);
             } else if (isAnchorLink && !isHomePage()) {
-                // Si c'est un lien d'ancrage mais qu'on n'est pas sur la page d'accueil
                 closeMenu();
-                // Stocker l'ancre pour le scroll après le chargement de la page
-                const targetId = href.split('#')[1];
-                localStorage.setItem('scrollTarget', targetId);
+                if (targetId) localStorage.setItem('scrollTarget', targetId);
             } else {
-                // Pour les autres liens
                 closeMenu();
             }
         }
@@ -195,7 +200,6 @@ if (logoLink) {
         : '/';
 }
 
-console.log('[Menu] Initialisation terminée');
 
 // Fonction pour corriger les liens du header avec les hash URL
 function fixHeaderLinks() {
@@ -242,7 +246,20 @@ function fixHeaderLinks() {
         link.addEventListener('click', function(e) {
             if (window.location.hash) {
                 e.preventDefault();
+                // Indiquer à la home de ne pas rejouer le splash complet juste après un retour interne
+                try {
+                    sessionStorage.setItem('skipHomeSplashOnce', '1');
+                } catch (err) {
+                    console.warn('Impossible de stocker skipHomeSplashOnce dans sessionStorage', err);
+                }
                 window.location.href = homeHref;
+            } else {
+                // Même sans hash, signaler un retour interne
+                try {
+                    sessionStorage.setItem('skipHomeSplashOnce', '1');
+                } catch (err) {
+                    console.warn('Impossible de stocker skipHomeSplashOnce dans sessionStorage', err);
+                }
             }
         });
     });

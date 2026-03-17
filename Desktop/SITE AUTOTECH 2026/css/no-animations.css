@@ -66,6 +66,10 @@
         animation-duration: 0.001s !important;
         transition-duration: 0.001s !important;
     }
+    /* Mais conserver l'animation d'appel à l'action pour les options de reprog */
+    .result-cta-btn-energy {
+        animation: energy-cta-pulse 1s ease-in-out infinite !important;
+    }
 }
 
 /* Neutraliser les animations de l'en-tête du tableau (mais laisser le style) */
@@ -191,7 +195,7 @@
 /* Exception : diaporama équipe – défilement par translation (pas de fondu) */
 .equipe-dediee-track {
     animation-name: equipe-slide-scroll !important;
-    animation-duration: 20s !important;
+    animation-duration: 25s !important;
     animation-timing-function: ease-in-out !important;
     animation-iteration-count: infinite !important;
 }
@@ -199,8 +203,10 @@
 .equipe-dediee-tuner-name-1,
 .equipe-dediee-tuner-name-2,
 .equipe-dediee-tuner-name-3,
-.equipe-dediee-tuner-name-4 {
-    animation-duration: 20s !important;
+.equipe-dediee-tuner-name-4,
+.equipe-dediee-tuner-name-5,
+.equipe-dediee-tuner-name-6 {
+    animation-duration: 15s !important;
     animation-timing-function: ease-in-out !important;
     animation-iteration-count: infinite !important;
 }
@@ -219,6 +225,14 @@
 
 .equipe-dediee-tuner-name-4 {
     animation-name: equipe-name-4 !important;
+}
+
+.equipe-dediee-tuner-name-5 {
+    animation-name: equipe-name-5 !important;
+}
+
+.equipe-dediee-tuner-name-6 {
+    animation-name: equipe-name-6 !important;
 }
 
 /* Exception : section Avis clients – garder les cartes visibles (animation désactivée = opacity 1) */

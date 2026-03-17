@@ -1,0 +1,129 @@
+/* Mise en page spécifique pour la page Dyno */
+
+body {
+    background-color: #000;
+}
+
+.main-content {
+    padding: 4rem 0 5rem;
+}
+
+.laser-container {
+    max-width: 1200px;
+    margin: 6rem auto 2rem;
+    padding: 2rem 1.5rem 1.5rem;
+    position: relative;
+}
+
+.laser-border {
+    border-radius: 12px;
+}
+
+.grid-container {
+    position: relative;
+    z-index: 1;
+}
+
+.grid {
+    display: block;
+}
+
+.dyno-article .section-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.article-content-wrapper {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.article-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.article-image {
+    text-align: right;
+}
+
+.article-image picture,
+.article-image img {
+    max-width: 100%;
+    height: auto;
+}
+
+.specs-section,
+.programs-section,
+.video-section,
+.technical-reports-section,
+.contact-section {
+    margin-top: 3rem;
+}
+
+.specs-grid,
+.programs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.spec-card,
+.program-item {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+
+.spec-card h3,
+.program-item h3 {
+    margin-bottom: 0.75rem;
+}
+
+.spec-card ul,
+.program-item ul {
+    margin-left: 1.2rem;
+    color: #fff;
+}
+
+.contact-section {
+    text-align: center;
+}
+
+.contact-button {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.6rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #E30613, #ff3434);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 900px) {
+    .article-content-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .article-image {
+        text-align: center;
+    }
+
+    .specs-grid,
+    .programs-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .laser-container {
+        margin-top: 5rem;
+        padding-inline: 1rem;
+    }
+}
+

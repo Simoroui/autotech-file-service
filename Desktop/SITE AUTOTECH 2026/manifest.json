@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "AUTOTECH - Reprogrammation moteur sur banc",
+  "short_name": "AUTOTECH",
+  "description": "Reprogrammation moteur sur banc de puissance en Tunisie. Gain de puissance, optimisation du couple.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#E30613",
+  "icons": [
+    {
+      "src": "/pwa-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
